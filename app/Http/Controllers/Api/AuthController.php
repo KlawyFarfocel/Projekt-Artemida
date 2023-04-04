@@ -11,7 +11,7 @@ use \App\Models\User;
 class AuthController extends Controller
 {
     public function login(LoginRequest $request){
-
+        $request->validated();
         return($request);
     }
     public function logout(Request $request){
