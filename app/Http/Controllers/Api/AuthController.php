@@ -11,8 +11,8 @@ use \App\Models\User;
 class AuthController extends Controller
 {
     public function login(LoginRequest $request){
-        $credentials=$request->validated();
-        return $credentials;
+
+        return($request);
     }
     public function logout(Request $request){
         $user=$request->user();
