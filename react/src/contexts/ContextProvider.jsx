@@ -11,7 +11,7 @@ export const ContextProvider=({children})=>{
         name: 'Tom Cook',
         email: 'tom@example.com',
     })
-    const [userToken,setUserToken]=useState("123")
+    const [userToken,setUserToken]=useState("")
     return(
         <StateContext.Provider 
             value={{

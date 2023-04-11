@@ -51,7 +51,7 @@ export default function Login(){
               <div className="form-outline form-white mb-4">
 
                 <label className="form-label" htmlFor="typeEmailX">Numer legitymacji</label>
-                <input type="email" id="typeEmailX" value={legitymacja} onChange={(ev) => setLegitymacja(ev.target.value)} className="form-control form-control-lg" /> 
+                <input type="text" id="typeEmailX" value={legitymacja} onChange={(ev) => setLegitymacja(ev.target.value)} className="form-control form-control-lg" /> 
               </div>
 
               <div className="form-outline form-white mb-4">
