@@ -11,7 +11,6 @@ use \App\Models\User;
 class AuthController extends Controller
 {
     public function login(LoginRequest $request){
-<<<<<<< HEAD
         $credentials=$request->validated();
         // if(!Auth::attempt($credentials)){
         //     return response([
@@ -23,10 +22,6 @@ class AuthController extends Controller
             'token'=>$token
         ]);
         
-=======
-        $request->validated();
-        return($request);
->>>>>>> c29e9561e8e7b0ec15ea5f01aee50d7787f47dbf
     }
     public function logout(Request $request){
         $user=$request->user();
