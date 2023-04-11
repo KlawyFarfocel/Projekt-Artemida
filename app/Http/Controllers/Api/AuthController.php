@@ -12,7 +12,16 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request){
         $credentials=$request->validated();
-        return $credentials;
+        // if(!Auth::attempt($credentials)){
+        //     return response([
+        //         'error' => "The provided ...",
+        //     ],422);
+        // }
+        $token="123";
+        return response([
+            'token'=>$token
+        ]);
+        
     }
     public function logout(Request $request){
         $user=$request->user();
