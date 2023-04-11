@@ -6,12 +6,13 @@ export default function UserLayout(){
     const {user,userToken}=useStateContext()
     console.log(!userToken)
     return(
-        <>
-            {!userToken &&(
-                <Navigate to="/Login"/>
-            )}
+
+        <div className="h-100 vh-100 d-flex flex-column">
+        {!userToken &&(
+            <Navigate to="/Login"/>
+        )}
             <NavbarReact> </NavbarReact>
             <Outlet/>
-        </>
+        </div>
     )
 }

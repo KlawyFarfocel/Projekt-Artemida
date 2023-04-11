@@ -3,6 +3,8 @@ import GuestLayout from "./views/GuestLayout";
 import Login from "./components/Login";
 import UserLayout from "./views/UserLayout";
 import Dashboard from "./components/Dashboard";
+import ObwodMap from "./components/ObwodMap";
+import UserData from "./components/UserData";
 
 const router=createBrowserRouter([
     {
@@ -26,6 +28,14 @@ const router=createBrowserRouter([
             {
                 path:"/Dashboard",
                 element:<Dashboard/>
+            },
+            {
+                path:"/Mapa",
+                element:<ObwodMap/>
+            },
+            {
+                path:"/UserData",
+                element:<UserData/>
             }
         ]
     },

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import "./css/offcanvas.css";
+import { Link } from 'react-router-dom';
 function OffcanvasReact({side="left",toggleName="", ...props }) {
     const [show, setShow] = useState(false);
 
@@ -30,9 +31,9 @@ function OffcanvasReact({side="left",toggleName="", ...props }) {
             <ul className='list-group mx-auto overflow-visible'>
                     {props.props.map((value,key)=>
                       <>
-                        <a key={key} href={value.href} className='text-white fw-bold text-decoration-none'>
+                        <Link key={key} to={value.href} className='text-white fw-bold text-decoration-none'>
                           <li className='list-group-item bg-dark text-center text-white text-uppercase fs-4'>{value.name}</li>
-                        </a>
+                        </Link>
                         <hr key={key}  className='text-divider w-100'/>
                       </>
                     )}

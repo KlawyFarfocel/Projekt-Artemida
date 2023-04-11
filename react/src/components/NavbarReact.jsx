@@ -6,7 +6,7 @@ function NavbarReact(){
     const menu=[
         {"name":"polowania","href":"#"},
         {"name":"moje uprawnienia","href":"#"},
-        {"name":"mapa okręgów","href":"#"},
+        {"name":"mapa okręgów","href":"/mapa"},
         {"name":"mój obwód łowiecki","href":"#"},
         {"name":"roczny plan łowiecki","href":"#"},
         {"name":"ogłoszenia","href":"#"},
@@ -14,7 +14,7 @@ function NavbarReact(){
         {"name":"składki","href":"#"},
     ];
     const userOffcanvas=[
-        {name:"Dane konta","href":"#"},
+        {name:"Dane konta","href":"/UserData"},
         {name:"Wyloguj się","href":"#"},
     ]
 return(

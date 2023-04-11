@@ -1,0 +1,5 @@
+path:hover{
+    stroke: red;
+    stroke-width: 3px;
+    transition: stroke 0.4s;
+}
