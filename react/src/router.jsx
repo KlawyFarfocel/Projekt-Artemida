@@ -5,6 +5,7 @@ import UserLayout from "./views/UserLayout";
 import Dashboard from "./components/Dashboard";
 import ObwodMap from "./components/ObwodMap";
 import UserData from "./components/UserData";
+import Permissions from "./components/Permissions";
 
 const router=createBrowserRouter([
     {
@@ -36,6 +37,10 @@ const router=createBrowserRouter([
             {
                 path:"/UserData",
                 element:<UserData/>
+            },
+            {
+                path:"/Permissions",
+                element:<Permissions/>
             }
         ]
     },

@@ -5,7 +5,7 @@ function NavbarReact(){
     const {user,userToken}=useStateContext()
     const menu=[
         {"name":"polowania","href":"#"},
-        {"name":"moje uprawnienia","href":"#"},
+        {"name":"moje uprawnienia","href":"/permissions"},
         {"name":"mapa okręgów","href":"/mapa"},
         {"name":"mój obwód łowiecki","href":"#"},
         {"name":"roczny plan łowiecki","href":"#"},
