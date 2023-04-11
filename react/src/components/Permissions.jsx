@@ -54,7 +54,7 @@ export default function Permissions(){
     return(
        
         <div className="container w-50 h-100 mx-auto d-flex flex-column align-items-center justify-content-center ">
-            <h1 className="mb-5 shadow-md p-1 mb-2  rounded fs-1 text-uppercase fw-bold text-white">Twoje uprawnienia</h1>
+            <h1 className="mb-2 shadow-md p-1  rounded fs-1 text-uppercase fw-bold text-white">Twoje uprawnienia</h1>
             <table className="table table-bordered table-dark table-striped table-hover">
                 <thead>
                     <tr>
