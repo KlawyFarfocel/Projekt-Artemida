@@ -11,12 +11,10 @@ function OffcanvasInfo({side="left",toggleName="",handlerState=false, ...props }
         handleShow()
     }
     return (
-        <div className='w-100 h-90 d-flex justify-content-center align-items-center'>
-<svg
+        <div className='w-100 h-100 d-flex justify-content-center align-items-center'>
+<svg className='w-100 h-100'
    version="1.1"
    id="svg2"
-   width="851"
-   height="753"
    viewBox="0 0 851 753"
    sodipodi:docname="obwody.svg"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"

@@ -3,12 +3,13 @@ import { useStateContext } from "../context/ContextProvider";
 
 export default function DefaultLayout(){
 
-    const {user,token}=useStateContext()
+    const {user,userToken}=useStateContext()
     if(!token){
         return <Navigate to='/login'/>
     }
+    console.log(userToken);
     return(
-        <div id="defaultLayout">
+        <div id="defaultLayout" className="flex-grow-1">
             <aside>
             <Link to='/Dashboard'>Dashboard</Link>
                 <Link to='/users'>Users</Link>

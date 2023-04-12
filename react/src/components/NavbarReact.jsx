@@ -27,7 +27,7 @@ return(
             </ul>
             <div className="navbar-collapse collapse ">
             </div>
-            <a className="navbar-brand fw-bold fs-4 flex-grow-1 text-uppercase" href="#">Projekt Artemida</a>
+            <a className="navbar-brand fw-bold fs-4 flex-grow-1 text-center text-uppercase" href="#">Projekt Artemida</a>
             <button className="navbar-toggler flex-grow-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
             </button>

@@ -4,7 +4,6 @@ import { useStateContext } from "../contexts/ContextProvider"
 
 export default function UserLayout(){
     const {user,userToken}=useStateContext()
-    console.log(!userToken)
     return(
 
         <div className="h-100 vh-100 d-flex flex-column">
