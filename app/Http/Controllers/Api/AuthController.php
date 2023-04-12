@@ -17,19 +17,24 @@ class AuthController extends Controller
         $legi=$credentials['legitymacja'];
         unset($credentials['remember']);
         $user=User::where('legitymacja','=',$legi)->first();
-        if(!$user && !$credentials['password']== $user->password)
+        if($user && $credentials['password'] == $user->password)
         {
-            return response([
-                'error'=>$user
-            ],422);
-        }
-      //  $user=Auth::user();
+
+            //  $user=Auth::user();
         $token=$user->remember_token;
 
         return response([
             'user'=>$user,
             'token'=>$token
         ]);
+         }
+        
+        else
+        {
+            return response([
+                'error'=>$user
+            ],422);
+        }
     }
     public function logout(Request $request){
         $user=$request->user();
