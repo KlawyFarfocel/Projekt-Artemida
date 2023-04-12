@@ -1,6 +1,6 @@
 import { useStateContext } from "../contexts/ContextProvider";
 import OffcanvasReact from "./offcanvas"
-
+import "./css/NavbarReact.css"
 function NavbarReact(){
     const {user,userToken}=useStateContext()
     const menu=[
@@ -18,7 +18,7 @@ function NavbarReact(){
         {name:"Wyloguj się","href":"#"},
     ]
 return(
-    <nav className="navbar navbar-dark navbar-expand-lg bg-dark sticky-top">
+    <nav className="navbar navbar-dark navbar-expand-md bg-dark sticky-top">
         <div className="container-fluid">
             <ul className="navbar-nav d-none d-md-block">
                 {userToken && (
@@ -31,9 +31,9 @@ return(
             <button className="navbar-toggler flex-grow-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collaps flex-grow-1 text-center" id="navbarNav">
+            <div className="collapse navbar-collapse flex-grow-1 text-center" id="navbarNav">
             {userToken && (
-                <ul className=" d-flex navbar-nav d-block d-md-none">
+                <ul className=" d-flex navbar-nav d-block d-sm-none">
                     
                         <OffcanvasReact toggleName="MENU" props={menu}/>
                         <OffcanvasReact props={userOffcanvas} toggleName="Konto" side="right"/>
@@ -42,7 +42,7 @@ return(
              )}
             </div>
             <div className="me-auto"></div>
-            <ul className="navbar-nav  d-none d-md-block">
+            <ul className="navbar-nav  d-none d-sm-block">
                 {userToken && (
                     <OffcanvasReact props={userOffcanvas} toggleName="Konto" side="right"/>
                 )}
