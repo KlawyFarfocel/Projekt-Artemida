@@ -6,6 +6,7 @@ import Dashboard from "./components/Dashboard";
 import ObwodMap from "./components/ObwodMap";
 import UserData from "./components/UserData";
 import Permissions from "./components/Permissions";
+import Anno from "./components/Anno";
 
 const router=createBrowserRouter([
     {
@@ -41,6 +42,10 @@ const router=createBrowserRouter([
             {
                 path:"/Permissions",
                 element:<Permissions/>
+            },
+            {
+                path:"/Anno",
+                element:<Anno/>
             }
         ]
     },
