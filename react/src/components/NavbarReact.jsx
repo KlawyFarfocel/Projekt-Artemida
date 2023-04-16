@@ -9,7 +9,7 @@ function NavbarReact(){
         {"name":"mapa okręgów","href":"/mapa"},
         {"name":"mój obwód łowiecki","href":"#"},
         {"name":"roczny plan łowiecki","href":"#"},
-        {"name":"ogłoszenia","href":"#"},
+        {"name":"ogłoszenia","href":"/Anno"},
         {"name":"moje statystyki","href":"#"},
         {"name":"składki","href":"#"},
     ];

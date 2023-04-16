@@ -1,30 +1,22 @@
 import { useEffect, useState } from "react";
 import MessageModal from "./MessageModal";
+import axiosClient from "../axios";
+import { useStateContext } from "../contexts/ContextProvider";
 
 export default function Foo(){
-    const annoProp=[
-        {
-            "Nadawca":"Hodowca bydła",
-            "Temat":"Hodowla bydła",
-            "Data wysłania":"27.06.2023r.",
-            "Treść":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            "Priorytet":"Niski"
-        },
-        {
-            "Nadawca":"Hodowca bydła",
-            "Temat":"Hodowla bydła",
-            "Data wysłania":"27.06.2023r.",
-            "Treść":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            "Priorytet":"Wysoki"
-        },
-        {
-            "Nadawca":"Hodowca bydła",
-            "Temat":"Hodowla bydła",
-            "Data wysłania":"27.06.2023r.",
-            "Treść":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            "Priorytet":"Średni"
-        }
-    ]
+    const userToken=useStateContext()['userToken'];
+    const [annoProp,setAnnoProp]=useState([])
+        axiosClient
+        .post("/ogloszenie",{
+            userToken
+        })
+        .then(({ data }) => {
+            console.log(annoProp)
+            setAnnoProp(data[0]);
+            console.log(annoProp)
+          })
+
+
     const [modalShow, setModalShow] = useState(false);
     return(
         <>
@@ -40,10 +32,10 @@ export default function Foo(){
                     <tbody>
                         
                             {annoProp.map((value,key)=>
-                                <tr>
-                                    <td key={key}>{Object.values(value)[0]}</td>
-                                    <td key={key}>{Object.values(value)[1]}</td>
-                                    <td key={key}>{Object.values(value)[2]}</td>
+                                <tr className="text-center">
+                                    <td key={key+"st"}>{Object.values(value)[0]}</td>
+                                    <td key={key+"nd"}>{Object.values(value)[1]}</td>
+                                    <td key={key+"rd"}>{Object.values(value)[2]}</td>
                                     {Object.values(value)[4] == "Niski" ? (
                                         <td key={key} className="text-success text-center">!</td>
                                     ):Object.values(value)[4] == "Średni" ?(
