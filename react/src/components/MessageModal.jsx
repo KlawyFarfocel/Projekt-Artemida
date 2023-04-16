@@ -8,19 +8,19 @@ export default function MessageModal(props) {
   })
 return (
     <>
-<Modal show={show} onHide={()=>props.setModalShow(false)}>
+<Modal bsPrefix="modal" show={show} onHide={()=>props.setModalShow(false)}>
         <Modal.Header bsPrefix="modal-header text-center" closeButton>
           <Modal.Title bsPrefix="modal-title w-100">Ogłoszenie</Modal.Title>
         </Modal.Header>
         <Modal.Body bsPrefix='modal-body mb-0 pb-0'>
-          <span>Nadawca: </span> <span>Hodowla bydła</span>
+          <span>Nadawca: </span> <span>{(props.content)?(props.content.Nadawca):("")}</span>
           <hr className="text-divider" />
-          <span>Data wysłania: </span> <span>Hodowla bydła</span>
+          <span>Data wysłania: </span> <span>{(props.content)?(props.content['Data wysłania']):("")}</span>
           <hr className="text-divider" />
-          <span>Temat: </span> <span>Hodowla bydła</span>
+          <span>Temat: </span> <span>{(props.content)?(props.content.Temat):("")}</span>
           <hr className="text-divider" />
           <span>Treść: </span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto quod voluptatibus saepe, corrupti ullam odio sit totam, explicabo laborum sequi error asperiores odit distinctio eius accusamus ratione velit quisquam voluptate.</p>
+          <p>{(props.content)?(props.content.Treść):("")}</p>
         </Modal.Body>
         <Modal.Footer bsPrefix="modal-footer w-100 mx-auto">
             <div className='w-50 mx-auto d-flex'>
