@@ -6,15 +6,18 @@ import { useStateContext } from "../contexts/ContextProvider";
 export default function Foo(){
     const userToken=useStateContext()['userToken'];
     const [annoProp,setAnnoProp]=useState([])
+    useEffect(()=>{
         axiosClient
         .post("/ogloszenie",{
             userToken
         })
         .then(({ data }) => {
-            console.log(annoProp)
-            setAnnoProp(data[0]);
-            console.log(annoProp)
+            setAnnoProp(data[0]);           
           })
+        .catch(err => {
+        console.log(err);
+        });
+    },[])
 
 
     const [modalShow, setModalShow] = useState(false);
