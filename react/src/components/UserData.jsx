@@ -3,7 +3,7 @@ import "./css/sharedComponent.css"
 export default function UserData(){
   const ref=useRef(null)
   const copyLegitymacjaNumber=(e)=>{
-    navigator.clipboard.writeText(e.view.document.all[55].value);
+    navigator.clipboard.writeText(e.target.parentNode.parentNode.children[0].value);
     ref.current.setAttribute('class','me-2 text-success')
     setTimeout(()=>{ref.current.setAttribute('class','me-2 text-success d-none')},750)
   }
@@ -17,7 +17,6 @@ export default function UserData(){
               <div className="form-outline">
                 <input type="text" id="form3Example1" className="form-control" />
                 <label className="form-label" htmlFor="form3Example1">Imię</label>
-               
               </div>
             </div>
             <div className="col">
@@ -32,14 +31,14 @@ export default function UserData(){
             <input type="text" id="form3Example3" className="form-control" />
             <label className="form-label" htmlFor="form3Example3">PESEL</label>
           </div>
-          <div className="input-group mb-3">
-            <input type="text" id="legitymacja" className="form-control" value="123-ANBS-HD5" disabled="disabled" />
-            
+          <div className="input-group mb-0">
+            <input type="text" id="legitymacja" className="form-control" value="123-ANBS-HD5" disabled="disabled" /> 
             <span onClick={copyLegitymacjaNumber} className="input-group-text">
             <span className="me-2 text-success d-none" ref={ref} id="copyText">Skopiowano!</span>
               <i className="bi bi-clipboard-fill"></i>
             </span>
           </div>
+          <label className="form-label" htmlFor="form3Example2">Numer legitymacji</label>
           <h5 className="text-center fw-bold fs-2 text-uppercase text-white">Adres</h5>
           <div className="row mb-2">
             <div className="col">

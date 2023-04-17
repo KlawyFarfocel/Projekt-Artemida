@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MessageModal from "./MessageModal";
+import MessageModal from "./a";
 import axiosClient from "../axios";
 import { useStateContext } from "../contexts/ContextProvider";
 import "./css/Anno.css";
@@ -7,6 +7,7 @@ import "./css/Anno.css";
 export default function Foo(){
     const userToken=useStateContext()['userToken'];
     const [annoProp,setAnnoProp]=useState([])
+    const [refresh,setRefresh]=useState(false);
     useEffect(()=>{
         axiosClient
         .post("/ogloszenie",{
@@ -23,12 +24,31 @@ export default function Foo(){
         setMessageKey(key);
         setModalShow(true);
     }
-
+    function refreshAnnouncements(){
+            setRefresh(true);
+            axiosClient
+            .post("/ogloszenie",{
+                userToken
+            })
+            .then(({ data }) => {
+                console.log(data)
+                setAnnoProp(data[0]);           
+              })
+            .catch(err => {
+            console.log(err);
+            });
+            console.log(annoProp)
+    }
     const [modalShow, setModalShow] = useState(false);
     const [messageKey, setMessageKey]=useState(0);
     return(
-        <>
-                <table className="table mx-auto mt-5 w-100 w-md-75 table-responsive">
+        <> 
+                <h1 className="mb-2 shadow-md p-1 mt-3 text-center rounded fs-1 text-uppercase fw-bold text-white">Ogłoszenia</h1>
+                <div className="d-flex flex-column justify-content-start">
+                <div className="w-75 mx-auto d-flex">
+                    <a className="btn btn-success w-10 mx-auto mb-1" onClick={()=>refreshAnnouncements()}>Odśwież</a> 
+                </div>
+                <table className="table table-hover mx-auto w-75 table-responsive">
                     <thead className="table-dark">     
                         <tr className="text-center">
                             <td>Nadawca</td>
@@ -41,24 +61,26 @@ export default function Foo(){
                     <tbody>
                         
                             {annoProp.map((value,key)=>
-                                <tr className="text-center">
+                                <tr onClick={() => handleModalText(key) } className="text-center table-light">
                                     <td key={key+"st"}>{Object.values(value)[0]}</td>
                                     <td key={key+"nd"}>{Object.values(value)[1]}</td>
                                     <td key={key+"rd"}>{Object.values(value)[2]}</td>
-                                    {Object.values(value)[4] == "Niski" ? (
-                                        <td key={key} className="text-success text-center">!</td>
-                                    ):Object.values(value)[4] == "Średni" ?(
-                                        <td key={key} className="text-warning text-center">!</td>
-                                    ):<td key={key} className="text-danger text-center">!</td>}
+                                    {Object.values(value)[4] == "niski" ? (
+                                        <td key={key} className="text-success text-center fs-3"><i className="bi bi-exclamation-circle-fill "></i></td>
+                                    ):Object.values(value)[4] == "średni" ?(
+                                        <td key={key} className="text-warning text-center fs-3"><i className="bi bi-exclamation-circle-fill"></i></td>
+                                    ):<td key={key} className="text-danger text-center fs-3"><i className="bi bi-exclamation-circle-fill"></i></td>}
                                     <td>
-                                        <a className="btn btn-success w-auto" onClick={() => handleModalText(key) }><i class="bi bi-envelope-fill"></i></a>
+                                        <a className="btn btn-success w-auto" onClick={() => handleModalText(key) }><i className="bi bi-envelope-fill"></i></a>
                                     </td>
                                 </tr>
                             )}
                         
                     </tbody>
                 </table>
-                <MessageModal show={modalShow} content={annoProp[messageKey]} messageKey={messageKey} setModalShow={setModalShow}/>
+                </div>
+                
+                <MessageModal show={modalShow} content={annoProp[messageKey]} messageKey={messageKey}setModalShow={setModalShow}/>
         </>
     )
 }

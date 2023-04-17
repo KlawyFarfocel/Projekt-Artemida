@@ -6,6 +6,7 @@ export default function MessageModal(props) {
   useEffect(()=>{
     setShow(props.show);
   })
+  
 return (
     <>
 <Modal bsPrefix="modal" show={show} onHide={()=>props.setModalShow(false)}>

@@ -1,6 +1,17 @@
-table{
-    table-layout:fixed;
-    width:calc(100% - 17px);
-    width:-webkit-calc(100% - 17px);
-    width:-moz-calc(100% - 17px);
+.w-10{
+    width:10%
 }
+.fit{
+    width:fit-content;
+}
+.bi-exclamation-circle-fill::after{
+    color:yellow
+}
+@media (min-width: 992px) {
+    table,{
+        table-layout:fixed;
+        width:calc(100% - 17px);
+        width:-webkit-calc(100% - 17px);
+        width:-moz-calc(100% - 17px);
+    }
+  }
