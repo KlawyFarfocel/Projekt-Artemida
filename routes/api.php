@@ -23,3 +23,4 @@ Route::post('/login',[AuthController::class,'login']);
 Route::post('/logout',[AuthController::class,'logout']);
 Route::post('/ogloszenie',[ContentController::class,'ogloszenie']);
 Route::post("/userData",[ContentController::class,'userData']);
+Route::post("/changeUserData",[ContentController::class,'changeUserData']);

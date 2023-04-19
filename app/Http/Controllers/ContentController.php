@@ -60,4 +60,7 @@ class ContentController extends Controller
             $data
         ]);
     }
+    public function changeUserData(Request $request){
+        return $request->imie;
+    }
 }
