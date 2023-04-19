@@ -21,7 +21,7 @@ class AuthController extends Controller
         {
 
             //  $user=Auth::user();
-        $token=$user->remember_token;
+        $token=$user->id;
 
         return response([
             'user'=>$user,
