@@ -4,12 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\ogloszenia;
+use \App\Models\dane;
+
 class ContentController extends Controller
 {
-    public function ogloszenie(Request $request){
+    public function getCookie(Request $request){
+        $value = $request->cookie('name');
+        echo $value;
+     }
 
+    public function ogloszenie(Request $request){
+       
+     //   $cookie_name = "user";
+     //   $cookie_value = 1;
+       // setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+     //  $credentials=$request->validated();
+       $legi=$request['userToken'];
+    
     $data=[];
-        foreach (ogloszenia::all() as $oglo )
+    
+        foreach (ogloszenia::all()->where('czlonek_id',$legi) as $oglo )
         {
             $asd=[
                     "Nadawca"=>$oglo->nadawca,
@@ -25,18 +39,22 @@ class ContentController extends Controller
         ]);
     }
     public function userData(Request $request){
+
+
+        $legi=$request['userToken'];
+        $user=dane::where('user_id','=',$legi)->first();
         $data=[
-            'imie'=>"Dzwonie",
-            'nazwisko'=>'Na Sanepid',
-            'pesel'=>'00000',
-            'legitymacja'=>'Nie-znasz-numeru',
-            'miasto'=>'Nie znam',
-            'kod'=>'99-777',
-            'ulica'=>'Siedem-siedem',
-            'mieszkanie'=>'2',
-            'budynek'=>'15',
-            'mail'=>'srodowa.noc@gmail.com',
-            'telefon'=>'997',
+            'imie'=>$user->imie,
+            'nazwisko'=>$user->nazwisko,
+            'pesel'=>$user->pesel,
+            'legitymacja'=>$user->legitymacja,
+            'miasto'=>$user->miasto,
+            'kod'=>$user->kod,
+            'ulica'=>$user->ulica,
+            'mieszkanie'=>$user->mieszkanie,
+            'budynek'=>$user->budynek,
+            'mail'=>$user->e_mail,
+            'telefon'=>$user->telefon,
         ];
         return response([
             $data
