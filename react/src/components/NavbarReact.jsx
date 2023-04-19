@@ -2,7 +2,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import OffcanvasReact from "./offcanvas"
 import "./css/NavbarReact.css"
 function NavbarReact(){
-    const {user,userToken}=useStateContext()
+    const {user,userToken, setUserToken}=useStateContext()
     const menu=[
         {"name":"polowania","href":"#"},
         {"name":"moje uprawnienia","href":"/permissions"},
@@ -15,7 +15,7 @@ function NavbarReact(){
     ];
     const userOffcanvas=[
         {name:"Dane konta","href":"/UserData"},
-        {name:"Wyloguj się","href":"#"},
+        {name:"Wyloguj się","href":"/Logout"},
     ]
 return(
     <nav className="navbar navbar-dark navbar-expand-md bg-dark sticky-top">

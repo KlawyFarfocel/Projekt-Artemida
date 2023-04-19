@@ -7,6 +7,7 @@ import ObwodMap from "./components/ObwodMap";
 import UserData from "./components/UserData";
 import Permissions from "./components/Permissions";
 import Anno from "./components/Anno";
+import Logout from "./components/Logout";
 
 const router=createBrowserRouter([
     {
@@ -46,6 +47,10 @@ const router=createBrowserRouter([
             {
                 path:"/Anno",
                 element:<Anno/>
+            },
+            {
+                path:"/Logout",
+                element:<Logout/>
             }
         ]
     },

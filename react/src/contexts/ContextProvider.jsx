@@ -14,7 +14,6 @@ export const ContextProvider=({children})=>{
         } else {
           localStorage.removeItem('TOKEN')
         }
-        alert("Ustawiono");
         _setUserToken(token);
       }
     return(
