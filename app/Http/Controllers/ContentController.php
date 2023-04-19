@@ -61,6 +61,25 @@ class ContentController extends Controller
         ]);
     }
     public function changeUserData(Request $request){
-        return $request->imie;
+        $legi=$request['userToken'];
+        if(isset($request->imie))
+        $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+        if(isset($request->nazwisko))
+        $user=dane::where('user_id','=',$legi)->first()->update(['nazwisko'=>$request->nazwisko]);
+        if(isset($request->legitymacja))
+        $user=dane::where('user_id','=',$legi)->first()->update(['legitymacja'=>$request->legitymacja]);
+        if(isset($request->miasto))
+        $user=dane::where('user_id','=',$legi)->first()->update(['miasto'=>$request->miasto]);
+        if(isset($request->mieszkanie))
+        $user=dane::where('user_id','=',$legi)->first()->update(['mieszkanie'=>$request->mieszkanie]);
+        if(isset($request->kod))
+        $user=dane::where('user_id','=',$legi)->first()->update(['kod'=>$request->kod]);
+        if(isset($request->ulica))
+        $user=dane::where('user_id','=',$legi)->first()->update(['ulica'=>$request->ulica]);
+        if(isset($request->mail))
+        $user=dane::where('user_id','=',$legi)->first()->update(['e_mail'=>$request->mail]);
+        if(isset($request->telefon))
+        $user=dane::where('user_id','=',$legi)->first()->update(['telefon'=>$request->telefon]);
+        return $request;
     }
 }

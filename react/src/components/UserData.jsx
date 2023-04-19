@@ -26,7 +26,7 @@ export default function UserData(){
       setRefresh(true);
       axiosClient
       .post("/changeUserData", {
-        imie,nazwisko,pesel,legitymacja,miasto,kod,ulica,mieszkanie,mail,telefon
+        userToken,imie,nazwisko,pesel,legitymacja,miasto,kod,ulica,mieszkanie,mail,telefon
       })
       .then(({ data }) => {
         setRefresh(false);
