@@ -82,4 +82,48 @@ class ContentController extends Controller
         $user=dane::where('user_id','=',$legi)->first()->update(['telefon'=>$request->telefon]);
         return $request;
     }
+    public function showDonate (Request $request){
+        $data=[];
+        $ads=[
+            'Opis'=>"Składka okresowa",
+            "Termin"=>"11.04.2022r",
+            "Kwota"=>"950 PLN",
+            "Data zapłaty"=>"12.04.2022r",
+            "Status"=>"Opłacona w terminie"
+        ];
+        array_push($data,$ads);
+        $ads=[
+            'Opis'=>"Składka okresowa",
+            "Termin"=>"11.04.2022r",
+            "Kwota"=>"950 PLN",
+            "Data zapłaty"=>"12.04.2022r",
+            "Status"=>"Nieopłacona"
+        ];
+        array_push($data,$ads);
+        return response([
+            $data
+        ]);
+    }
+    public function showPermissions (Request $request){
+        $data=[];
+        $ads=[
+                "Typ zezwolenia"=>"Polowania indywidualne",
+                "Organ wydający"=>"Komisja policji w Wałbrzychu",
+                "Numer zezwolenia"=>"121/bogu/rodzica/dziewica",
+                "Data uzyskania"=>"12.02.2002",
+                "Wygasa"=>"19.09.2023"
+        ];
+        array_push($data,$ads);
+        $ads=[
+            "Typ zezwolenia"=>"Polowania indywidualne",
+            "Organ wydający"=>"Komisja policji w Wałbrzychu",
+            "Numer zezwolenia"=>"121/bogu/rodzica/dziewica",
+            "Data uzyskania"=>"12.02.2002",
+            "Wygasa"=>"19.09.2023"
+    ];
+    array_push($data,$ads);
+        return response([
+            $data
+        ]);
+    }
 }

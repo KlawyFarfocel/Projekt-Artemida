@@ -8,6 +8,7 @@ import UserData from "./components/UserData";
 import Permissions from "./components/Permissions";
 import Anno from "./components/Anno";
 import Logout from "./components/Logout";
+import Donate from "./components/Donate";
 
 const router=createBrowserRouter([
     {
@@ -51,6 +52,10 @@ const router=createBrowserRouter([
             {
                 path:"/Logout",
                 element:<Logout/>
+            },
+            {
+                path:"/Skladki",
+                element:<Donate/>
             }
         ]
     },

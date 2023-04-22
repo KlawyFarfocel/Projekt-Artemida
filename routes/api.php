@@ -24,3 +24,5 @@ Route::post('/logout',[AuthController::class,'logout']);
 Route::post('/ogloszenie',[ContentController::class,'ogloszenie']);
 Route::post("/userData",[ContentController::class,'userData']);
 Route::post("/changeUserData",[ContentController::class,'changeUserData']);
+Route::post("/showDonate",[ContentController::class,'showDonate']);
+Route::post("/showPermissions",[ContentController::class,'showPermissions']);

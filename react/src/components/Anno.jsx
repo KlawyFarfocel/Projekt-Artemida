@@ -17,12 +17,15 @@ export default function Foo(){
         })
         .then(({ data }) => {
             setRefresh(false);
-            setAnnoProp(data[0]);           
+            console.log(data);
+            setAnnoProp(data[0]);  
+                    
           })
         .catch(err => {
         console.log(err);
         });
     },[])
+    console.log(annoProp)
     function handleModalText(key){
         setMessageKey(key);
         setModalShow(true);

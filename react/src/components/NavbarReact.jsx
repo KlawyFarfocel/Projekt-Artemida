@@ -11,7 +11,7 @@ function NavbarReact(){
         {"name":"roczny plan łowiecki","href":"#"},
         {"name":"ogłoszenia","href":"/Anno"},
         {"name":"moje statystyki","href":"#"},
-        {"name":"składki","href":"#"},
+        {"name":"składki","href":"/Skladki"},
     ];
     const userOffcanvas=[
         {name:"Dane konta","href":"/UserData"},

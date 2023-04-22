@@ -31,10 +31,10 @@ function OffcanvasReact({side="left",toggleName="", ...props }) {
             <ul className='list-group mx-auto overflow-visible'>
                     {props.props.map((value,key)=>
                       <>
-                        <Link key={key} to={value.href} className='text-white fw-bold text-decoration-none'>
-                          <li className='list-group-item bg-dark text-center text-white text-uppercase fs-4'>{value.name}</li>
+                        <Link key={value} to={value.href} className='text-white fw-bold text-decoration-none'>
+                          <li key={value} className='list-group-item bg-dark text-center text-white text-uppercase fs-4'>{value.name}</li>
                         </Link>
-                        <hr key={key}  className='text-divider w-100'/>
+                        <hr key={key+value}  className='text-divider w-100'/>
                       </>
                     )}
                 </ul>
