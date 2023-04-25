@@ -7,6 +7,8 @@ use \App\Models\ogloszenia;
 use \App\Models\dane;
 use \App\Models\skladka;
 use \App\Models\permisje;
+use \App\Models\odstrz;
+use \App\Models\zwierze;
 class ContentController extends Controller
 {
     public function getCookie(Request $request){
@@ -133,85 +135,176 @@ class ContentController extends Controller
     }
     public function getStatsSelect(Request $request){
         $animals=[//tutaj leci wszystko, co jest pojedyncze -> value to id, label to nazwa
-            [ "value"=>'1', "label"=>'norka' ],
-            [ "value"=>'2', "label"=>'bazant' ],
-            [ "value"=>'3', "label"=>'borsuk' ],
+            [ "value"=>'29', "label"=>'norka' ],
+            [ "value"=>'36', "label"=>'bazant' ],
+            [ "value"=>'26', "label"=>'borsuk' ],
+            [ "value"=>'47', "label"=>'łyski' ],
+            [ "value"=>'46', "label"=>'słonki' ],
+            [ "value"=>'45', "label"=>'gołębie' ],
+            [ "value"=>'37', "label"=>'kuropatwy' ],
+            [ "value"=>'35', "label"=>'jarząbki' ],
+            [ "value"=>'34', "label"=>'króliki' ],
+            [ "value"=>'33', "label"=>'zające' ],
+            [ "value"=>'32', "label"=>'piżmaki' ],
+            [ "value"=>'30', "label"=>'tchórze' ],
+            [ "value"=>'25', "label"=>'jenoty' ],
+           
         ];
         $daniele=[//łanie i cielęta
-            [ "value"=>'4', "label"=>'ciele' ],
-            [ "value"=>'5', "label"=>'lania' ],
+            [ "value"=>'9', "label"=>'byk_I' ],
+            [ "value"=>'10', "label"=>'byk_II' ],
+            [ "value"=>'11', "label"=>'byk_III' ],
+            [ "value"=>'12', "label"=>'łanie' ],
+            [ "value"=>'13', "label"=>'cielęta' ],
         ];
-        $daniele_byki=[//wagi
-            [ "value"=>'6', "label"=>'daniel_byk' ]
-        ];
+        
         $dziki=[//wszystkie jak leci
-            [ "value"=>'7', "label"=>'dziki' ]
+            [ "value"=>'21', "label"=>'lochy' ],
+            [ "value"=>'22', "label"=>'odyńce' ],
+            [ "value"=>'23', "label"=>'pozostałe' ],
+            [ "value"=>'24', "label"=>'warchlaki' ]
         ];
         $gesi=[//wszystkie jak leci
-            [ "value"=>'8', "label"=>'ges' ]
+            [ "value"=>'38', "label"=>'gęgawy' ],
+            [ "value"=>'39', "label"=>'zbożowe' ],
+            [ "value"=>'40', "label"=>'białoczelne' ]
         ];
         $jelenie=[//łanie i cieleta
-            [ "value"=>'9', "label"=>'jelen' ]
-        ];
-        $jelenie_byki=[//wagi
-            [ "value"=>'10', "label"=>'jelenbyk' ],
-            [ "value"=>'11', "label"=>'jelenbyk2' ]
+            [ "value"=>'4', "label"=>'byk_I' ],
+            [ "value"=>'5', "label"=>'byk_II' ],
+            [ "value"=>'6', "label"=>'byk_III' ],
+            [ "value"=>'7', "label"=>'łanie' ],
+            [ "value"=>'8', "label"=>'cielęta' ]
         ];
         $kaczki=[//jak leci
-            [ "value"=>'12', "label"=>'kaczyka' ]
+            [ "value"=>'41', "label"=>'krzyżówki' ],
+            [ "value"=>'42', "label"=>'cyraneczki' ],
+            [ "value"=>'43', "label"=>'głowienki' ],
+            [ "value"=>'44', "label"=>'czernice' ]
+
         ];
         $kuny=[//jak leci
-            [ "value"=>'13', "label"=>'kuna' ]
+            [ "value"=>'27', "label"=>'tumak' ],
+            [ "value"=>'28', "label"=>'kamionka' ]
+
         ];
         $losie=[//jak leci
-            [ "value"=>'14', "label"=>'los' ]
+            [ "value"=>'1', "label"=>'byki' ],
+            [ "value"=>'2', "label"=>'klępy' ],
+            [ "value"=>'3', "label"=>'łoszaki' ]
         ];
         $muflony=[//jak leci
-            [ "value"=>'15', "label"=>'muflon' ]
+            [ "value"=>'18', "label"=>'tryki' ],
+            [ "value"=>'19', "label"=>'owce' ],
+            [ "value"=>'20', "label"=>'jagnięta' ]
         ];
         $sarny=[//kozy,kozleta
-            [ "value"=>'16', "label"=>'sarna' ]
+            [ "value"=>'14', "label"=>'kozły_I' ],
+            [ "value"=>'15', "label"=>'kozły_II' ],
+            [ "value"=>'16', "label"=>'kozy' ],
+            [ "value"=>'17', "label"=>'koźlęta' ]
         ];
-        $sarny_kozly=[//wagi
-            [ "value"=>'17', "label"=>'sarna_koziol' ]
-        ];
+        
         return response(
             [
                 "Daniele"=>$daniele,
-                "Daniele - byki"=>$daniele_byki,
                 "Dziki"=>$dziki,
                 "Gęsi"=>$gesi,
                 "Jelenie"=>$jelenie,
-                "Jelenie - byki"=>$jelenie_byki,
                 "Kaczki"=>$kaczki,
                 "Kuny"=>$kuny,
                 "Łosie"=>$losie,
                 "Muflony"=>$muflony,
                 "Sarny"=>$sarny,
-                "Sarny - kozły"=>$sarny_kozly,
                 "Pozostałe"=>$animals,
             ]
         );
     }
-    public function changeStatsView(Request $request){
-        //userToken i slectedOptionPayload -tutaj masz id wybranych
-        $data=[ //tak to ma wyglądać
-            [ "id" =>'e2', "title" =>'Łodfsffsdfś', "date" =>"2021, 2, 12" ],
-            [ "id" =>'e2', "title" =>'Łosdadsaś', "date" =>"2021, 2, 12" ],
-          ];
-        return response(
+    
+     /*public function changeStatsView(Request $request){
+        $option=$request['userToken'];
+        $op=$request['selectedOptionPayload'];
+       
+        $data=[];
+        $legi=$request['userToken'];
+        $option=$request['selectedOptionPayload'];
+        $match=['user_id'=>$legi,'zwierze_id'=>$option[0]];
+        foreach (odstrz::all()->where('zwierze_id','23') as $perm )
+        {
+            $jd=$perm->zwierze_id;
+           // $match=['zwierze_id'=>$jd,''];
+           $jds=zwierze::where('zwierze_id',$jd)->first();//('zwierze_id','=','1');
+            $jeden=$jds->nazwa;
+            $dwa=$jds->podgrupa;
+            $wynik=$dwa." ".$jeden;
+           
+            // "Typ zezwolenia","Organ wydający","Numer zezwolenia","Data uzyskania","Wygasa"
+          
+            $data=[
+                "id"=>$option,//$perm->odstrzal_id,
+                "title"=>$op,//$wynik,
+                "date"=>'1'//$perm->data
+                
+            ];
+            
+         //   array_push($data,$ads);
+       // }
+        response(
             $data
         );
+    }*/
+    public function changeStatsView(Request $request){
+        $data=[];
+        $legi=$request['userToken'];
+        $de=$request['selectedOptionPayload'];
+        $xde=$de[0];
+       // $match=['user_id'=>$legi,'zwierze_id'=>$option[0]];
+        foreach (odstrz::all()->where('user_id',$legi)->where('zwierze_id',$xde) as $perm )
+        {
+            $jd=$perm->zwierze_id;
+           $jds=zwierze::where('zwierze_id',$jd)->first();//('zwierze_id','=','1');
+            $jeden=$jds->nazwa;
+            $dwa=$jds->podgrupa;
+            $wynik=$dwa." ".$jeden;
+            // "Typ zezwolenia","Organ wydający","Numer zezwolenia","Data uzyskania","Wygasa"
+            $ads=[
+                "id"=>$perm->odstrzal_id,
+                "title"=>$wynik,
+                "date"=>$perm->data
+                
+            ];
+            array_push($data,$ads);
+        }
+        
+        
+        return response([
+            $data
+        ]);
+    
     }
     public function getStats(Request $request){
-        $data=[
-            [ "id" =>'e2', "title" =>'Łoś', "date" =>"2021, 2, 12" ],
-            [ "id" =>'e2', "title" =>'Łukasz', "date" =>"2021, 2, 12" ],
-            [ "id" =>'e2', "title" =>'Barnaba', "date" =>"2021, 2, 12" ],
-            
-          ];
-        return response(
+        $data=[];
+        $legi=$request['userToken'];
+        foreach (odstrz::all()->where('user_id',$legi) as $perm )
+        {
+            $jd=$perm->zwierze_id;
+           $jds=zwierze::where('zwierze_id',$jd)->first();//('zwierze_id','=','1');
+            $jeden=$jds->nazwa;
+            $dwa=$jds->podgrupa;
+            $wynik=$dwa." ".$jeden;
+            // "Typ zezwolenia","Organ wydający","Numer zezwolenia","Data uzyskania","Wygasa"
+            $ads=[
+                "id"=>$perm->odstrzal_id,
+                "title"=>$wynik,
+                "date"=>$perm->data
+                
+            ];
+            array_push($data,$ads);
+        }
+        
+        
+        return response([
             $data
-        );
+        ]);
     }
 }

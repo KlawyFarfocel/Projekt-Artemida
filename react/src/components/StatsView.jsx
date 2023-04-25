@@ -22,7 +22,7 @@ export default function StatsView(){
       }
       else  selectedOptionPayload=[];
       axiosClient.post("/changeStatsView",{
-        userToken,selectedOptionPayload
+        userToken,selectedOptionPayload,startDate,endDate
       })
       .then(({data})=>{
         setStats([]);
@@ -84,7 +84,8 @@ export default function StatsView(){
                 {
                     stats.map((stat)=>{
                         return(
-                        <StatsItem key={stat.title} title={stat.title} date={stat.date} />
+                          <StatsItem key={stat.id} title={stat.title} date={stat.date} />
+
                         )
                     })
                 }
