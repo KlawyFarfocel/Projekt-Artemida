@@ -3,16 +3,19 @@ import ReloadModal from "./ReloadModal"
 import TableContent from "./TableContent"
 import "./css/Permissions.css"
 import axiosClient from "../axios"
+import { useStateContext } from "../contexts/ContextProvider";
 export default function Donate(){
     const headers=[
         "Opis","Termin","Kwota","Data zapłaty","Status"
     ]
+const userToken=useStateContext()['userToken'];
 const [refresh,setRefresh]=useState(false);
 const [propContent,setPropContent]=useState([]);
     useEffect(()=>{
         setRefresh(true);
         axiosClient
         .post("/showDonate",{
+            userToken
         })
         .then(({ data }) => {            
             console.log(data);

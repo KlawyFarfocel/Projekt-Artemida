@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\ogloszenia;
 use \App\Models\dane;
-
+use \App\Models\skladka;
+use \App\Models\permisje;
 class ContentController extends Controller
 {
     public function getCookie(Request $request){
@@ -84,44 +85,48 @@ class ContentController extends Controller
     }
     public function showDonate (Request $request){
         $data=[];
-        $ads=[
-            'Opis'=>"Składka okresowa",
-            "Termin"=>"11.04.2022r",
-            "Kwota"=>"950 PLN",
-            "Data zapłaty"=>"12.04.2022r",
-            "Status"=>"Opłacona w terminie"
-        ];
-        array_push($data,$ads);
-        $ads=[
-            'Opis'=>"Składka okresowa",
-            "Termin"=>"11.04.2022r",
-            "Kwota"=>"950 PLN",
-            "Data zapłaty"=>"12.04.2022r",
-            "Status"=>"Nieopłacona"
-        ];
-        array_push($data,$ads);
+        $legi=$request['userToken'];
+        //$skladka=skladka::where('user_id','=',$legi)->first();
+        foreach (skladka::all()->where('czlonek_id',$legi) as $skladka )
+        {
+            if ($skladka->data_zapl=='0000-00-00 00:00:00'){
+                $zmienna='niezapłacono';
+            }else
+            {
+                $zmienna=$skladka->data_zapl;
+            }
+            $ads=[
+                'Opis'=>$skladka->opis,
+                "Termin"=>$skladka->termin,
+                "Kwota"=>$skladka->kwota,
+                "Data zapłaty"=>$zmienna,
+                "Status"=>$skladka->status
+            ];
+            array_push($data,$ads);
+        }
+        
+        
         return response([
             $data
         ]);
     }
     public function showPermissions (Request $request){
         $data=[];
-        $ads=[
-                "Typ zezwolenia"=>"Polowania indywidualne",
-                "Organ wydający"=>"Komisja policji w Wałbrzychu",
-                "Numer zezwolenia"=>"121/bogu/rodzica/dziewica",
-                "Data uzyskania"=>"12.02.2002",
-                "Wygasa"=>"19.09.2023"
-        ];
-        array_push($data,$ads);
-        $ads=[
-            "Typ zezwolenia"=>"Polowania indywidualne",
-            "Organ wydający"=>"Komisja policji w Wałbrzychu",
-            "Numer zezwolenia"=>"121/bogu/rodzica/dziewica",
-            "Data uzyskania"=>"12.02.2002",
-            "Wygasa"=>"19.09.2023"
-    ];
-    array_push($data,$ads);
+        $legi=$request['userToken'];
+        foreach (permisje::all()->where('czlonek_id',$legi) as $perm )
+        {
+            /// "Typ zezwolenia","Organ wydający","Numer zezwolenia","Data uzyskania","Wygasa"
+            $ads=[
+                "Typ zezwolenia"=>$perm->typ,
+                "Organ wydający"=>$perm->organ,
+                "Numer zezwolenia"=>$perm->numer_zez,
+                "Data uzyskania"=>$perm->data_wydania,
+                "Wygasa"=>$perm->data_wyga
+            ];
+            array_push($data,$ads);
+        }
+        
+        
         return response([
             $data
         ]);
