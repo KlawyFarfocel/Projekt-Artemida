@@ -10,7 +10,7 @@ function NavbarReact(){
         {"name":"mój obwód łowiecki","href":"#"},
         {"name":"roczny plan łowiecki","href":"#"},
         {"name":"ogłoszenia","href":"/Anno"},
-        {"name":"moje statystyki","href":"#"},
+        {"name":"moje statystyki","href":"/Stats"},
         {"name":"składki","href":"/Skladki"},
     ];
     const userOffcanvas=[

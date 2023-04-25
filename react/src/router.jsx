@@ -9,6 +9,7 @@ import Permissions from "./components/Permissions";
 import Anno from "./components/Anno";
 import Logout from "./components/Logout";
 import Donate from "./components/Donate";
+import StatsView from "./components/StatsView.jsx";
 
 const router=createBrowserRouter([
     {
@@ -56,6 +57,10 @@ const router=createBrowserRouter([
             {
                 path:"/Skladki",
                 element:<Donate/>
+            },
+            {
+                path:"/Stats",
+                element:<StatsView/>
             }
         ]
     },

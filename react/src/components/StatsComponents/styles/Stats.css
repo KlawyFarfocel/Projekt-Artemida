@@ -1,0 +1,10 @@
+.stats {
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  }
+  @media (max-width: 1199.98px) {
+    .ww{
+      width:100% !important;
+    }
+  }

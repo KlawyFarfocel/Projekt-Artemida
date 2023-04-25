@@ -26,3 +26,6 @@ Route::post("/userData",[ContentController::class,'userData']);
 Route::post("/changeUserData",[ContentController::class,'changeUserData']);
 Route::post("/showDonate",[ContentController::class,'showDonate']);
 Route::post("/showPermissions",[ContentController::class,'showPermissions']);
+Route::post("/getStatsSelect",[ContentController::class,'getStatsSelect']);
+Route::post("/getStats",[ContentController::class,'getStats']);
+Route::post("/changeStatsView",[ContentController::class,'changeStatsView']);

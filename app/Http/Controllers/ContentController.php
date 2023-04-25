@@ -90,7 +90,7 @@ class ContentController extends Controller
         foreach (skladka::all()->where('czlonek_id',$legi) as $skladka )
         {
             if ($skladka->data_zapl=='0000-00-00 00:00:00'){
-                $zmienna='niezapłacono';
+                $zmienna='Brak wpłaty';
             }else
             {
                 $zmienna=$skladka->data_zapl;
@@ -130,5 +130,88 @@ class ContentController extends Controller
         return response([
             $data
         ]);
+    }
+    public function getStatsSelect(Request $request){
+        $animals=[//tutaj leci wszystko, co jest pojedyncze -> value to id, label to nazwa
+            [ "value"=>'1', "label"=>'norka' ],
+            [ "value"=>'2', "label"=>'bazant' ],
+            [ "value"=>'3', "label"=>'borsuk' ],
+        ];
+        $daniele=[//łanie i cielęta
+            [ "value"=>'4', "label"=>'ciele' ],
+            [ "value"=>'5', "label"=>'lania' ],
+        ];
+        $daniele_byki=[//wagi
+            [ "value"=>'6', "label"=>'daniel_byk' ]
+        ];
+        $dziki=[//wszystkie jak leci
+            [ "value"=>'7', "label"=>'dziki' ]
+        ];
+        $gesi=[//wszystkie jak leci
+            [ "value"=>'8', "label"=>'ges' ]
+        ];
+        $jelenie=[//łanie i cieleta
+            [ "value"=>'9', "label"=>'jelen' ]
+        ];
+        $jelenie_byki=[//wagi
+            [ "value"=>'10', "label"=>'jelenbyk' ],
+            [ "value"=>'11', "label"=>'jelenbyk2' ]
+        ];
+        $kaczki=[//jak leci
+            [ "value"=>'12', "label"=>'kaczyka' ]
+        ];
+        $kuny=[//jak leci
+            [ "value"=>'13', "label"=>'kuna' ]
+        ];
+        $losie=[//jak leci
+            [ "value"=>'14', "label"=>'los' ]
+        ];
+        $muflony=[//jak leci
+            [ "value"=>'15', "label"=>'muflon' ]
+        ];
+        $sarny=[//kozy,kozleta
+            [ "value"=>'16', "label"=>'sarna' ]
+        ];
+        $sarny_kozly=[//wagi
+            [ "value"=>'17', "label"=>'sarna_koziol' ]
+        ];
+        return response(
+            [
+                "Daniele"=>$daniele,
+                "Daniele - byki"=>$daniele_byki,
+                "Dziki"=>$dziki,
+                "Gęsi"=>$gesi,
+                "Jelenie"=>$jelenie,
+                "Jelenie - byki"=>$jelenie_byki,
+                "Kaczki"=>$kaczki,
+                "Kuny"=>$kuny,
+                "Łosie"=>$losie,
+                "Muflony"=>$muflony,
+                "Sarny"=>$sarny,
+                "Sarny - kozły"=>$sarny_kozly,
+                "Pozostałe"=>$animals,
+            ]
+        );
+    }
+    public function changeStatsView(Request $request){
+        //userToken i slectedOptionPayload -tutaj masz id wybranych
+        $data=[ //tak to ma wyglądać
+            [ "id" =>'e2', "title" =>'Łodfsffsdfś', "date" =>"2021, 2, 12" ],
+            [ "id" =>'e2', "title" =>'Łosdadsaś', "date" =>"2021, 2, 12" ],
+          ];
+        return response(
+            $data
+        );
+    }
+    public function getStats(Request $request){
+        $data=[
+            [ "id" =>'e2', "title" =>'Łoś', "date" =>"2021, 2, 12" ],
+            [ "id" =>'e2', "title" =>'Łukasz', "date" =>"2021, 2, 12" ],
+            [ "id" =>'e2', "title" =>'Barnaba', "date" =>"2021, 2, 12" ],
+            
+          ];
+        return response(
+            $data
+        );
     }
 }
