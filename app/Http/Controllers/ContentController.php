@@ -252,8 +252,12 @@ class ContentController extends Controller
         $data=[];
         $legi=$request['userToken'];
          $xde = explode(',',$request->selectedOptionPayload);
+        $odp=$request['startDate'];
+        $dop=$request['endDate'];
+        $do=substr($dop,0,10);
+        $od=substr($odp,0,10);
        // $match=['user_id'=>$legi,'zwierze_id'=>$option[0]];
-        foreach (odstrz::all()->where('user_id',$legi)->whereIn('zwierze_id',$xde) as $perm )
+        foreach (odstrz::all()->where('user_id',$legi)->whereIn('zwierze_id',$xde)->whereBetween('data',[$od,$do]) as $perm )
         {
             $jd=$perm->zwierze_id;
            $jds=zwierze::where('zwierze_id',$jd)->first();//('zwierze_id','=','1');
