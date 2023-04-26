@@ -15,12 +15,18 @@ export default function StatsView(){
     const [endDate,setEndDate]=useState(new Date(new Date().getFullYear(), 11, 31));//start date z bazy
     const [selectedOption, setSelectedOption] = useState(null);//Wybrane opcje
     const [request,setRequest]=useState(false);
+    const initialValue = "";
+    var valuel;
     if(request==true){
       if(selectedOption!=null){
-        selectedOptionPayload=Array.from(selectedOption.map((value)=>value.value))
-        console.log(selectedOptionPayload);
+        selectedOptionPayload=selectedOption.reduce(
+          (accumulator, currentValue) => accumulator +","+currentValue.value,
+          initialValue
+        )
+        selectedOptionPayload=selectedOptionPayload.substring(1);
       }
-      else  selectedOptionPayload=[];
+      else  selectedOptionPayload="";
+      console.log(selectedOptionPayload);
       axiosClient.post("/changeStatsView",{
         userToken,selectedOptionPayload,startDate,endDate
       })
@@ -34,6 +40,7 @@ export default function StatsView(){
           }));
           setStats(newStats);
         })
+        console.log(data)
       })
       setRequest(false);
     }
@@ -73,6 +80,7 @@ export default function StatsView(){
         })
         stats.length=(Object.keys(data).length); 
       })
+      
     },[])
     return(
         <div className="container w-100 ww mx-auto d-flex flex-column align-items-center justify-content-center  mt-5">

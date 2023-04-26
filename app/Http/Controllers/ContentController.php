@@ -151,9 +151,7 @@ class ContentController extends Controller
            
         ];
         $daniele=[//łanie i cielęta
-            [ "value"=>'9', "label"=>'byk_I' ],
-            [ "value"=>'10', "label"=>'byk_II' ],
-            [ "value"=>'11', "label"=>'byk_III' ],
+            [ "value"=>'9,10,11', "label"=>'byk' ],
             [ "value"=>'12', "label"=>'łanie' ],
             [ "value"=>'13', "label"=>'cielęta' ],
         ];
@@ -170,9 +168,7 @@ class ContentController extends Controller
             [ "value"=>'40', "label"=>'białoczelne' ]
         ];
         $jelenie=[//łanie i cieleta
-            [ "value"=>'4', "label"=>'byk_I' ],
-            [ "value"=>'5', "label"=>'byk_II' ],
-            [ "value"=>'6', "label"=>'byk_III' ],
+            [ "value"=>'4,5,6', "label"=>'byk' ],
             [ "value"=>'7', "label"=>'łanie' ],
             [ "value"=>'8', "label"=>'cielęta' ]
         ];
@@ -199,8 +195,7 @@ class ContentController extends Controller
             [ "value"=>'20', "label"=>'jagnięta' ]
         ];
         $sarny=[//kozy,kozleta
-            [ "value"=>'14', "label"=>'kozły_I' ],
-            [ "value"=>'15', "label"=>'kozły_II' ],
+            [ "value"=>'14,15', "label"=>'kozły' ],
             [ "value"=>'16', "label"=>'kozy' ],
             [ "value"=>'17', "label"=>'koźlęta' ]
         ];
@@ -256,10 +251,9 @@ class ContentController extends Controller
     public function changeStatsView(Request $request){
         $data=[];
         $legi=$request['userToken'];
-        $de=$request['selectedOptionPayload'];
-        $xde=$de[0];
+         $xde = explode(',',$request->selectedOptionPayload);
        // $match=['user_id'=>$legi,'zwierze_id'=>$option[0]];
-        foreach (odstrz::all()->where('user_id',$legi)->where('zwierze_id',$xde) as $perm )
+        foreach (odstrz::all()->where('user_id',$legi)->whereIn('zwierze_id',$xde) as $perm )
         {
             $jd=$perm->zwierze_id;
            $jds=zwierze::where('zwierze_id',$jd)->first();//('zwierze_id','=','1');
@@ -274,12 +268,13 @@ class ContentController extends Controller
                 
             ];
             array_push($data,$ads);
+                
         }
         
         
-        return response([
-            $data
-        ]);
+        return response(
+           $data
+        );
     
     }
     public function getStats(Request $request){
@@ -303,8 +298,8 @@ class ContentController extends Controller
         }
         
         
-        return response([
+        return response(
             $data
-        ]);
+        );
     }
 }
