@@ -9,6 +9,7 @@ use \App\Models\skladka;
 use \App\Models\permisje;
 use \App\Models\odstrz;
 use \App\Models\zwierze;
+use \App\Models\User;
 class ContentController extends Controller
 {
     public function getCookie(Request $request){
@@ -307,8 +308,49 @@ class ContentController extends Controller
         );
     }
     public function AddNewUser(Request $request){
+        $budynek=$request['budynek'];
+        $haslo=$request['haslo'];
+        $imie=$request['imie'];
+        $kod=$request['kod'];
+        $legitymacja=$request['legitymacja'];
+        $mail=$request['mail'];
+        $miasto=$request['miasto'];
+        $mieszkanie=$request['mieszkanie'];
+        $nazwisko=$request['nazwisko'];
+        $pesel=$request['pesel'];
+        $telefon=$request['telefon'];
+        $ulica=$request['ulica'];
+    
+       User::create([
+       'legitymacja' => $legitymacja,
+       'email' =>  $mail,
+       'password' =>  $haslo]);
         // ta funkcja dodaje usera, dostajesz wszystkie te dane co w changeUserData, ale
         // dostajesz jeszcze budynek - to trzeba będzie dodać do changeUserData, bo zapomniałem przekazać ostatnio
+       
+       
+       
+       
+        $ser=User::where('legitymacja','=',$legitymacja)->first();
+        $idik=$ser->id;
+
+        dane::create([
+        'user_id'=> $idik,
+        'imie'=>$imie,
+        'nazwisko'=>$nazwisko,
+        'pesel'=>$pesel,
+        'legitymacja'=>$legitymacja,
+        'miasto'=>$miasto,
+        'kod'=>$kod,
+        'budynek'=>$budynek,
+        'e_mail'=>$mail,
+        'telefon'=>$telefon,
+        'ulica'=>$ulica,
+        'mieszkanie'=>$mieszkanie
+        ]);
+       
+       
+       
         // i hasło - jawnie, no bo skąd - wiadmo, bcrypt i hyc do bazy
         return response(
             $request

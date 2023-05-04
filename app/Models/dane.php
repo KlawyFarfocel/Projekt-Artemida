@@ -26,6 +26,7 @@ class dane extends Model
         'mieszkanie',
         'budynek',
         'e_mail',
-        'telefon'
+        'telefon',
+        'user_id'
    ];
 }
