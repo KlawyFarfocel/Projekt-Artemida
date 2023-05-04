@@ -10,6 +10,7 @@ import Anno from "./components/Anno";
 import Logout from "./components/Logout";
 import Donate from "./components/Donate";
 import StatsView from "./components/StatsView.jsx";
+import HunterClub from "./components/HunterClub";
 
 const router=createBrowserRouter([
     {
@@ -40,7 +41,7 @@ const router=createBrowserRouter([
             },
             {
                 path:"/UserData",
-                element:<UserData/>
+                element:<UserData userInfo={true}/>
             },
             {
                 path:"/Permissions",
@@ -61,6 +62,10 @@ const router=createBrowserRouter([
             {
                 path:"/Stats",
                 element:<StatsView/>
+            },
+            {
+                path:"/HunterClub",
+                element:<HunterClub/>
             }
         ]
     },

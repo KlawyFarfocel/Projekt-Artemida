@@ -4,7 +4,7 @@ import "./css/sharedComponent.css"
 import axiosClient from "../axios";
 import { useStateContext } from "../contexts/ContextProvider";
 import ReloadModal from "./ReloadModal";
-export default function UserData(){
+export default function UserData(props){
   const userToken=useStateContext()['userToken'];
   const ref=useRef(null)
   const [userDataProp,setUserDataProp]=useState([]);
@@ -19,17 +19,27 @@ export default function UserData(){
   const [mieszkanie,setMieszkanie]=useState("");
   const [mail,setMail]=useState("");
   const [telefon,setTelefon]=useState("");
+  const [haslo, setHaslo]=useState("");
+  const [budynek, setBudynek]=useState("");
+  
+  const [userInfo, setUserInfo]=useState(props.userInfo);
+  const [action, setAction]=useState(props.action);
+  const [password, setPassword]=useState(props.setPassword)
+  const [modifyLegi,setModifyLegi]=useState(props.modifyLegi)
+
 
   const [refresh,setRefresh]=useState(false);
+
   const handleSubmit=(e)=>{
       e.preventDefault();
       setRefresh(true);
       axiosClient
-      .post("/changeUserData", {
-        userToken,imie,nazwisko,pesel,legitymacja,miasto,kod,ulica,mieszkanie,mail,telefon
+      .post(action, {
+        userToken,imie,nazwisko,pesel,legitymacja,miasto,kod,ulica,mieszkanie,budynek,mail,telefon,haslo
       })
       .then(({ data }) => {
         setRefresh(false);
+        console.log(data)
       })
       .catch((error) => {
         if (error.response) {
@@ -51,34 +61,35 @@ export default function UserData(){
   const handlBudynek=e=>{setBudynek(e.target.value);}
   const handleMail=e=>{setMail(e.target.value);}
   const handleTelefon=e=>{setTelefon(e.target.value);}
-
-  useEffect(()=>{
-    setRefresh(true);
-    axiosClient
-    .post("/userData", {
-      userToken
-    })
-    .then(({ data }) => {
-      setUserDataProp(data[0]);
-      setRefresh(false);
-
-    })
-    .catch((error) => {
-      if (error.response) {
-        const finalErrors = Object.values(error.response.data.errors || {}).reduce(
-          (accum, next) => [...accum, ...next],
-          []
-        );
-      }
-    });
-},[])
+  const handleHaslo=e=>{setHaslo(e.target.value);}
+  if(userInfo==true){
+      useEffect(()=>{
+        setRefresh(true);
+        axiosClient
+        .post("/userData", {
+          userToken
+        })
+        .then(({ data }) => {
+          setUserDataProp(data[0]);
+          setRefresh(false);
+        })
+        .catch((error) => {
+          if (error.response) {
+            const finalErrors = Object.values(error.response.data.errors || {}).reduce(
+              (accum, next) => [...accum, ...next],
+              []
+            );
+          }
+        });
+    },[])
+  }
   const copyLegitymacjaNumber=(e)=>{
     navigator.clipboard.writeText(e.target.parentNode.parentNode.children[0].value);
     ref.current.setAttribute('class','me-2 text-success')
     setTimeout(()=>{ref.current.setAttribute('class','me-2 text-success d-none')},750)
   }
     return(
-        <div className="container w-50 h-100 mx-auto d-flex align-items-center justify-content-center ">
+        <div className="container w-100 h-100 mx-auto d-flex align-items-center justify-content-center ">
         <form className="h-75 mt-2 my-auto d-flex flex-column" onSubmit={handleSubmit}>
           <h5 className="text-center fw-bold fs-2 text-uppercase text-white">Dane</h5>
           <div className="row mb-2">
@@ -101,13 +112,24 @@ export default function UserData(){
             <label className="form-label" htmlFor="form3Example3">PESEL</label>
           </div>
           <div className="input-group mb-0">
-            <input defaultValue={userDataProp.legitymacja} type="text" id="legitymacja" onChange={handleLegitymacja} className="form-control" disabled="disabled" /> 
-            <span onClick={copyLegitymacjaNumber} className="input-group-text">
-            <span className="me-2 text-success d-none" ref={ref} id="copyText">Skopiowano!</span>
-              <i className="bi bi-clipboard-fill"></i>
-            </span>
+            <input defaultValue={userDataProp.legitymacja} type="text" id="legitymacja" onChange={handleLegitymacja} className="form-control"
+            disabled={!modifyLegi ? "disabled" : undefined}
+            /> 
+            {(!modifyLegi?
+              <span onClick={copyLegitymacjaNumber} className="input-group-text">
+              <span className="me-2 text-success d-none" ref={ref} id="copyText">Skopiowano!</span>
+                <i className="bi bi-clipboard-fill"></i>
+              </span>:""
+            )}
           </div>
           <label className="form-label" htmlFor="form3Example2">Numer legitymacji</label>
+          {
+            (password==true?
+              <div className="form-outline mb-2">
+              <input defaultValue={userDataProp.ulica} type="password" id="form3Example3" onChange={handleHaslo} className="form-control" />
+              <label className="form-label" htmlFor="form3Example3">Hasło</label>
+            </div>:"")
+          }
           <h5 className="text-center fw-bold fs-2 text-uppercase text-white">Adres</h5>
           <div className="row mb-2">
             <div className="col">

@@ -306,4 +306,103 @@ class ContentController extends Controller
             $data
         );
     }
+    public function AddNewUser(Request $request){
+        // ta funkcja dodaje usera, dostajesz wszystkie te dane co w changeUserData, ale
+        // dostajesz jeszcze budynek - to trzeba będzie dodać do changeUserData, bo zapomniałem przekazać ostatnio
+        // i hasło - jawnie, no bo skąd - wiadmo, bcrypt i hyc do bazy
+        return response(
+            $request
+        );
+    }
+
+    public function getInformationOnPageLoad(Request $request){
+        //ta funkcja zbiera wszystkie dane do wyświetlenia przy ładowaniu strony
+        // mainSquad - zarząd
+        // usersWithoutClub - wszyscy użytkownicy, którzy nie mają przypisanego koła
+        // allHuntersFromClub - wszyscy przypisani do tego koła
+
+        // do tych trzec weź mi jeszcze ich id daj albo token albo cokolwiek zeby ich rozroznic - po prostu zeby bylo - bo trzeba bedzie edycje i usuwanie dorobić
+
+        // najbliższePolowanie - najbliższe polowanie dla tego koła - nie ma polowań, zostaw tak jak jest, bo to trzeba będzie przemyśleć
+        // nextMeeting - data najbliższego spotkania - można na to osobną tabelę zrobić, nie zaszkodzi 
+        $mainSquad=[
+            ["Prezes"=>"Marek Pieczarek"],
+            ["Sekretarz"=>"Jarosław Kret"],
+            ["Skarbnik"=>"Kamil Mamm0n"],
+            ["Łowczy"=>"Endrju Golara"]
+        ];
+        $usersWithoutClub=[
+            [
+                "value"=>12,//Jego id
+                "label"=>"Marek Bezklubny",
+            ],
+            [
+                "value"=>14,//Jego id
+                "label"=>"Jarek Bezkarny",
+            ],
+            [
+                "value"=>3,//Jego id
+                "label"=>"CiebieBoga Wysławiamy",
+            ],
+        ];
+        $allHuntersFromClub=[
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Golara"],
+                ["Łowczy"=>"Endrju Dupa"],
+        ];
+        $najblizszePolowania=[
+            [
+                "id"=>1,
+                "Nazwa"=>"Polowanie na Czerwony Październik",
+                "Data"=>"2023-05-06"
+            ],
+            [
+                "id"=>2,
+                "Nazwa"=>"Polowanie na Śledzie",
+                "Data"=>"2023-12-06"
+            ],
+            [
+                "id"=>3,
+                "Nazwa"=>"Polowanie na Boba Marleya",
+                "Data"=>"2023-04-26"
+            ],
+        ];
+        $nextMeeting=[
+            [
+                "id"=>3,
+                "Nazwa"=>"Siedziba koła Bóbr",
+                "Data"=>"2023-12-26"
+            ]
+            ];
+        return response([
+            $usersWithoutClub,$mainSquad,$allHuntersFromClub,$najblizszePolowania,$nextMeeting
+        ]);
+    }
+    public function AddExistingUserToClub(Request $request ){
+        $optionsArray=explode(",",$request->optionsString); // tu masz id wszystkich co trzeba ich do koła dodać
+       // masz tez userToken zebys wiedzial jakie kolo
+       // wez z bazy jeszcze raz tych ludzi co klubu nie mają
+        $usersWithoutClub=[
+            [
+                "value"=>14,//Jego id
+                "label"=>"Jarek Bezkarny",
+            ],
+            [
+                "value"=>3,//Jego id
+                "label"=>"CiebieBoga Wysławiamy",
+            ],
+        ];
+        return response([
+            $usersWithoutClub
+        ]);
+    }
 }

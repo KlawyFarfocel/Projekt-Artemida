@@ -29,3 +29,6 @@ Route::post("/showPermissions",[ContentController::class,'showPermissions']);
 Route::post("/getStatsSelect",[ContentController::class,'getStatsSelect']);
 Route::post("/getStats",[ContentController::class,'getStats']);
 Route::post("/changeStatsView",[ContentController::class,'changeStatsView']);
+Route::post("/addNewUser",[ContentController::class,'addNewUser']);
+Route::post("/getInformationOnPageLoad",[ContentController::class,'getInformationOnPageLoad']);
+Route::post("/AddExistingUserToClub",[ContentController::class,'AddExistingUserToClub']);
