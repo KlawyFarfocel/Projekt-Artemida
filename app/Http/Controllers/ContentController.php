@@ -10,6 +10,7 @@ use \App\Models\permisje;
 use \App\Models\odstrz;
 use \App\Models\zwierze;
 use \App\Models\User;
+use \App\Models\klub;
 class ContentController extends Controller
 {
     public function getCookie(Request $request){
@@ -366,14 +367,45 @@ class ContentController extends Controller
         // do tych trzec weź mi jeszcze ich id daj albo token albo cokolwiek zeby ich rozroznic - po prostu zeby bylo - bo trzeba bedzie edycje i usuwanie dorobić
 
         // najbliższePolowanie - najbliższe polowanie dla tego koła - nie ma polowań, zostaw tak jak jest, bo to trzeba będzie przemyśleć
+        $usersWithoutClub=[];
+        $allHuntersFromClub=[];
+        $legi=$request['userToken'];
+        $ser=User::where('id','=',$legi)->first();
+        $idik=$ser->klub_id;
+        $klub=klub::where('klub_id','=',$idik)->first();
+        $pr=$klub->prezes;
+        $se=$klub->sekretarz;
+        $sk=$klub->skarbnik;
+        $lg=$klub->lowczy_glowny;
+        $prezes=dane::where('user_id','=',$pr)->first();
+        $sekretarz=dane::where('user_id','=',$se)->first();
+        $skarbnik=dane::where('user_id','=',$sk)->first();
+        $lowczy=dane::where('user_id','=',$lg)->first();
+        $end1=$prezes->imie." ".$prezes->nazwisko;
+        $end2=$sekretarz->imie." ".$sekretarz->nazwisko;
+        $end3=$skarbnik->imie." ".$skarbnik->nazwisko;
+        $end4=$lowczy->imie." ".$lowczy->nazwisko;
         // nextMeeting - data najbliższego spotkania - można na to osobną tabelę zrobić, nie zaszkodzi 
         $mainSquad=[
-            ["Prezes"=>"Marek Pieczarek"],
-            ["Sekretarz"=>"Jarosław Kret"],
-            ["Skarbnik"=>"Kamil Mamm0n"],
-            ["Łowczy"=>"Endrju Golara"]
+            ["Prezes"=>$end1],
+            ["Sekretarz"=>$end2],
+            ["Skarbnik"=>$end3],
+            ["Łowczy"=>$end4]
         ];
-        $usersWithoutClub=[
+        
+        foreach (User::all()->where('klub_id','0') as $perm )
+        {
+            $zez=dane::where('user_id','=',$perm->id)->first();
+            $fullname=$zez->imie." ".$zez->nazwisko;
+            $ads=[
+                "value"=>$perm->id,
+                "label"=>$fullname,
+                
+            ];
+            array_push($usersWithoutClub,$ads);
+                
+        }
+      /*  $usersWithoutClub=[
             [
                 "value"=>12,//Jego id
                 "label"=>"Marek Bezklubny",
@@ -386,7 +418,20 @@ class ContentController extends Controller
                 "value"=>3,//Jego id
                 "label"=>"CiebieBoga Wysławiamy",
             ],
-        ];
+        ];*/
+        foreach (User::all()->where('klub_id',$idik) as $perm )
+        {
+            $zez=dane::where('user_id','=',$perm->id)->first();
+            $fullname=$zez->imie." ".$zez->nazwisko;
+            $ads=[
+                "łowczy"=>$fullname,
+          
+                
+            ];
+            array_push($allHuntersFromClub,$ads);
+                
+        }
+        /*
         $allHuntersFromClub=[
                 ["Łowczy"=>"Endrju Golara"],
                 ["Łowczy"=>"Endrju Golara"],
@@ -401,6 +446,7 @@ class ContentController extends Controller
                 ["Łowczy"=>"Endrju Golara"],
                 ["Łowczy"=>"Endrju Dupa"],
         ];
+        */
         $najblizszePolowania=[
             [
                 "id"=>1,

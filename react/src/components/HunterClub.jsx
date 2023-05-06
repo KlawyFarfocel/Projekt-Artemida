@@ -36,6 +36,7 @@ export default function HunterClub(){
 
     useEffect(()=>{
         axiosClient.post("/getInformationOnPageLoad",{
+            userToken
         })
         .then(({data})=>{
             setUsersWithoutClub(data[0]);
