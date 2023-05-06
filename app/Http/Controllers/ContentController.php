@@ -479,6 +479,28 @@ class ContentController extends Controller
         $optionsArray=explode(",",$request->optionsString); // tu masz id wszystkich co trzeba ich do koła dodać
        // masz tez userToken zebys wiedzial jakie kolo
        // wez z bazy jeszcze raz tych ludzi co klubu nie mają
+       $legi=$request['userToken'];
+       $ser=User::where('id','=',$legi)->first();
+       $idik=$ser->klub_id;
+      // $user=dane::where('user_id','=',$legi)->first()->update(['kod'=>$request->kod]);
+       foreach ($optionsArray as $perm )
+        {
+           // $idik='15';
+            $zez=User::where('id','=',$perm)->update(['klub_id'=>$idik]);
+
+        }
+       /* foreach (User::all()->where('klub_id','0') as $perm )
+        {
+            $zez=dane::where('user_id','=',$perm->id)->first();
+            $fullname=$zez->imie." ".$zez->nazwisko;
+            $ads=[
+                "value"=>$perm->id,
+                "label"=>$fullname,
+                
+            ];
+            array_push($usersWithoutClub,$ads);
+                
+        }*/
         $usersWithoutClub=[
             [
                 "value"=>14,//Jego id
@@ -490,7 +512,7 @@ class ContentController extends Controller
             ],
         ];
         return response([
-            $usersWithoutClub
+           $zez, $optionsArray , $usersWithoutClub
         ]);
     }
 }
