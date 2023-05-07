@@ -468,7 +468,7 @@ class ContentController extends Controller
             [
                 "id"=>3,
                 "Nazwa"=>"Siedziba koła Bóbr",
-                "Data"=>"2023-12-26"
+                "Data"=>"2023-12-26 20:22:00"
             ]
             ];
         return response([
@@ -514,5 +514,31 @@ class ContentController extends Controller
         return response([
            $zez, $optionsArray , $usersWithoutClub
         ]);
+    }
+    //--------------------------------------------------------------Składki admin--------------------------------------------------------------
+    public function showSkarbnikDonate(Request $request){
+        $data=[
+            [
+                "Imię i nazwisko"=>"Endrju Golara",
+                "Opis"=>"Składka okresowa",
+                "Termin"=>"2008-11-11",
+                "Kwota"=>950,
+                "Data zapłaty"=>"Brak wpłaty",
+                "Status"=>"Nieopłacona",
+                "Edytuj"=>False
+            ],
+            [
+                "Imię i nazwisko"=>"Dupa Golara",
+                "Opis"=>"Składka okresowa",
+                "Termin"=>"2008-11-11",
+                "Kwota"=>950,
+                "Data zapłaty"=>"Brak wpłaty",
+                "Status"=>"Nieopłacona",
+                "Edytuj"=>False
+            ]
+            ];
+            return response([
+                $data
+            ]);
     }
 }

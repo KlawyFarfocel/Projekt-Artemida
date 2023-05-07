@@ -32,3 +32,4 @@ Route::post("/changeStatsView",[ContentController::class,'changeStatsView']);
 Route::post("/addNewUser",[ContentController::class,'addNewUser']);
 Route::post("/getInformationOnPageLoad",[ContentController::class,'getInformationOnPageLoad']);
 Route::post("/AddExistingUserToClub",[ContentController::class,'AddExistingUserToClub']);
+Route::post("/showSkarbnikDonate",[ContentController::class,'showSkarbnikDonate']);

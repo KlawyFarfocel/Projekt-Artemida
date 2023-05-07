@@ -5,7 +5,7 @@ function StatsItem(props) {
 
     return (
         <div className="stats-item">
-            <StatsDate date={props.date}/>
+            <StatsDate mode={props.mode=="hour"?"hour":""} date={props.date}/>
             <div className="stats-item__description">
                 <h2>{props.title}</h2>
             </div>

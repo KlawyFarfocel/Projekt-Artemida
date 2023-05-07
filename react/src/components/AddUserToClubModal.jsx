@@ -10,6 +10,12 @@ export default function AddUserToClubModal(props) {
   const handleClose=()=>{
     props.setRequest(true)
     props.setModalUserShow(false)
+    (props.reloadRequest
+      ?
+        props.setReloadRequest(false)
+      :
+        props.setReloadRequest(true)
+    )
   }
 return (
     <>

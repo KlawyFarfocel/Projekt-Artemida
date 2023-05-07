@@ -7,7 +7,6 @@ export default function AddUserModal(props) {
   useEffect(()=>{
     setShow(props.show);
   })
-  
 return (
     <>
 <Modal bsPrefix="modal" scrollable="0" show={show} size="lg" onHide={()=>props.setModalShow(false)}>

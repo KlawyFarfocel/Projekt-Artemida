@@ -18,6 +18,8 @@ export default function HunterClub(){
     const [modalShow, setModalShow] = useState(false);
     const [modalUserShow, setModalUserShow]=useState(false);
     const [request,setRequest]=useState(false);
+    const [reloadRequest,setReloadRequest]=useState(false);
+
     if(request==true){
 
         const optionsArray = Object.values(selectedOption).map(option => option.value);
@@ -28,9 +30,8 @@ export default function HunterClub(){
         })
         
         .then(({data})=>{
-           // setRequest(false);
-           //setUsersWithoutClub(data[0]);
-           console.log(data)
+           setRequest(false);
+           setUsersWithoutClub(data[2]);
         })
     }
 
@@ -45,7 +46,7 @@ export default function HunterClub(){
             const formattedData = data[3].map(item => ({
                 id: item.id,
                 Nazwa: item.Nazwa,
-                Data: new Date(item.Data)
+                Data: new Date(Date.parse(item.Data))
             }));
             setHuntsProp(formattedData);
             const newData=data[4].map(item=>({
@@ -55,7 +56,7 @@ export default function HunterClub(){
             }))
             setNextMeeting(newData);
         })
-    },[userToken])
+    },[userToken,reloadRequest])
     return(
         <div className="container-fluid">
             <h1 className="text-uppercase fs-1 text-white text-center my-3">Koło Łowieckie "Bubr"</h1>
@@ -117,7 +118,7 @@ export default function HunterClub(){
                     <h1 className="text-uppercase text-white fs-1 text-center">Następne spotkanie</h1>
                     {
                         nextMeeting.map((value,key)=>(
-                           <StatsItem key={value.id} className="my-auto" title={value.Nazwa} date={value.Data} />
+                           <StatsItem key={value.id} mode='hour' className="my-auto" title={value.Nazwa} date={value.Data} />
                         ))
                     }
                 </div>
@@ -132,8 +133,8 @@ export default function HunterClub(){
                     </div>
                 </div>
             </div>
-            <AddUserModal show={modalShow} setModalShow={setModalShow}/>
-            <AddUserToClubModal show={modalUserShow} setSelectedOption={setSelectedOption} options={usersWithoutClub} setRequest={setRequest} setModalUserShow={setModalUserShow}/>
+            <AddUserModal  show={modalShow} setModalShow={setModalShow}/>
+            <AddUserToClubModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} show={modalUserShow} setSelectedOption={setSelectedOption} options={usersWithoutClub} setRequest={setRequest} setModalUserShow={setModalUserShow}/>
         </div>
     )
 }
