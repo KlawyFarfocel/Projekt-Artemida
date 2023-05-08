@@ -518,6 +518,9 @@ class ContentController extends Controller
     }
     //--------------------------------------------------------------Składki admin--------------------------------------------------------------
     public function showSkarbnikDonate(Request $request){
+        //jest userToken zebys klub znalazl
+        //tu mają wszystkie składki z tego klubu sie pokazac
+        //Id to id składki
         $data=[
             [
                 "Id"=>11,
