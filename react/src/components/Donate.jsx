@@ -65,9 +65,9 @@ const [adminViewHandler,setAdminViewHandler]=useState(true);
     },[refreshUserDonate])
     return((
         <>       
-            <TableContent setModalShow={setModalShow} setDonateChangeId={setDonateChangeId} skarbnikMode={skarbnikMode} setSkarbnikMode={setSkarbnikMode} setAdminViewHandler={setAdminViewHandler} title={title} content={propContent} headers={headers} useButton={'no'} topButton={"yes"}/>
+            <TableContent hideFirst={true} setModalShow={setModalShow} setDonateChangeId={setDonateChangeId} skarbnikMode={skarbnikMode} setSkarbnikMode={setSkarbnikMode} setAdminViewHandler={setAdminViewHandler} title={title} content={propContent} headers={headers} useButton={'no'} topButton={"yes"}/>
             <ReloadModal show={refresh}/>
-            <ChangeDonateDataModal show={modalShow} setModalShow={setModalShow}/>
+            <ChangeDonateDataModal setAdminViewHandler={setAdminViewHandler} adminViewHandler={adminViewHandler} userToken={userToken} id={donateChangeId} content={propContent[donateChangeId]} show={modalShow} setModalShow={setModalShow}/>
         </>
     ))
     }

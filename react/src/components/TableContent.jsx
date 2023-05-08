@@ -1,9 +1,9 @@
 import "./css/Permissions.css"
 const statusTypes=[
-    "Opłacona w terminie","Do zapłaty","Opłacona z opóźnieniem","Nieopłacona"
+    "Opłacona","Nieopłacona"
 ]
 const statusColors=[
-    "text-success","text-secondary","text-warning","text-danger"
+    "text-success","text-danger"
 ]
 
 export default function TableContent(props){
@@ -41,13 +41,26 @@ export default function TableContent(props){
         {props.content.map((item, outerIndex) => (
           <tr key={outerIndex}>
                 {Object.values(item).map((value, index) => (
-                    (!value?<td key={index}><button type="button" className="btn btn-success" onClick={()=>handleClick(outerIndex)} >Edytuj</button></td>:
+                    (!value?<td key={index}><button type="button" className="btn btn-success" onClick={()=>handleClick(outerIndex)} >Edytuj</button></td>
+                    :
+                    (props.hideFirst
+                    ?
+                        (index!=0
+                            ?
+                            <td key={index} className={
+                                statusTypes.includes(Object.values(value).reduce((accumulator, currentValue) => accumulator + currentValue, initialValue)) ? statusColors[statusTypes.indexOf(Object.values(value).reduce((accumulator, currentValue) => accumulator + currentValue, initialValue))]:""}>
+                                    {typeof value === 'object' ? Object.values(value)[0] : value}
+                            </td>
+                            :
+                            ""
+                        )
+                    :
                     <td key={index} className={
                         statusTypes.includes(Object.values(value).reduce((accumulator, currentValue) => accumulator + currentValue, initialValue)) ? statusColors[statusTypes.indexOf(Object.values(value).reduce((accumulator, currentValue) => accumulator + currentValue, initialValue))]:""}>
                             {typeof value === 'object' ? Object.values(value)[0] : value}
-                        </td>
+                    </td>
                     )
-
+                    )
 
                 ))}
                 

@@ -93,13 +93,14 @@ class ContentController extends Controller
         //$skladka=skladka::where('user_id','=',$legi)->first();
         foreach (skladka::all()->where('czlonek_id',$legi) as $skladka )
         {
-            if ($skladka->data_zapl=='0000-00-00 00:00:00'){
+            if ($skladka->data_zapl=='0001-01-01 00:00:00'){
                 $zmienna='Brak wpłaty';
             }else
             {
                 $zmienna=$skladka->data_zapl;
             }
             $ads=[
+                'Id'=>$skladka->skladka_id,
                 'Opis'=>$skladka->opis,
                 "Termin"=>$skladka->termin,
                 "Kwota"=>$skladka->kwota,
@@ -519,26 +520,46 @@ class ContentController extends Controller
     public function showSkarbnikDonate(Request $request){
         $data=[
             [
+                "Id"=>11,
                 "Imię i nazwisko"=>"Endrju Golara",
                 "Opis"=>"Składka okresowa",
                 "Termin"=>"2008-11-11",
                 "Kwota"=>950,
-                "Data zapłaty"=>"Brak wpłaty",
+                "Data zapłaty"=>"2008-11-12",
                 "Status"=>"Nieopłacona",
-                "Edytuj"=>False
+                "Edytuj"=>false
             ],
             [
+                "Id"=>11,
                 "Imię i nazwisko"=>"Dupa Golara",
                 "Opis"=>"Składka okresowa",
                 "Termin"=>"2008-11-11",
                 "Kwota"=>950,
                 "Data zapłaty"=>"Brak wpłaty",
                 "Status"=>"Nieopłacona",
-                "Edytuj"=>False
+                "Edytuj"=>false,
             ]
             ];
             return response([
                 $data
             ]);
+    }
+    public function editDonate(Request $request){
+       //masz takie rzeczy przesłanie
+       //idSkładki - skladka_id
+       //termin - termin
+       //kwota - kwota 
+       //opis - opis
+       //data_zapl - to masz to co ci sie nizej robi w tym ifie
+       //selectedOption - status
+       if($request->disabled){
+            $data_zapl=date('Y-m-d H:i:s',strtotime("0000-01-01 00:00:00"));
+       }
+       else{
+            $data_zapl=date('Y-m-d H:i:s',strtotime($request->combinedDate));
+       }
+        return response([
+            $data_zapl
+        ]);
     }
 }
