@@ -469,7 +469,8 @@ class ContentController extends Controller
             [
                 "id"=>3,
                 "Nazwa"=>"Siedziba koła Bóbr",
-                "Data"=>"2023-12-26 20:22:00"
+                "Data"=>$klub->data_nast_spotkania
+
             ]
             ];
         return response([
@@ -521,7 +522,37 @@ class ContentController extends Controller
         //jest userToken zebys klub znalazl
         //tu mają wszystkie składki z tego klubu sie pokazac
         //Id to id składki
-        $data=[
+        $data=[];
+        $legi=$request['userToken'];
+        $ser=User::where('id','=',$legi)->first();
+        $idik=$ser->klub_id;
+        $klub=klub::where('klub_id','=',$idik)->first();
+        $man=1;
+        $zezol;
+        foreach (User::all()->where('klub_id',$idik) as $perm )
+        {
+          
+           $man++;
+             $zezol=skladka::where('czlonek_id','=',$perm->id)->first();
+            if(isset($zezol))
+            {
+             $zez=dane::where('user_id','=',$perm->id)->first();
+            $fullname=$zez->imie." ".$zez->nazwisko;
+            $ads=
+                [
+                    "Id"=>$zezol->skladka_id,
+                    "Imię i nazwisko"=>$fullname,
+                    "Opis"=>$zezol->opis,
+                    "Termin"=>$zezol->termin,
+                    "Kwota"=>$zezol->kwota,
+                    "Data zapłaty"=>$zezol->data_zapl,
+                    "Status"=>$zezol->status,
+                    "Edytuj"=>false
+                ];
+            array_push($data,$ads);
+            }
+        }
+      /*  $data=[
             [
                 "Id"=>11,
                 "Imię i nazwisko"=>"Endrju Golara",
@@ -542,9 +573,9 @@ class ContentController extends Controller
                 "Status"=>"Nieopłacona",
                 "Edytuj"=>false,
             ]
-            ];
+            ];*/
             return response([
-                $data
+                $data,$zezol
             ]);
     }
     public function editDonate(Request $request){

@@ -7,7 +7,7 @@ function StatsDate(props){
     
     (props.mode=="hour"
         ?
-            hour=props.date.getHours()+":"+props.date.getMinutes()
+        hour=(props.date.getHours()<10?'0':'')+props.date.getHours()+":"+(props.date.getMinutes()<10?'0':'') + props.date.getMinutes()
         :
             ""
     )

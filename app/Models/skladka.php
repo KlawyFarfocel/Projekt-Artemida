@@ -13,7 +13,7 @@ class skladka extends Model
     protected $primaryKey = 'skladka_id';
 
     protected $fillable = [
-        'kladka_id',
+        'skladka_id',
         'termin',
         'kwota',
         'czlonek_id',	
