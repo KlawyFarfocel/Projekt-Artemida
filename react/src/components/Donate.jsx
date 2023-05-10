@@ -42,11 +42,7 @@ const [adminViewHandler,setAdminViewHandler]=useState(true);
             ])
             setTitle("Twoje składki")
             setAdminViewHandler(false)
-            if(refreshUserDonate){
-                setRefreshUserDonate(false)
-            }else{
-                setRefreshUserDonate(true)
-            }
+                setRefreshUserDonate(!refreshUserDonate)
         }
     }
     useEffect(()=>{
@@ -55,7 +51,7 @@ const [adminViewHandler,setAdminViewHandler]=useState(true);
         .post("/showDonate",{
             userToken
         })
-        .then(({ data }) => {            
+        .then(({ data }) => {       
             setPropContent(data[0]);
             setRefresh(false);  
         })

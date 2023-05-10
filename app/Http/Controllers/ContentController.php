@@ -607,4 +607,21 @@ class ContentController extends Controller
         true
        ]);
     }
+    public function showPermissionRequest(Request $request){
+        $datan=[
+            [
+                "id"=>"650",
+                "Imię i nazwisko"=>"Dupa Biskupa",
+                "Typ"=>"Podstawowe",
+                "Organ"=>"Organek",
+                "Numer zezwolenia"=>"123/IHS/Dziki/Alfa/Wilk",
+                "Data wydania"=>"2023-04-12",
+                "Wygasa"=>"2023-06-06",
+                "showPermissionModal"=>"showPermissionModal"
+            ]
+        ];
+        return response([
+            $datan
+        ]);
+    }
 }

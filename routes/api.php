@@ -35,3 +35,4 @@ Route::post("/AddExistingUserToClub",[ContentController::class,'AddExistingUserT
 Route::post("/showSkarbnikDonate",[ContentController::class,'showSkarbnikDonate']);
 Route::post("/EditDonate",[ContentController::class,'EditDonate']);
 Route::post("/DeleteDonate",[ContentController::class,'DeleteDonate']);
+Route::post("/showPermissionRequest",[ContentController::class,'showPermissionRequest']);
