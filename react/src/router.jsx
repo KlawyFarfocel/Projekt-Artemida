@@ -11,6 +11,7 @@ import Logout from "./components/Logout";
 import Donate from "./components/Donate";
 import StatsView from "./components/StatsView.jsx";
 import HunterClub from "./components/HunterClub";
+import HunterDistrict from "./components/HunterDistrict";
 
 const router=createBrowserRouter([
     {
@@ -66,6 +67,10 @@ const router=createBrowserRouter([
             {
                 path:"/HunterClub",
                 element:<HunterClub/>
+            },
+            {
+                path:"/HunterDistrict",
+                element:<HunterDistrict/>
             }
         ]
     },
