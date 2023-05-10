@@ -7,6 +7,7 @@ export default function ChangeDonateDataModal(props){
     const [sendDirection,setSendDirection]=useState("")
     const [selectedOption,setSelectedOption]=useState()
     const [deletion,setDeletion]=useState(false)
+    const [required,setRequired]=useState("required")
 
     useEffect(()=>{
       setShow(props.show);
@@ -30,6 +31,7 @@ export default function ChangeDonateDataModal(props){
     ]
     useEffect(()=>{
         if(deletion){
+            setRequired("")
             let idSkladki;
             (props.content?
             idSkladki=props.content["Id"] :"")
@@ -39,6 +41,8 @@ export default function ChangeDonateDataModal(props){
             .then(({ data }) => { 
                 props.setModalShow(false)
                 props.setAdminViewHandler(!props.adminViewHandler)
+                setRequired("required")
+                setDeletion(false)
             })
         }
     },[deletion])
@@ -52,7 +56,7 @@ export default function ChangeDonateDataModal(props){
                 <form  onSubmit={handleSubmit} className='w-75 mx-auto'>
                     <div className="mb-3">
                         <label className="form-label">Status składki</label>
-                        <Select onChange={(choice)=>setSelectedOption(choice.value)} required="required" className='form-control' options={DonateStatus} placeholder={"Wybierz status z listy"}/>
+                        <Select onChange={(choice)=>setSelectedOption(choice.value)} required={required} className='form-control' options={DonateStatus} placeholder={"Wybierz status z listy"}/>
                     </div>
                     <div className="w-100 d-flex">
                             <button type="submit" onClick={()=>{setSendDirection("/EditDonate")}} className="btn btn-success mb-5 mx-auto">Zapisz zmiany</button>
