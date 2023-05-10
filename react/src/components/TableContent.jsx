@@ -41,7 +41,7 @@ export default function TableContent(props){
         {props.content.map((item, outerIndex) => (
           <tr key={outerIndex}>
                 {Object.values(item).map((value, index) => (
-                    (!value?<td key={index}><button type="button" className="btn btn-success" onClick={()=>handleClick(outerIndex)} >Edytuj</button></td>
+                    (!value?<td key={index}><button type="button" className="btn btn-success" onClick={()=>handleClick(outerIndex)} >Zmień status/Usuń</button></td>
                     :
                     (props.hideFirst
                     ?

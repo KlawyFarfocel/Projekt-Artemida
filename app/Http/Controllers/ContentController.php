@@ -528,7 +528,6 @@ class ContentController extends Controller
         $idik=$ser->klub_id;
         $klub=klub::where('klub_id','=',$idik)->first();
         $man=1;
-        $zezol;
         foreach (User::all()->where('klub_id',$idik) as $perm )
         {
           
@@ -538,6 +537,12 @@ class ContentController extends Controller
             {
              $zez=dane::where('user_id','=',$perm->id)->first();
             $fullname=$zez->imie." ".$zez->nazwisko;
+            if ($zezol->data_zapl=='0001-01-01 00:00:00'){
+                $zmienna='Brak wpłaty';
+            }else
+            {
+                $zmienna=$zezol->data_zapl;
+            }
             $ads=
                 [
                     "Id"=>$zezol->skladka_id,
@@ -545,7 +550,7 @@ class ContentController extends Controller
                     "Opis"=>$zezol->opis,
                     "Termin"=>$zezol->termin,
                     "Kwota"=>$zezol->kwota,
-                    "Data zapłaty"=>$zezol->data_zapl,
+                    "Data zapłaty"=>$zmienna,
                     "Status"=>$zezol->status,
                     "Edytuj"=>false
                 ];
@@ -579,13 +584,11 @@ class ContentController extends Controller
             ]);
     }
     public function editDonate(Request $request){
-       //masz takie rzeczy przesłanie
        //idSkładki - skladka_id
-       //termin - termin
-       //kwota - kwota 
-       //opis - opis
-       //data_zapl - to masz to co ci sie nizej robi w tym ifie
        //selectedOption - status
+       // jak status przestawisz na "Nieopłacona" to ustawiasz datetime na "0000-01-01 00:00:00"
+       //jak na "Opłacona" to na aktualną datę
+       //w response nic 
        if($request->disabled){
             $data_zapl=date('Y-m-d H:i:s',strtotime("0000-01-01 00:00:00"));
        }
@@ -593,7 +596,15 @@ class ContentController extends Controller
             $data_zapl=date('Y-m-d H:i:s',strtotime($request->combinedDate));
        }
         return response([
-            $data_zapl
+            true
         ]);
+    }
+    public function deleteDonate(Request $request){
+       //idSkładki - skladka_id
+       // po prostu ją usuń - w responsa wrzuć true tak jak masz nizej
+       //powinno sie odswiezyc
+       return response([
+        true
+       ]);
     }
 }

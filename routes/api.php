@@ -34,3 +34,4 @@ Route::post("/getInformationOnPageLoad",[ContentController::class,'getInformatio
 Route::post("/AddExistingUserToClub",[ContentController::class,'AddExistingUserToClub']);
 Route::post("/showSkarbnikDonate",[ContentController::class,'showSkarbnikDonate']);
 Route::post("/EditDonate",[ContentController::class,'EditDonate']);
+Route::post("/DeleteDonate",[ContentController::class,'DeleteDonate']);
