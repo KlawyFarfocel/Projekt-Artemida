@@ -589,20 +589,39 @@ class ContentController extends Controller
        // jak status przestawisz na "Nieopłacona" to ustawiasz datetime na "0000-01-01 00:00:00"
        //jak na "Opłacona" to na aktualną datę
        //w response nic 
-       if($request->disabled){
+       date_default_timezone_set('Europe/Warsaw');
+       $data_zapl=0; 
+      
+       $legi2=$request['selectedOption'];
+       
+       
+       if($legi2=='Nieopłacona'){
             $data_zapl=date('Y-m-d H:i:s',strtotime("0000-01-01 00:00:00"));
        }
        else{
-            $data_zapl=date('Y-m-d H:i:s',strtotime($request->combinedDate));
-       }
-        return response([
-            true
+            $data_zapl=date('Y-m-d H:i:s');
+       }/*
+       if(!$request->selectedOption){
+        $data_zapl=date('Y-m-d H:i:s',strtotime("0000-01-01 00:00:00"));
+   }
+   else{
+        $data_zapl=date('Y-m-d H:i:s',strtotime($request->combinedDate));
+   }*/
+       $legi=$request['idSkladki'];
+      
+       $user=skladka::where('skladka_id','=',$legi)->first()->update(['status'=>$legi2]);
+       $user=skladka::where('skladka_id','=',$legi)->first()->update(['data_zapl'=>$data_zapl]);
+       return response([
+          $legi2 , true
         ]);
     }
     public function deleteDonate(Request $request){
        //idSkładki - skladka_id
        // po prostu ją usuń - w responsa wrzuć true tak jak masz nizej
        //powinno sie odswiezyc
+      
+       $legi=$request['idSkladki'];
+       skladka::where('skladka_id','=',$legi)->first()->delete();
        return response([
         true
        ]);
