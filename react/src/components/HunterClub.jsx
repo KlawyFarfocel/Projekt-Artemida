@@ -87,7 +87,6 @@ export default function HunterClub(){
                     <table className="table">
                         <thead className="table-dark">
                            <tr>
-                                <td className="text-center">Stanowisko</td>
                                 <td className="text-center">Imię i nazwisko</td> 
                            </tr>
                         </thead>
@@ -96,7 +95,6 @@ export default function HunterClub(){
                                 teamAllProp.map((value)=>(
                                         Object.entries(value).map((value,key)=>(
                                             <tr key={key}>
-                                                <td className="text-center" key={value[1]}>{value[0]}</td>
                                                 <td className="text-center" key={value[0]}>{value[1]}</td>
                                             </tr>
                                         ))
