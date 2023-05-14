@@ -11,7 +11,6 @@ function StatsDate(props){
         :
             ""
     )
-    console.log(props.date)
     return(
         
         <div className="stats-date">

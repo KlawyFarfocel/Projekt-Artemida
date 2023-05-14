@@ -24,7 +24,6 @@ export default function HunterClub(){
 
         const optionsArray = Object.values(selectedOption).map(option => option.value);
         const optionsString=optionsArray.join(',')
-        console.log(optionsString)
         axiosClient.post("/AddExistingUserToClub",{
             optionsString,userToken
         })
@@ -133,7 +132,7 @@ export default function HunterClub(){
                     </div>
                 </div>
             </div>
-            <AddUserModal  show={modalShow} setModalShow={setModalShow}/>
+            <AddUserModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} show={modalShow} setModalShow={setModalShow}/>
             <AddUserToClubModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} show={modalUserShow} setSelectedOption={setSelectedOption} options={usersWithoutClub} setRequest={setRequest} setModalUserShow={setModalUserShow}/>
         </div>
     )

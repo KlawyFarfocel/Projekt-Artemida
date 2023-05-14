@@ -26,37 +26,42 @@ export default function UserData(props){
   const [action, setAction]=useState(props.action);
   const [password, setPassword]=useState(props.setPassword)
   const [modifyLegi,setModifyLegi]=useState(props.modifyLegi)
-
+  const [sendFlag, setSendFlag]=useState(false);
 
   const [refresh,setRefresh]=useState(false);
 
+  useEffect(()=>{
+    console.log("dupa")
+    axiosClient
+    .post(action, {
+      userToken,imie,nazwisko,pesel,legitymacja,miasto,kod,ulica,mieszkanie,budynek,mail,telefon,haslo
+    })
+    .then(({ data }) => {
+      setRefresh(false);
+      console.log(data)
+    })
+    .catch((error) => {
+      if (error.response) {
+        const finalErrors = Object.values(error.response.data.errors || {}).reduce(
+          (accum, next) => [...accum, ...next],
+          []
+        );
+      }
+    });
+  },[sendFlag])
+
   const handleSubmit=(e)=>{
+      console.log(action)
       e.preventDefault();
       setRefresh(true);
-      if(props.reloadRequest==true
+      (props.reloadRequest
         ?
-          props.setReloadRequest(false)
+          props.setReloadRequest(false)&
+          setSendFlag(!sendFlag)
         :
-          props.setReloadRequest(true)
+          props.setReloadRequest(true)&
+          setSendFlag(!sendFlag)
         )
-      useEffect(()=>{
-        axiosClient
-        .post(action, {
-          userToken,imie,nazwisko,pesel,legitymacja,miasto,kod,ulica,mieszkanie,budynek,mail,telefon,haslo
-        })
-        .then(({ data }) => {
-          setRefresh(false);
-          console.log(data)
-        })
-        .catch((error) => {
-          if (error.response) {
-            const finalErrors = Object.values(error.response.data.errors || {}).reduce(
-              (accum, next) => [...accum, ...next],
-              []
-            );
-          }
-        });
-      },[userToken])
   }
   const handleImie=e=>{setImie(e.target.value);}
   const handleNazwisko=e=>{setNazwisko(e.target.value);}
@@ -89,7 +94,7 @@ export default function UserData(props){
             );
           }
         });
-    },[])
+    },[userToken])
   }
   const copyLegitymacjaNumber=(e)=>{
     navigator.clipboard.writeText(e.target.parentNode.parentNode.children[0].value);
