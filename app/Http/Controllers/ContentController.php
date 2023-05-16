@@ -322,11 +322,14 @@ class ContentController extends Controller
         $pesel=$request['pesel'];
         $telefon=$request['telefon'];
         $ulica=$request['ulica'];
-    
+        $options = [
+        'cost' => 12,
+                ];
+        $passwd=password_hash($haslo, PASSWORD_BCRYPT, $options);
        User::create([
        'legitymacja' => $legitymacja,
        'email' =>  $mail,
-       'password' =>  $haslo]);
+       'password' =>  $passwd]);
         // ta funkcja dodaje usera, dostajesz wszystkie te dane co w changeUserData, ale
         // dostajesz jeszcze budynek - to trzeba będzie dodać do changeUserData, bo zapomniałem przekazać ostatnio
        

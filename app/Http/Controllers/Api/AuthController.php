@@ -18,8 +18,8 @@ class AuthController extends Controller
         $legi=$credentials['legitymacja'];
         unset($credentials['remember']);
         $user=User::where('legitymacja','=',$legi)->first();
-        
-        if($user && $credentials['password'] == $user->password)
+       
+        if($user && password_verify($credentials['password'],$user->password))//$credentials['password'] == $user->password)
         {
         
         $token=$user->id;
