@@ -36,3 +36,9 @@ Route::post("/showSkarbnikDonate",[ContentController::class,'showSkarbnikDonate'
 Route::post("/EditDonate",[ContentController::class,'EditDonate']);
 Route::post("/DeleteDonate",[ContentController::class,'DeleteDonate']);
 Route::post("/showPermissionRequest",[ContentController::class,'showPermissionRequest']);
+Route::post("/GetActiveHunts",[ContentController::class,'GetActiveHunts']);
+Route::post("/GetCurrentHunt",[ContentController::class,'GetCurrentHunt']);
+Route::post("/EditHunt",[ContentController::class,'EditHunt']);
+Route::post("/AddHunt",[ContentController::class,'AddHunt']);
+Route::post("/DeleteHunt",[ContentController::class,'DeleteHunt']);
+Route::post("/ChangeHuntParticipation",[ContentController::class,'ChangeHuntParticipation']);

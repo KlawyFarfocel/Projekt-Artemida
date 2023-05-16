@@ -12,6 +12,8 @@ import Donate from "./components/Donate";
 import StatsView from "./components/StatsView.jsx";
 import HunterClub from "./components/HunterClub";
 import HunterDistrict from "./components/HunterDistrict";
+import HuntMain from "./components/Hunt/HuntMain";
+import HuntInfo from "./components/Hunt/HuntInfo";
 
 const router=createBrowserRouter([
     {
@@ -71,6 +73,14 @@ const router=createBrowserRouter([
             {
                 path:"/HunterDistrict",
                 element:<HunterDistrict/>
+            },
+            {
+                path:"/Hunt",
+                element:<HuntMain/>
+            },
+            {
+                path:"/HuntInfo",
+                element:<HuntInfo/>
             }
         ]
     },

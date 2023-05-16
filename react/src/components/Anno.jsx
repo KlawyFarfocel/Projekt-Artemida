@@ -17,7 +17,6 @@ export default function Foo(){
         })
         .then(({ data }) => {
             setRefresh(false);
-            console.log(data);
             setAnnoProp(data[0]);  
                     
           })
@@ -25,7 +24,6 @@ export default function Foo(){
         console.log(err);
         });
     },[])
-    console.log(annoProp)
     function handleModalText(key){
         setMessageKey(key);
         setModalShow(true);
@@ -66,7 +64,7 @@ export default function Foo(){
                     <tbody>
                         
                             {annoProp.map((value,key)=>
-                                <tr onClick={() => handleModalText(key) } className="text-center table-light">
+                                <tr key={key} onClick={() => handleModalText(key) } className="text-center table-light">
                                     <td key={key+"st"}>{Object.values(value)[0]}</td>
                                     <td key={key+"nd"}>{Object.values(value)[1]}</td>
                                     <td key={key+"rd"}>{Object.values(value)[2]}</td>

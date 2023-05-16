@@ -26,42 +26,59 @@ export default function UserData(props){
   const [action, setAction]=useState(props.action);
   const [password, setPassword]=useState(props.setPassword)
   const [modifyLegi,setModifyLegi]=useState(props.modifyLegi)
-  const [sendFlag, setSendFlag]=useState(false);
+  const [sendFlag, setSendFlag] = useState(false);
 
   const [refresh,setRefresh]=useState(false);
 
-  useEffect(()=>{
-    console.log("dupa")
-    axiosClient
-    .post(action, {
-      userToken,imie,nazwisko,pesel,legitymacja,miasto,kod,ulica,mieszkanie,budynek,mail,telefon,haslo
-    })
-    .then(({ data }) => {
-      setRefresh(false);
-      console.log(data)
-    })
-    .catch((error) => {
-      if (error.response) {
-        const finalErrors = Object.values(error.response.data.errors || {}).reduce(
-          (accum, next) => [...accum, ...next],
-          []
-        );
-      }
-    });
-  },[sendFlag])
+    if(sendFlag){
+      axiosClient
+      .post(action, {
+        userToken,imie,nazwisko,pesel,legitymacja,miasto,kod,ulica,mieszkanie,budynek,mail,telefon,haslo
+      })
+      .then(({ data }) => {
+        setRefresh(false);
+        setSendFlag(false);
+        console.log(data)
+      })
+      .catch((error) => {
+        if (error.response) {
+          const finalErrors = Object.values(error.response.data.errors || {}).reduce(
+            (accum, next) => [...accum, ...next],
+            []
+          );
+        }
+      });
+    }
+    useEffect(()=>{
+      setImie(userDataProp.imie);
+      setNazwisko(userDataProp.nazwisko)
+      setPesel(userDataProp.pesel)
+      setLegitymacja(userDataProp.legitymacja)
+      setMiasto(userDataProp.miasto)
+      setKod(userDataProp.kod)
+      setUlica(userDataProp.ulica)
+      setMieszkanie(userDataProp.mieszkanie)
+      setMail(userDataProp.mail)
+      setTelefon(userDataProp.telefon)
+      setBudynek(userDataProp.budynek)
+    },[userDataProp])
 
   const handleSubmit=(e)=>{
       console.log(action)
       e.preventDefault();
+      (!props.toReload?setAction("/changeUserData"):"")
       setRefresh(true);
+      setSendFlag(true);
+      (props.toReload
+      ?
       (props.reloadRequest
         ?
-          props.setReloadRequest(false)&
-          setSendFlag(!sendFlag)
+          props.setReloadRequest(false)
         :
-          props.setReloadRequest(true)&
-          setSendFlag(!sendFlag)
-        )
+          props.setReloadRequest(true)
+      )
+      :""
+      )
   }
   const handleImie=e=>{setImie(e.target.value);}
   const handleNazwisko=e=>{setNazwisko(e.target.value);}
@@ -108,24 +125,24 @@ export default function UserData(props){
           <div className="row mb-2">
             <div className="col">
               <div className="form-outline">
-                <input defaultValue={userDataProp.imie} onChange={handleImie} type="text" id="form3Example1" className="form-control" />
+                <input defaultValue={imie} onChange={handleImie} type="text" id="form3Example1" className="form-control" />
                 <label className="form-label" htmlFor="form3Example1">Imię</label>
               </div>
             </div>
             <div className="col">
               <div className="form-outline">
-                <input defaultValue={userDataProp.nazwisko} onChange={handleNazwisko} type="text" id="form3Example2" className="form-control" />
+                <input defaultValue={nazwisko} onChange={handleNazwisko} type="text" id="form3Example2" className="form-control" />
                 <label className="form-label" htmlFor="form3Example2">Nazwisko</label>
               </div>
             </div>
           </div>
         
           <div className="form-outline mb-2">
-            <input defaultValue={userDataProp.pesel} type="text" onChange={handlePesel} id="form3Example3" className="form-control" />
+            <input maxLength={11} defaultValue={pesel} type="text" onChange={handlePesel} id="form3Example3" className="form-control" />
             <label className="form-label" htmlFor="form3Example3">PESEL</label>
           </div>
           <div className="input-group mb-0">
-            <input defaultValue={userDataProp.legitymacja} type="text" id="legitymacja" onChange={handleLegitymacja} className="form-control"
+            <input defaultValue={legitymacja} type="text" id="legitymacja" onChange={handleLegitymacja} className="form-control"
             disabled={!modifyLegi ? "disabled" : undefined}
             /> 
             {(!modifyLegi?
@@ -139,7 +156,7 @@ export default function UserData(props){
           {
             (password==true?
               <div className="form-outline mb-2">
-              <input defaultValue={userDataProp.ulica} type="password" id="form3Example3" onChange={handleHaslo} className="form-control" />
+              <input defaultValue={haslo} type="password" id="form3Example3" onChange={handleHaslo} className="form-control" />
               <label className="form-label" htmlFor="form3Example3">Hasło</label>
             </div>:"")
           }
@@ -147,42 +164,42 @@ export default function UserData(props){
           <div className="row mb-2">
             <div className="col">
               <div className="form-outline">
-                <input defaultValue={userDataProp.miasto} type="text" id="form3Example1" onChange={handleMiasto} className="form-control" />
+                <input defaultValue={miasto} type="text" id="form3Example1" onChange={handleMiasto} className="form-control" />
                 <label className="form-label" htmlFor="form3Example1">Miasto</label>
               </div>
             </div>
             <div className="col">
               <div className="form-outline">
-                <input defaultValue={userDataProp.kod} type="text" id="form3Example2" onChange={handleKod} className="form-control" />
+                <input defaultValue={kod} type="text" id="form3Example2" onChange={handleKod} className="form-control" />
                 <label className="form-label" htmlFor="form3Example2">Kod Pocztowy</label>
               </div>
             </div>
           </div>
           <div className="form-outline mb-2">
-            <input defaultValue={userDataProp.ulica} type="text" id="form3Example3" onChange={handleUlica} className="form-control" />
+            <input defaultValue={ulica} type="text" id="form3Example3" onChange={handleUlica} className="form-control" />
             <label className="form-label" htmlFor="form3Example3">Ulica</label>
           </div>
           <div className="row mb-2">
             <div className="col">
               <div className="form-outline">
-                <input defaultValue={userDataProp.mieszkanie} type="text" id="form3Example1" onChange={handleMieszkanie} className="form-control" />
+                <input defaultValue={mieszkanie} type="text" id="form3Example1" onChange={handleMieszkanie} className="form-control" />
                 <label className="form-label" htmlFor="form3Example1">Nr. mieszkania</label>
               </div>
             </div>
             <div className="col">
               <div className="form-outline">
-                <input defaultValue={userDataProp.budynek} type="text" id="form3Example2" onChange={handlBudynek} className="form-control" />
+                <input defaultValue={budynek} type="text" id="form3Example2" onChange={handlBudynek} className="form-control" />
                 <label className="form-label" htmlFor="form3Example2">Nr. budynku</label>
               </div>
             </div>
           </div>
           <h5 className="text-center fw-bold fs-2 text-uppercase text-white">Kontakt</h5>
           <div className="form-outline mb-2">
-            <input defaultValue={userDataProp.mail} type="text" id="form3Example3" onChange={handleMail} className="form-control" />
+            <input defaultValue={mail} type="text" id="form3Example3" onChange={handleMail} className="form-control" />
             <label className="form-label" htmlFor="form3Example3">E-mail</label>
           </div>
           <div className="form-outline mb-2">
-            <input defaultValue={userDataProp.telefon} type="text" id="form3Example3" onChange={handleTelefon} placeholder="789 887 888" className="form-control" />
+            <input defaultValue={telefon} type="text" id="form3Example3" onChange={handleTelefon} placeholder="789 887 888" className="form-control" />
             <label className="form-label" htmlFor="form3Example3">Nr.telefonu</label>
           </div>
           <button type="submit" className="btn btn-success mb-2 mx-auto">Zapisz zmiany</button>

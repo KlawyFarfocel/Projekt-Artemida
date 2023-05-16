@@ -646,4 +646,63 @@ class ContentController extends Controller
             $datan
         ]);
     }
+//----------------------------------------Polowania----------------------------------------
+    public function EditHunt(Request $request){
+        //userToken,formattedDateFirst,formattedDateEnd,huntTypeValue,localisation,rallyPoint,supervisor,contact,huntId
+        //formattedDateFirst - data zakończenia / DateEnd - zakończenia
+        //huntType - Indywidualne/Zbiorowe/Sokolnicze
+    }
+    public function AddHunt(Request $request){
+        //userToken,formattedDateFirst,formattedDateEnd,huntTypeValue,localisation,rallyPoint,supervisor,contact,huntId
+        //ta sama akcja, nie masz huntId bo po co
+    }
+    public function DeleteHunt(Request $request){
+        //huntId - usuniesz polowanie o tym id i fajrant
+    }
+    public function ChangeHuntParticipation(Request $request){//to na razie nie jest podpięte
+        //huntId, userToken - po prostu zmienisz na przeciwny czy dołączył - na to trzeba będzie tabele zrobić
+    }
+    public function GetActiveHunts(Request $request){
+        //userToken
+        $data=[
+            [
+                "Id"=>7,
+                "Nazwa"=>"Polowanie na Czerwony Październik",
+                "Data rozpoczęcia"=>"17.06.2023 07:00",
+                "Data zakończenia"=>"17.06.2023 21:00",
+                "Status"=>false,
+            ],
+            [
+                "Id"=>8,
+                "Nazwa"=>"Polowanie na Boba Marleya",
+                "Data rozpoczęcia"=>"17.06.2023 07:00",
+                "Data zakończenia"=>"17.06.2023 21:00",
+                "Status"=>true,
+            ],
+        ];
+        return response([
+            $data
+        ]);
+    }
+    public function GetCurrentHunt(Request $request){
+        //huntId
+        $data=[
+            [
+                "Id"=>7,
+                "Nazwa"=>"Polowanie na Czerwony Październik",
+                "Data rozpoczęcia"=>"17.06.2023 07:00",
+                "Data zakończenia"=>"17.06.2023 21:00",
+                "Typ polowania"=>"Zbiorowe",
+                "Lokalizacja"=>"Obwód Łowiecki 232",
+                "Miejsce zbiórki"=>"Remiza OSP Łękołody",
+                "Osoba odpowiedzialna"=>"Marek Niemarek",
+                "Kontakt"=>606626666,
+                "Status"=>false,
+            ]
+        ];
+        return response(
+            $data
+        );
+    }
+
 }

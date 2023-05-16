@@ -4,7 +4,7 @@ import "./css/NavbarReact.css"
 function NavbarReact(){
     const {user,userToken, setUserToken}=useStateContext()
     const menu=[
-        {"name":"polowania","href":"#"},
+        {"name":"polowania","href":"/Hunt"},
         {"name":"moje uprawnienia","href":"/permissions"},
         {"name":"mapa okręgów","href":"/mapa"},
         {"name":"mój okręg łowiecki","href":"/HunterDistrict"},

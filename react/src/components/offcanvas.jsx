@@ -28,14 +28,14 @@ function OffcanvasReact({side="left",toggleName="", ...props }) {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <div className="mx-auto overflow-auto">
-            <ul className='list-group mx-auto overflow-visible'>
+            <ul key={"OffcanvasReactKey"} className='list-group mx-auto overflow-visible'>
                     {props.props.map((value,key)=>
-                      <>
+                      <React.Fragment key={key}>
                         <Link key={value} to={value.href} className='text-white fw-bold text-decoration-none'>
                           <li key={value} className='list-group-item bg-dark text-center text-white text-uppercase fs-4'>{value.name}</li>
                         </Link>
                         <hr key={key+value}  className='text-divider w-100'/>
-                      </>
+                      </React.Fragment>
                     )}
                 </ul>
             </div>

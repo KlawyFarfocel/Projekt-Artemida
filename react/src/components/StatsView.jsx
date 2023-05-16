@@ -6,7 +6,7 @@ import axiosClient from "../axios";
 import { useStateContext } from "../contexts/ContextProvider";
 
 export default function StatsView(){
-    const [userToken,setUserToken]=useStateContext()['userToken'];
+    const {userToken}=useStateContext();
     const [stats,setStats]=useState([]);
     const [modalShow, setModalShow] = useState(false);
     const [animals,setAnimals]=useState([]);

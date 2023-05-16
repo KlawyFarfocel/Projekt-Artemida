@@ -26,6 +26,7 @@ export const ContextProvider=({children})=>{
           localStorage.removeItem('TOKEN')
         }
         _setUserToken(token);
+        console.log('userToken: '+StateContext['userToken'])
       }
     return(
         <StateContext.Provider 

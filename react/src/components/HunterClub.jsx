@@ -7,8 +7,8 @@ import axiosClient from "../axios"
 import AddUserToClubModal from "./AddUserToClubModal"
 
 export default function HunterClub(){
-    const [userToken,setUserToken]=useStateContext()['userToken'];
-
+    
+    const {userToken}=useStateContext()
     const [usersWithoutClub,setUsersWithoutClub]=useState([]);
     const [teamMainProp,setTeamMainProp]=useState([]);
     const [teamAllProp,setTeamAllProp]=useState([]);
@@ -55,6 +55,9 @@ export default function HunterClub(){
             }))
             setNextMeeting(newData);
         })
+        .catch(err => {
+            console.log(err)
+        });
     },[userToken,reloadRequest])
     return(
         <div className="container-fluid">
