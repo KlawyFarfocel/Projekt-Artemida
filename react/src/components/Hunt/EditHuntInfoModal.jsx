@@ -27,7 +27,7 @@ export default function EditHuntInfoModal(props){
         {value:"Sokolnicze",label:"Sokolnicze"}
     ]
       const formatDate=(date)=>{//data na string taki do timestampa
-        const formattedString = moment(date).format("DD.MM.YYYY HH:mm:ss");
+        const formattedString = moment(date).format("YYYY.MM.DD HH:mm:ss");
         return formattedString;
       }
       useEffect(()=>{
@@ -39,11 +39,11 @@ export default function EditHuntInfoModal(props){
         if(props.content){
                 //data rozpoczęcia
                 dateString=props.content["Data rozpoczęcia"]
-                formattedDate = moment(dateString, "DD.MM.YYYY HH:mm:ss").toDate();
+                formattedDate = moment(dateString, "YYYY.MM.DD HH:mm:ss").toDate();
                 setDateFirst(formattedDate)
                 //data zakończenia
                 dateString=props.content["Data zakończenia"]
-                formattedDate = moment(dateString, "DD.MM.YYYY HH:mm:ss").toDate();
+                formattedDate = moment(dateString, "YYYY.MM.DD HH:mm:ss").toDate();
                 setDateEnd(formattedDate)
                 //Typ polowania
                 setHuntType({value:props.content["Typ polowania"],label:props.content["Typ polowania"]})
@@ -61,7 +61,7 @@ export default function EditHuntInfoModal(props){
                 setAction("/EditHunt")
         }
         else{
-            setAction("/addHunt")
+            setAction("/AddHunt")
         }
         (props.huntId
             ?
@@ -75,11 +75,11 @@ export default function EditHuntInfoModal(props){
         e.preventDefault();
         const formattedDateFirst=formatDate(dateFirst)//data rozpoczęcia w stringu do timestampa
         const formattedDateEnd=formatDate(dateEnd)
-        const huntTypeValue=huntType.value
         axiosClient.post(action,{//edytuj polowanie
-            userToken,formattedDateFirst,formattedDateEnd,huntTypeValue,localisation,rallyPoint,supervisor,contact,huntId
+            userToken,formattedDateFirst,formattedDateEnd,huntType,localisation,rallyPoint,supervisor,contact,huntId
         })
       }
+      
     return (
         <>
     <Modal bsPrefix="modal" show={show} size="lg" onHide={()=>props.setModalShow(false)}>

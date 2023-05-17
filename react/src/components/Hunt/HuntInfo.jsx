@@ -30,7 +30,7 @@ export default function HuntInfo(){
             huntId
         })
         .then(({data})=>{
-           // <Navigate to={"/Hunt"}/>
+            <Navigate to={"/Hunt"}/>
         })
     }
 

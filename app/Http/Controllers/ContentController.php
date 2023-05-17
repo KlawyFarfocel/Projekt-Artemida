@@ -11,6 +11,7 @@ use \App\Models\odstrz;
 use \App\Models\zwierze;
 use \App\Models\User;
 use \App\Models\klub;
+use \App\Models\polowania;
 class ContentController extends Controller
 {
     public function getCookie(Request $request){
@@ -651,20 +652,103 @@ class ContentController extends Controller
         //userToken,formattedDateFirst,formattedDateEnd,huntTypeValue,localisation,rallyPoint,supervisor,contact,huntId
         //formattedDateFirst - data zakończenia / DateEnd - zakończenia
         //huntType - Indywidualne/Zbiorowe/Sokolnicze
+        $legi=$request['huntId'];
+        $marko=polowania::where('polowanie_id','=',$legi)->first();
+        
+        if($request->localisation!=$marko->lokalizacja)
+        $user=polowania::where('polowanie_id','=',$legi)->first()->update(['lokalizacja'=>$request->localisation]);
+
+        if($request->rallyPoint!=$marko->miejsce_zb)
+        $user=polowania::where('polowanie_id','=',$legi)->first()->update(['miejsce_zb'=>$request->rallyPoint]);
+
+        if($request->formattedDateEnd!=$marko->data_koncowa)
+        $user=polowania::where('polowanie_id','=',$legi)->first()->update(['data_koncowa'=>$request->formattedDateEnd]);
+
+        if($request->formattedDateFirst!=$marko->data_pocz)
+        $user=polowania::where('polowanie_id','=',$legi)->first()->update(['data_pocz'=>$request->formattedDateFirst]);
+        
+        if($request->contact!=$marko->kontakt)
+        $user=polowania::where('polowanie_id','=',$legi)->first()->update(['kontakt'=>$request->contact]);
+
+        return $request;
+
+
+
+
+
     }
     public function AddHunt(Request $request){
         //userToken,formattedDateFirst,formattedDateEnd,huntTypeValue,localisation,rallyPoint,supervisor,contact,huntId
         //ta sama akcja, nie masz huntId bo po co
+        
+        $legi=$request['userToken'];
+        $ser=User::where('id','=',$legi)->first();
+        $idik=$ser->klub_id;
+        $klub=klub::where('klub_id','=',$idik)->first();
+
+        $dat1=$request['formattedDateFirst'];
+        $dat2=$request['formattedDateEnd'];
+        $type=strtolower($request['huntType']);
+        $lok=$request['localisation'];
+        $miejsce=$request['rallyPoint'];
+        $sup=$request['supervisor'];
+        $kont=$request['contact'];
+        polowania::create([
+            'lokalizacja'=>$lok,
+            'miejsce_zb'=>$miejsce,
+            'supervisor'=>$sup,
+            'kontakt'=>$kont,
+            'data_pocz'=>$dat1,
+            'data_koncowa'=>$dat2,
+            'typ'=>$type,
+            'klub_id'=>$klub->klub_id
+            ]);
+           
     }
     public function DeleteHunt(Request $request){
         //huntId - usuniesz polowanie o tym id i fajrant
+        $legi=$request['huntId'];
+       polowania::where('polowanie_id','=',$legi)->first()->delete();
     }
     public function ChangeHuntParticipation(Request $request){//to na razie nie jest podpięte
         //huntId, userToken - po prostu zmienisz na przeciwny czy dołączył - na to trzeba będzie tabele zrobić
     }
     public function GetActiveHunts(Request $request){
         //userToken
-        $data=[
+        date_default_timezone_set('Europe/Warsaw');
+        $data=[];
+        $legi=$request['userToken'];
+        $ser=User::where('id','=',$legi)->first();
+        $idik=$ser->klub_id;
+        $klub=klub::where('klub_id','=',$idik)->first();
+        foreach (polowania::all()->where('klub_id',$idik) as $perm )
+        {
+            $stat=true;
+            $dat=date('Y-m-d H:i:s');
+            $checkTimestamp = strtotime($dat);
+            $startTimestamp = strtotime($perm->data_pocz);
+            $endTimestamp = strtotime($perm->data_koncowa,);
+           
+            if ($checkTimestamp >= $startTimestamp && $checkTimestamp <= $endTimestamp) {
+                $stat=true;
+            } else {
+                $stat=false;
+            
+        }
+
+            $ads=
+                [
+                    "Id"=>$perm->polowanie_id,
+                    "Nazwa"=>"Polowanie na Czerwony Październik",
+                    "Data rozpoczęcia"=>$perm->data_pocz,
+                    "Data zakończenia"=>$perm->data_koncowa,
+                    "Status"=>$stat,
+                ];
+            array_push($data,$ads);
+            
+        }   
+        
+        /*$data=[
             [
                 "Id"=>7,
                 "Nazwa"=>"Polowanie na Czerwony Październik",
@@ -679,25 +763,42 @@ class ContentController extends Controller
                 "Data zakończenia"=>"17.06.2023 21:00",
                 "Status"=>true,
             ],
-        ];
+        ];*/
         return response([
             $data
         ]);
     }
     public function GetCurrentHunt(Request $request){
         //huntId
+        date_default_timezone_set('Europe/Warsaw');
+        $legi=$request['huntId'];
+        $polowanie=polowania::where('polowanie_id','=',$legi)->first();
+
+        $stat=true;
+            $dat=date('Y-m-d H:i:s');
+            $checkTimestamp = strtotime($dat);
+            $startTimestamp = strtotime($polowanie->data_pocz);
+            $endTimestamp = strtotime($polowanie->data_koncowa,);
+           
+            if ($checkTimestamp >= $startTimestamp && $checkTimestamp <= $endTimestamp) {
+                $stat=true;
+            } else {
+                $stat=false;
+            }
+                $zez=dane::where('user_id','=',$polowanie->supervisor)->first();
+                $fullname=$zez->imie." ".$zez->nazwisko;
         $data=[
             [
-                "Id"=>7,
+                "Id"=>$polowanie->polowanie_id,
                 "Nazwa"=>"Polowanie na Czerwony Październik",
-                "Data rozpoczęcia"=>"17.06.2023 07:00",
-                "Data zakończenia"=>"17.06.2023 21:00",
-                "Typ polowania"=>"Zbiorowe",
-                "Lokalizacja"=>"Obwód Łowiecki 232",
-                "Miejsce zbiórki"=>"Remiza OSP Łękołody",
-                "Osoba odpowiedzialna"=>"Marek Niemarek",
-                "Kontakt"=>606626666,
-                "Status"=>false,
+                "Data rozpoczęcia"=>$polowanie->data_pocz,
+                "Data zakończenia"=>$polowanie->data_koncowa,
+                "Typ polowania"=>$polowanie->typ,
+                "Lokalizacja"=>$polowanie->lokalizacja,
+                "Miejsce zbiórki"=>$polowanie->miejsce_zb,
+                "Osoba odpowiedzialna"=>$fullname,
+                "Kontakt"=>$polowanie->kontakt,
+                "Status"=>$stat,
             ]
         ];
         return response(
