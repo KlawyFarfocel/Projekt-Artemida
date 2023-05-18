@@ -13,7 +13,15 @@ export default function CustomTooltip(props){
             }
             >
             <div>
-                <button className={props.buttonClassNameString} style={{pointerEvents:"none"}} disabled={(props.isDisabled?true:"")}>{props.buttonText}</button>
+            {
+                (props.mode=="select"
+                ?
+                    ""
+                :
+                    <button className={props.buttonClassNameString} style={{pointerEvents:"none"}} disabled={(props.isDisabled?true:"")}>{props.buttonText}</button>
+                )
+            }
+
             </div>
         </OverlayTrigger>
     )

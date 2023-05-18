@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import "./css/Permissions.css"
+import { useStateContext } from "../contexts/ContextProvider"
+import axiosClient from "../axios"
 const statusTypes=[
     "Opłacona","Nieopłacona"
 ]
@@ -8,6 +10,7 @@ const statusColors=[
 ]
 
 export default function TableContent(props){
+    const {userToken,president,setPresident,cashier,setCashier,huntsman,setHuntsman,secretary,setSecretary}=useStateContext()
     const handleRequestModal=()=>{
         props.setShowRequestModal(!props.showRequestModal)
     }
@@ -16,6 +19,19 @@ export default function TableContent(props){
         props.setDonateChangeId(id);
         props.setModalShow(true);
     }
+
+    useEffect(()=>{
+        axiosClient.post("/CheckPrivileges",{
+            userToken
+        })
+        .then(({data})=>{
+            setPresident(data["President"])
+            setSecretary(data["Secretary"])
+            setHuntsman(data["Huntsman"])
+            setCashier(data["Cashier"])
+        })
+        },[userToken])
+        console.log(cashier)
     return(
        
         <div className="container w-75 h-100 mx-auto d-flex flex-column align-items-center justify-content-center ">
@@ -23,27 +39,41 @@ export default function TableContent(props){
             {(props.topButton=="yes"?
                 <div className="d-flex w-100">
                     {
-                        (props.skarbnikMode?
-                        <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setSkarbnikMode(false) & props.setAdminViewHandler(true)}>Przejdź do Twoich składek</button>
-                        :
-                        <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setSkarbnikMode(true) & props.setAdminViewHandler(true)}>Przejdź do panelu Skarbnika</button>
+                        (cashier | president
+                            ?
+                                (props.skarbnikMode
+                                    ?
+                                        <>
+                                            <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setSkarbnikMode(false) & props.setAdminViewHandler(true)}>Przejdź do Twoich składek</button>
+                                            <button type="button" className="btn btn-success mb-1 mx-1" onClick={()=>props.setSkarbnikMode(false) & props.setAdminViewHandler(true)}>Dodaj składke</button>
+                                        </>
+                                    :
+                                        <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setSkarbnikMode(true) & props.setAdminViewHandler(true)}>Przejdź do panelu Skarbnika</button>
+                                )
+                            :
+                                ""
                         )
                     }
                 </div>
             :"")}
             {
-                (props.permissionButton=="yes"
-                ?
-                (props.permissionMode
-                ?
-                    <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setPermissionMode(false) & props.setAdminViewHandler(true)}>Wróć do Twoich uprawnień</button>
-                :
-                    <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setPermissionMode(true) & props.setAdminViewHandler(true)}>Przeglądaj wnioski</button>
-                )
-                :
+                (secretary | president
+                    ?
+                        (props.permissionButton=="yes"
+                        ?
+                            (props.permissionMode
+                            ?
+                                <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setPermissionMode(false) & props.setAdminViewHandler(true)}>Wróć do Twoich uprawnień</button>
+                            :
+                                <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setPermissionMode(true) & props.setAdminViewHandler(true)}>Przeglądaj wnioski</button>
+                            )
+                        :
+                            ""  
+                        )
+                    :
                     ""
-                
-            )}
+                )
+            }
             <table className="table align-middle table-bordered table-dark table-striped table-hover">
                 <thead>
                     <tr>

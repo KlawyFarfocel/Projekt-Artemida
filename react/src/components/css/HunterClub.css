@@ -1,3 +1,6 @@
+.w-45{
+    width:45% !important;
+}
 @media (min-width: 768px) {
     .fixed-md{
         position:fixed;

@@ -23,7 +23,7 @@ export default function RequestModal(props){
         e.preventDefault()
         const userToken=props.userToken;
         const data_uzyskania=startDate.toISOString().split('T')[0]
-        axiosClient.post("/addPermissionRequest",{
+        axiosClient.post("/AddPermissionRequest",{
             userToken,organ,zezwolenie,data_uzyskania
         })
     }

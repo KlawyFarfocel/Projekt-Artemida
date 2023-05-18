@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import CustomTooltip from "./Bootstrap-React-components/CustomTooltip";
 import { useEffect, useState } from "react";
 import EditHuntInfoModal from "./EditHuntInfoModal";
@@ -7,16 +7,15 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function HuntInfo(){
     let location = useLocation();
-    const {userToken}=useStateContext();
+    const navigate=useNavigate();
     const huntId=location.state['huntId'];
     const [reloadRequest,setReloadRequest]=useState(false);
     const [modalShow, setModalShow] = useState(false);
     const huntHeaders=['Data rozpoczęcia',"Data zakończenia","Typ polowania","Lokalizacja","Miejsce zbiórki","Osoba odpowiedzialna","Kontakt"]
     const [huntProp,setHuntProp]=useState([]);
     const [huntTitle,setHuntTitle]=useState(`Polowanie id ${huntId} - wstaw nazwę polowania`)
-
+    const {userToken,president,setPresident,cashier,setCashier,huntsman,setHuntsman,secretary,setSecretary}=useStateContext()
     const [userJoin,setUserJoin]=useState(false);
-    const [isAdmin]=useState(true);
 
     const changeParticipationInHunt=()=>{//Odchodzenie i dołączanie - dodać back
         setUserJoin(!userJoin)
@@ -30,7 +29,8 @@ export default function HuntInfo(){
             huntId
         })
         .then(({data})=>{
-            <Navigate to={"/Hunt"}/>
+            
+            navigate("/Hunt")
         })
     }
 
@@ -41,7 +41,7 @@ export default function HuntInfo(){
         .then(({data})=>{
             setHuntProp(data[0])
         })
-    },[userToken])
+    },[userToken,reloadRequest])
 
     return(
         <div className="container-fluid">
@@ -82,7 +82,7 @@ export default function HuntInfo(){
                             )
                         }
                         {
-                            (isAdmin
+                            (president | huntsman
                                 ?
                                     <>
                                         <a className="btn btn-danger mx-1" onClick={deleteHunt}>Usuń polowanie</a>
@@ -96,7 +96,7 @@ export default function HuntInfo(){
                     </div>
                 </div>
             </div>
-            { <EditHuntInfoModal huntId={huntId} content={huntProp} show={modalShow} setModalShow={setModalShow}/> }
+            { <EditHuntInfoModal reloadRequest={reloadRequest} setReloadRequest={setReloadRequest} huntId={huntId} content={huntProp} show={modalShow} setModalShow={setModalShow}/> }
         </div>
     )
 }

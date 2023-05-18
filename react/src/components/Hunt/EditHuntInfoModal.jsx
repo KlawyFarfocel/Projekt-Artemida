@@ -21,11 +21,14 @@ export default function EditHuntInfoModal(props){
       const [status,setStatus]=useState("")
       const [action,setAction]=useState("")
       const [huntId,setHuntId]=useState()
+      const [huntName,setHuntName]=useState("");
       const huntTypes=[
         {value:"Indywidualne",label:"Indywidualne"},
         {value:"Zbiorowe",label:"Zbiorowe"},
         {value:"Sokolnicze",label:"Sokolnicze"}
     ]
+
+
       const formatDate=(date)=>{//data na string taki do timestampa
         const formattedString = moment(date).format("YYYY.MM.DD HH:mm:ss");
         return formattedString;
@@ -76,8 +79,10 @@ export default function EditHuntInfoModal(props){
         const formattedDateFirst=formatDate(dateFirst)//data rozpoczęcia w stringu do timestampa
         const formattedDateEnd=formatDate(dateEnd)
         axiosClient.post(action,{//edytuj polowanie
-            userToken,formattedDateFirst,formattedDateEnd,huntType,localisation,rallyPoint,supervisor,contact,huntId
+            userToken,formattedDateFirst,formattedDateEnd,huntType,localisation,rallyPoint,supervisor,contact,huntId,huntName
         })
+        props.setReloadRequest(!props.reloadRequest)
+        props.setModalShow(false)
       }
       
     return (
@@ -88,6 +93,10 @@ export default function EditHuntInfoModal(props){
         </Modal.Header>
         <Modal.Body bsPrefix='modal-body mb-0 pb-0'>
                 <form className='m-5 vh-50' onSubmit={handleSubmit}>
+                    <div className="form-outline mb-3">
+                        <label className="form-label">Nazwa polowania</label>
+                        <input onChange={(e)=>setHuntName(e.target.value)} defaultValue={huntName} type="text"  className="form-control" />
+                    </div>
                     <div className="form-outline mb-3">
                         <label className="form-label" htmlFor="form3Example2">Data rozpoczęcia</label>
                         <DatePicker 

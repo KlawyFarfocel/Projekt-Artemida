@@ -42,3 +42,8 @@ Route::post("/EditHunt",[ContentController::class,'EditHunt']);
 Route::post("/AddHunt",[ContentController::class,'AddHunt']);
 Route::post("/DeleteHunt",[ContentController::class,'DeleteHunt']);
 Route::post("/ChangeHuntParticipation",[ContentController::class,'ChangeHuntParticipation']);
+Route::post("/CheckPrivileges",[ContentController::class,'CheckPrivileges']);
+Route::post("/KickUserOutOfClub",[ContentController::class,'KickUserOutOfClub']);
+Route::post("/AssignRanks",[ContentController::class,'AssignRanks']);
+Route::post("/AddPermissionRequest",[ContentController::class,'AddPermissionRequest']);
+Route::post("/GetUserDataInClub",[ContentController::class,'GetUserDataInClub']);

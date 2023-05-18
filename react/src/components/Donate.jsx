@@ -21,6 +21,7 @@ const [modalShow,setModalShow]=useState(false);
 const [skarbnikMode, setSkarbnikMode]=useState(false);
 const [adminViewHandler,setAdminViewHandler]=useState(true);
     
+
     if(adminViewHandler){
         if(skarbnikMode){
             setHeaders(["Imię i nazwisko","Opis","Termin","Kwota","Data zapłaty","Status","Akcja"])

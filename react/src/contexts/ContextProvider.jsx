@@ -2,8 +2,16 @@ import { createContext, useContext, useState } from "react";
 const StateContext=createContext({
     currentUser: {},
     userToken:null,
+    president:false,
+    cashier:false,
+    secretary:false,
+    huntsman:false,
     setCurrentUser: () => {},
-    setUserToken:() => {}
+    setUserToken:() => {},
+    setPresident:()=>{},
+    setCashier:()=>{},
+    setSecretary:()=>{},
+    setHuntsman:()=>{}
 });
 
 export const ContextProvider=({children})=>{
@@ -18,6 +26,11 @@ export const ContextProvider=({children})=>{
      }
     const [currentUser, setCurrentUser] = useState({});
     const [userToken, _setUserToken] = useState(localStorage.getItem('TOKEN') || '');
+    const [president, setPresident]=useState(false);
+    const [cashier, setCashier]=useState(false);
+    const [secretary, setSecretary]=useState(false);
+    const [huntsman, setHuntsman]=useState(false);
+
     const setUserToken = (token) => {
         if (token) {
           localStorage.setItem('TOKEN', token)
@@ -26,7 +39,6 @@ export const ContextProvider=({children})=>{
           localStorage.removeItem('TOKEN')
         }
         _setUserToken(token);
-        console.log('userToken: '+StateContext['userToken'])
       }
     return(
         <StateContext.Provider 
@@ -34,7 +46,15 @@ export const ContextProvider=({children})=>{
                 currentUser,
                 setCurrentUser,
                 userToken,
-                setUserToken,    
+                setUserToken,
+                president,
+                setPresident,
+                cashier,
+                setCashier,
+                secretary,
+                setSecretary,
+                huntsman,
+                setHuntsman    
             }}
         >
             {children}

@@ -25,8 +25,8 @@ export default function HuntTable(props){
                 <thead>
                     <tr>
                         {
-                            props.headers.map((name)=>(
-                                <td key={name}>{name}</td>
+                            props.headers.map((name,key)=>(
+                                <td key={name+key}>{name}</td>
                             ))
                         }
                     </tr>
@@ -34,18 +34,18 @@ export default function HuntTable(props){
                 <tbody>    
                         {
                             props.content.map((name,outerIndex)=>(
-                                <tr key={name["Nazwa"]}>
+                                <tr key={name["Nazwa"]+outerIndex}>
                                 {
-                                    Object.entries(name).map((name)=>(
+                                    Object.entries(name).map((name,key)=>(
                                     (name[0]=="Status"//czy wgl jest active
                                         ?
                                             (props.historyMode
                                                 ?
-                                                <td key={name} className="text-center">
+                                                <td key={name+key} className="text-center">
                                                     <a className="btn btn-outline-info">Zobacz podsumowanie</a>
                                                 </td>
                                                 :
-                                                    <td key={name} className="text-center">
+                                                    <td key={name+key} className="text-center">
                                                         <a onClick={()=>setId(props.content[outerIndex].Id)&setNavigation(true)} className="btn btn-success">Przejdź</a>
                                                     </td>
                                             )

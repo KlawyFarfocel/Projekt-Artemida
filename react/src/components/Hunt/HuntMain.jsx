@@ -10,14 +10,24 @@ export default function HuntMain(){
     const polowaniaTableHeaders=[
         "Nazwa","Data rozpoczęcia","Data zakończenia","Przejdź do polowania"
     ]
-    const {userToken}=useStateContext()
     const [reloadRequest,setReloadRequest]=useState(false)
-    const [isAdmin,setIsAdmin]=useState(true)
     const activeHuntsTitle="Aktywne polowania";
     const historyHuntsTitle="Historia polowań";
     const [modalShow, setModalShow] = useState(false);
     const [polowaniaTableProp,setPolowaniaTableProp]=useState([])
+    const {userToken,president,setPresident,cashier,setCashier,huntsman,setHuntsman,secretary,setSecretary,setUserToken}=useStateContext()
 
+    useEffect(()=>{
+        axiosClient.post("/CheckPrivileges",{
+            userToken
+        })
+        .then(({data})=>{
+            setPresident(data["President"])
+            setSecretary(data["Secretary"])
+            setHuntsman(data["Huntsman"])
+            setCashier(data["cashier"])
+        })
+    },[userToken])
     useEffect(()=>{
         axiosClient.post("/GetActiveHunts",{
             userToken
@@ -26,17 +36,22 @@ export default function HuntMain(){
             setPolowaniaTableProp(data[0])
         },[userToken])
     },[userToken,reloadRequest])
+    useEffect(()=>{
+        axiosClient.post("/GetUserRank",{
+            userToken
+        })
+    },[userToken])
     return(
         <div className="container-fluid">
             <h1 className="fs-1 text-white text-uppercase text-center py-3">POLOWANIA</h1>
             <div className="row">
                 <div className="col-12 col-md-5 offset-md-1">
                     <HuntTable showFirst={false} title={activeHuntsTitle} headers={polowaniaTableHeaders} content={polowaniaTableProp}/>
-                    {(isAdmin
+                    {(huntsman | president
                     ?
                     <div className="w-100 text-center">
                         <a className="btn btn-success w-50 " onClick={()=>setModalShow(true)}>Dodaj nowe polowanie</a>
-                        <EditHuntInfoModal show={modalShow} setModalShow={setModalShow}/>
+                        <EditHuntInfoModal reloadRequest={reloadRequest} setReloadRequest={setReloadRequest} show={modalShow} setModalShow={setModalShow}/>
                     </div>
                     :
                         ""

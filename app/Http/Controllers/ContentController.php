@@ -392,10 +392,10 @@ class ContentController extends Controller
         $end4=$lowczy->imie." ".$lowczy->nazwisko;
         // nextMeeting - data najbliższego spotkania - można na to osobną tabelę zrobić, nie zaszkodzi 
         $mainSquad=[
-            ["Prezes"=>$end1],
-            ["Sekretarz"=>$end2],
-            ["Skarbnik"=>$end3],
-            ["Łowczy"=>$end4]
+            ["id"=>$prezes->user_id,"Prezes"=>$end1],
+            ["id"=>$sekretarz->user_id,"Sekretarz"=>$end2],
+            ["id"=>$skarbnik->user_id,"Skarbnik"=>$end3],
+            ["id"=>$lowczy->user_id,"Łowczy"=>$end4]
         ];
         
         foreach (User::all()->where('klub_id','0') as $perm )
@@ -429,8 +429,8 @@ class ContentController extends Controller
             $zez=dane::where('user_id','=',$perm->id)->first();
             $fullname=$zez->imie." ".$zez->nazwisko;
             $ads=[
+                "id"=>$zez->user_id,
                 "łowczy"=>$fullname,
-          
                 
             ];
             array_push($allHuntersFromClub,$ads);
@@ -805,5 +805,45 @@ class ContentController extends Controller
             $data
         );
     }
-
+    public function CheckPrivileges(Request $request){
+        //userToken
+        $president=true;
+        $secretary=false;
+        $cashier=false;
+        $huntsman=false;
+        return response([
+            "President"=>$president,
+            "Secretary"=>$secretary,
+            "Cashier"=>$cashier,
+            "Huntsman"=>$huntsman
+        ]);
+    }
+    public function KickUserOutOfClub(Request $request){
+        //kickUserId
+        //przestaw mu klub_id na 0
+        return response(true);
+    }
+    public function AssignRanks(Request $request){
+        //newPresident,newSecretary,newCashier,newHuntsman,userToken
+        //w tym klubie co jest userToken przestaw te 4 rzeczy i fajrant - nawet nic nie musisz zwracać - w sensie idk czy musisz, zostaw to true
+        return response(true);
+    }
+    public function AddPermissionRequest(Request $request){
+        //userToken,organ,zezwolenie,data_uzyskania 
+        //ugułem chyba trzeba będzie dodać kolumnę na to czy jest przyjęte  -wtedy będę sie dalej bawił z tymi requestami uprawnieniami
+        return response(true);
+    }
+    public function GetUserDataInClub(Request $request){
+        $zez=dane::where('user_id','=',$request->userDataId)->first();
+        $data=[
+            "Imie"=>$zez->imie,
+            "Nazwisko"=>$zez->nazwisko,
+            "Legitymacja"=>$zez->legitymacja,
+            "Telefon"=>$zez->telefon,
+            "E-mail"=>$zez->e_mail,
+        ];
+        return response([
+            $data
+        ]);
+    }
 }

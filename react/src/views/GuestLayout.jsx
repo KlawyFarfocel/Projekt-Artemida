@@ -4,7 +4,6 @@ import { useStateContext } from "../contexts/ContextProvider";
 
 export default function GuestLayout(){
     const {user,userToken}=useStateContext()
-    console.log(userToken)
     return(
         
         <div className="h-100 d-flex flex-column justify-content-center">

@@ -23,6 +23,7 @@ class AuthController extends Controller
         {
         
         $token=$user->id;
+
         //$res->withCookie(cookie()->forever('tokenisko', $token));
             //  $user=Auth::user();
         setcookie('pomocy', $token, time() + (86400 * 30)); // 86400 = seconds in 1 day

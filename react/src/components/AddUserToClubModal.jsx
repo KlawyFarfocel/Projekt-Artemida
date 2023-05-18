@@ -10,12 +10,6 @@ export default function AddUserToClubModal(props) {
   const handleClose=()=>{
     props.setRequest(true)
     props.setModalUserShow(false)
-    (props.reloadRequest
-      ?
-        props.setReloadRequest(false)
-      :
-        props.setReloadRequest(true)
-    )
   }
 return (
     <>
@@ -24,7 +18,7 @@ return (
           <Modal.Title bsPrefix="modal-title w-100">Dodaj istniejącego Łowczego do Twojego Koła</Modal.Title>
         </Modal.Header>
         <Modal.Body bsPrefix='modal-body mb-3 pb-0'>
-                <form className='m-5 vh-50'>
+                <form className='m-5 vh-50' onSubmit={(e)=>e.preventDefault()}>
                 <div className="form-outline">
                     <label>Wybierz Łowczego</label>
                     <Select options={props.options} isMulti onChange={props.setSelectedOption}></Select>  
