@@ -5,6 +5,7 @@ import "./css/Permissions.css"
 import axiosClient from "../axios"
 import { useStateContext } from "../contexts/ContextProvider";
 import ChangeDonateDataModal from "./changeDonateDataModal"
+import AddDonateModal from "./AddDonateModal"
 export default function Donate(){
     const userToken=useStateContext()['userToken'];
     const [headers,setHeaders]=useState([]);
@@ -17,6 +18,7 @@ const [refreshUserDonate,setRefreshUserDonate]=useState(false);
 const [donateChangeId, setDonateChangeId]=useState(0);
 
 const [modalShow,setModalShow]=useState(false);
+const [showDonateModal,setShowDonateModal]=useState(false);
 
 const [skarbnikMode, setSkarbnikMode]=useState(false);
 const [adminViewHandler,setAdminViewHandler]=useState(true);
@@ -62,9 +64,10 @@ const [adminViewHandler,setAdminViewHandler]=useState(true);
     },[refreshUserDonate])
     return((
         <>       
-            <TableContent hideFirst={true} setModalShow={setModalShow} setDonateChangeId={setDonateChangeId} skarbnikMode={skarbnikMode} setSkarbnikMode={setSkarbnikMode} setAdminViewHandler={setAdminViewHandler} title={title} content={propContent} headers={headers} useButton={'no'} topButton={"yes"}/>
+            <TableContent hideFirst={true} setShowDonateModal={setShowDonateModal} setModalShow={setModalShow} setDonateChangeId={setDonateChangeId} skarbnikMode={skarbnikMode} setSkarbnikMode={setSkarbnikMode} setAdminViewHandler={setAdminViewHandler} title={title} content={propContent} headers={headers} useButton={'no'} topButton={"yes"}/>
             <ReloadModal show={refresh}/>
             <ChangeDonateDataModal setAdminViewHandler={setAdminViewHandler} adminViewHandler={adminViewHandler} userToken={userToken} id={donateChangeId} content={propContent[donateChangeId]} show={modalShow} setModalShow={setModalShow}/>
+            <AddDonateModal show={showDonateModal} setShowDonateModal={setShowDonateModal}/>
         </>
     ))
     }

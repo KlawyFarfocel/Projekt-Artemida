@@ -47,3 +47,4 @@ Route::post("/KickUserOutOfClub",[ContentController::class,'KickUserOutOfClub'])
 Route::post("/AssignRanks",[ContentController::class,'AssignRanks']);
 Route::post("/AddPermissionRequest",[ContentController::class,'AddPermissionRequest']);
 Route::post("/GetUserDataInClub",[ContentController::class,'GetUserDataInClub']);
+Route::post("/AddDonate",[ContentController::class,'AddDonate']);

@@ -541,7 +541,7 @@ class ContentController extends Controller
             {
              $zez=dane::where('user_id','=',$perm->id)->first();
             $fullname=$zez->imie." ".$zez->nazwisko;
-            if ($zezol->data_zapl=='0001-01-01 00:00:00'){
+            if ($zezol->data_zapl=='0000-01-01 00:00:00'){
                 $zmienna='Brak wpłaty';
             }else
             {
@@ -845,5 +845,9 @@ class ContentController extends Controller
         return response([
             $data
         ]);
+    }
+    public function AddDonate(Request $request){
+        //userToken,opis,kwota,dataString
+        // z userTokena klub i wszystkim userom w klubie
     }
 }

@@ -31,7 +31,6 @@ export default function TableContent(props){
             setCashier(data["Cashier"])
         })
         },[userToken])
-        console.log(cashier)
     return(
        
         <div className="container w-75 h-100 mx-auto d-flex flex-column align-items-center justify-content-center ">
@@ -45,7 +44,7 @@ export default function TableContent(props){
                                     ?
                                         <>
                                             <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setSkarbnikMode(false) & props.setAdminViewHandler(true)}>Przejdź do Twoich składek</button>
-                                            <button type="button" className="btn btn-success mb-1 mx-1" onClick={()=>props.setSkarbnikMode(false) & props.setAdminViewHandler(true)}>Dodaj składke</button>
+                                            <button type="button" className="btn btn-success mb-1 mx-1" onClick={()=>props.setShowDonateModal(true)}>Dodaj składke</button>
                                         </>
                                     :
                                         <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setSkarbnikMode(true) & props.setAdminViewHandler(true)}>Przejdź do panelu Skarbnika</button>

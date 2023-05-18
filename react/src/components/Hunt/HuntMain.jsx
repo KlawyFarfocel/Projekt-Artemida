@@ -36,11 +36,6 @@ export default function HuntMain(){
             setPolowaniaTableProp(data[0])
         },[userToken])
     },[userToken,reloadRequest])
-    useEffect(()=>{
-        axiosClient.post("/GetUserRank",{
-            userToken
-        })
-    },[userToken])
     return(
         <div className="container-fluid">
             <h1 className="fs-1 text-white text-uppercase text-center py-3">POLOWANIA</h1>
