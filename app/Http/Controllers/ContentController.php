@@ -536,8 +536,9 @@ class ContentController extends Controller
         {
           
            $man++;
-             $zezol=skladka::where('czlonek_id','=',$perm->id)->first();
-            if(isset($zezol))
+           foreach (skladka::all()->where('czlonek_id','=',$perm->id) as $zezol )
+           {
+           if(isset($zezol))
             {
              $zez=dane::where('user_id','=',$perm->id)->first();
             $fullname=$zez->imie." ".$zez->nazwisko;
@@ -561,6 +562,7 @@ class ContentController extends Controller
             array_push($data,$ads);
             }
         }
+    }
       /*  $data=[
             [
                 "Id"=>11,
