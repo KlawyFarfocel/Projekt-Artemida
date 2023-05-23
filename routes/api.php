@@ -48,3 +48,6 @@ Route::post("/AssignRanks",[ContentController::class,'AssignRanks']);
 Route::post("/AddPermissionRequest",[ContentController::class,'AddPermissionRequest']);
 Route::post("/GetUserDataInClub",[ContentController::class,'GetUserDataInClub']);
 Route::post("/AddDonate",[ContentController::class,'AddDonate']);
+Route::post("/GetAllHuntersFromClub",[ContentController::class,'GetAllHuntersFromClub']);
+Route::post("/EndShootingEarly",[ContentController::class,'EndShootingEarly']);
+Route::post("/AddShooting",[ContentController::class,'AddShooting']);

@@ -62,6 +62,7 @@ const [adminViewHandler,setAdminViewHandler]=useState(true);
         console.log(err);
         });
     },[refreshUserDonate])
+    console.log(propContent)
     return((
         <>       
             <TableContent hideFirst={true} setShowDonateModal={setShowDonateModal} setModalShow={setModalShow} setDonateChangeId={setDonateChangeId} skarbnikMode={skarbnikMode} setSkarbnikMode={setSkarbnikMode} setAdminViewHandler={setAdminViewHandler} title={title} content={propContent} headers={headers} useButton={'no'} topButton={"yes"}/>

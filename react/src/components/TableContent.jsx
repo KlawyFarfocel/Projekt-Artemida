@@ -19,18 +19,6 @@ export default function TableContent(props){
         props.setDonateChangeId(id);
         props.setModalShow(true);
     }
-
-    useEffect(()=>{
-        axiosClient.post("/CheckPrivileges",{
-            userToken
-        })
-        .then(({data})=>{
-            setPresident(data["President"])
-            setSecretary(data["Secretary"])
-            setHuntsman(data["Huntsman"])
-            setCashier(data["Cashier"])
-        })
-        },[userToken])
     return(
        
         <div className="container w-75 h-100 mx-auto d-flex flex-column align-items-center justify-content-center ">

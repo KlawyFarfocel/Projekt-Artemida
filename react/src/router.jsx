@@ -14,6 +14,7 @@ import HunterClub from "./components/HunterClub";
 import HunterDistrict from "./components/HunterDistrict";
 import HuntMain from "./components/Hunt/HuntMain";
 import HuntInfo from "./components/Hunt/HuntInfo";
+import ActiveHunt from "./components/Hunt/ActiveHunt";
 
 const router=createBrowserRouter([
     {
@@ -81,6 +82,10 @@ const router=createBrowserRouter([
             {
                 path:"/HuntInfo",
                 element:<HuntInfo/>
+            },
+            {
+                path:"/ActiveHunt",
+                element:<ActiveHunt/>
             }
         ]
     },

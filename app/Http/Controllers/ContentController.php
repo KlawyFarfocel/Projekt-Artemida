@@ -886,4 +886,32 @@ class ContentController extends Controller
         //userToken,opis,kwota,dataString
         // z userTokena klub i wszystkim userom w klubie
     }
+    public function GetAllHuntersFromClub(Request $request){
+        $legi=$request['userToken'];
+        $ser=User::where('id','=',$legi)->first();
+        $idik=$ser->klub_id;
+        $allHuntersFromClub=[];
+        foreach (User::all()->where('klub_id',$idik) as $perm )
+        {
+            $zez=dane::where('user_id','=',$perm->id)->first();
+            $fullname=$zez->imie." ".$zez->nazwisko;
+            $ads=[
+                "id"=>$zez->user_id,
+                "łowczy"=>$fullname,
+                
+            ];
+            array_push($allHuntersFromClub,$ads);
+        }
+        return response([
+            $allHuntersFromClub
+        ]);
+    }
+    public function AddShooting(Request $request){
+        //newUser,ilosc,newZwierze,huntId 
+        //trzeba będzie tabele zrobić na te polowania - w sensie te konkretne
+    }
+    public function EndShootingEarly(Request $request){
+        //huntId
+        //ustaw end date na datę teraz i status się powinien przestawić sam
+    }
 }

@@ -16,11 +16,19 @@ export default function HuntInfo(){
     const [huntTitle,setHuntTitle]=useState(`Polowanie id ${huntId} - wstaw nazwę polowania`)
     const {userToken,president,setPresident,cashier,setCashier,huntsman,setHuntsman,secretary,setSecretary}=useStateContext()
     const [userJoin,setUserJoin]=useState(false);
-
+    console.log(president)
     const changeParticipationInHunt=()=>{//Odchodzenie i dołączanie - dodać back
         setUserJoin(!userJoin)
         axiosClient.post("/ChangeHuntParticipation",{
             huntId,userToken
+        })
+    }
+
+    const goToActiveHunt=()=>{
+        navigate("/ActiveHunt",{
+            state:{
+                huntId
+            }
         })
     }
 
@@ -69,7 +77,7 @@ export default function HuntInfo(){
                     <div className="d-flex justify-content-center">
                         {(huntProp.Status)
                             ?
-                            <a className="btn btn-success" >Przejdź do polowania</a>
+                            <a className="btn btn-success" onClick={goToActiveHunt}>Zakończ polowanie</a>
                             :
                             <CustomTooltip isDisabled={false} placement="top" tooltipBody={"Polowanie niedostępne - poczekaj na rozpoczęcie polowania"} buttonClassNameString="btn btn-secondary" buttonText={"Przejdź do polowania"}/>
                         }

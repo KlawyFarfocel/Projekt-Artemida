@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import axiosClient from "../axios";
 const StateContext=createContext({
     currentUser: {},
     userToken:null,
@@ -15,6 +16,18 @@ const StateContext=createContext({
 });
 
 export const ContextProvider=({children})=>{
+    useEffect(()=>{
+        axiosClient.post("/CheckPrivileges",{
+            userToken
+        })
+        .then(({data})=>{
+            setPresident(data["President"])
+            setSecretary(data["Secretary"])
+            setHuntsman(data["Huntsman"])
+            setCashier(data["Cashier"])
+        })
+    })
+
     function setCookie(name,value,days) {
         var expires = "";
         if (days) {

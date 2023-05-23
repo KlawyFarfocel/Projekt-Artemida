@@ -18,17 +18,6 @@ export default function HuntMain(){
     const {userToken,president,setPresident,cashier,setCashier,huntsman,setHuntsman,secretary,setSecretary,setUserToken}=useStateContext()
 
     useEffect(()=>{
-        axiosClient.post("/CheckPrivileges",{
-            userToken
-        })
-        .then(({data})=>{
-            setPresident(data["President"])
-            setSecretary(data["Secretary"])
-            setHuntsman(data["Huntsman"])
-            setCashier(data["cashier"])
-        })
-    },[userToken])
-    useEffect(()=>{
         axiosClient.post("/GetActiveHunts",{
             userToken
         })

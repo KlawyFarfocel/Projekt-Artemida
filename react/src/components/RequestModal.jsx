@@ -31,7 +31,7 @@ export default function RequestModal(props){
         <>
             <Modal bsPrefix="modal" show={show} onHide={()=>props.setShowRequestModal(false)}>
                 <Modal.Header bsPrefix="modal-header text-center" closeButton>
-                    <Modal.Title bsPrefix="modal-title w-100">Złóż wniosek o przyznanie uprawnienia</Modal.Title>
+                    <Modal.Title bsPrefix="modal-title w-100">Złóż wniosek o przypisanie uprawnienia do konta</Modal.Title>
                 </Modal.Header>
                 <Modal.Body bsPrefix='modal-body mb-3 pb-0'>
                 <form className='w-50 mx-auto' onSubmit={handleSubmit}>

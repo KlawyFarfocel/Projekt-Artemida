@@ -22,6 +22,9 @@ export default function AddDonateModal(props){
         axiosClient.post("/AddDonate",{
             userToken,opis,kwota,dataString
         })
+        .then(()=>{
+            props.setShowDonateModal(false)
+        })
     }
     return(
         <Modal bsPrefix="modal" show={show} onHide={()=>props.setShowDonateModal(false)}>
