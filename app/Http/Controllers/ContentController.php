@@ -491,7 +491,7 @@ class ContentController extends Controller
       // $user=dane::where('user_id','=',$legi)->first()->update(['kod'=>$request->kod]);
        foreach ($optionsArray as $perm )
         {
-           // $idik='15';
+           // $idik='15';       
             $zez=User::where('id','=',$perm)->update(['klub_id'=>$idik]);
 
         }
@@ -820,11 +820,24 @@ class ContentController extends Controller
     }
     public function KickUserOutOfClub(Request $request){
         //kickUserId
-        //przestaw mu klub_id na 0
-        return response(true);
+        $legi=$request['kickUserId'];
+        User::where('id','=',$legi)->first()->update(['klub_id'=>0]);
+        return response($legi);
     }
     public function AssignRanks(Request $request){
         //newPresident,newSecretary,newCashier,newHuntsman,userToken
+        $legi=$request['userToken'];
+        $ser=User::where('id','=',$legi)->first();
+        $idik=$ser->klub_id;
+        $klub=klub::where('klub_id','=',$idik)->first();
+        if($request->newSecretary!=$klub->sekretarz)
+             klub::where('klub_id','=',$idik)->first()->update(['sekretarz'=>$request->newSecretary]);
+        if($request->newPresident!=$klub->prezes)
+             klub::where('klub_id','=',$idik)->first()->update(['prezes'=>$request->newPresident]);
+        if($request->newCashier!=$klub->skarbnik)
+             klub::where('klub_id','=',$idik)->first()->update(['skarbnik'=>$request->newCashier]);
+        if($request->newHuntsman!=$klub->lowczy_glowny)
+             klub::where('klub_id','=',$idik)->first()->update(['lowczy_glowny'=>$request->newHuntsman]);     
         //w tym klubie co jest userToken przestaw te 4 rzeczy i fajrant - nawet nic nie musisz zwracać - w sensie idk czy musisz, zostaw to true
         return response(true);
     }
@@ -847,6 +860,27 @@ class ContentController extends Controller
         ]);
     }
     public function AddDonate(Request $request){
+        $legi=$request['userToken'];
+        $ser=User::where('id','=',$legi)->first();
+        $idik=$ser->klub_id;
+        $opis=$request->opis;
+        $kwota=$request->kwota;
+        $data=$request->dataString;
+        $data1='0000-01-01 00:00:00';
+        $status='Nieopłacona';
+        foreach (User::all()->where('klub_id',$idik) as $perm )
+        {
+            skladka::create([
+               'termin'=>$data,
+               'kwota'=>$kwota,
+               'czlonek_id'=>$perm->id,
+               'opis'=>$opis,
+               'data_zapl'=>$data1,
+               'status'=>$status
+                ]);
+
+
+        }
         //userToken,opis,kwota,dataString
         // z userTokena klub i wszystkim userom w klubie
     }

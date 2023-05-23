@@ -14,12 +14,29 @@ const [secretary,setSecretary]=useState();
 const [cashier,setCashier]=useState();
 const [huntsman,setHuntsman]=useState();
 const handleSubmit=(e)=>{
-    const newPresident=president.value;
-    const newSecretary=secretary.value;
-    const newCashier=cashier.value;
-    const newHuntsman=huntsman.value;
     e.preventDefault();
     props.setModalRanksShow(false);
+    let newPresident,newSecretary,newCashier,newHuntsman;
+    if(typeof(president)=="object"){
+        newPresident=president.value
+    }else{
+        newPresident=president
+    }
+    if(typeof(secretary)=="object"){
+        newSecretary=secretary.value
+    }else{
+        newSecretary=secretary
+    }
+    if(typeof(cashier)=="object"){
+        newCashier=cashier.value
+    }else{
+        newCashier=cashier
+    }
+    if(typeof(huntsman)=="object"){
+        newHuntsman=huntsman.value
+    }else{
+        newHuntsman=huntsman
+    }
     axiosClient.post("/AssignRanks",{
         newPresident,newSecretary,newCashier,newHuntsman,userToken
     })

@@ -21,7 +21,8 @@ class User extends Authenticatable
         'legitymacja',
         'password',
         'id',
-        'email'
+        'email',
+        'klub_id'
     ];
 
     /**
