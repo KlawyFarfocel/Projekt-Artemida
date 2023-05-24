@@ -15,6 +15,7 @@ export default function HuntMain(){
     const historyHuntsTitle="Historia polowań";
     const [modalShow, setModalShow] = useState(false);
     const [polowaniaTableProp,setPolowaniaTableProp]=useState([])
+    const [historyPolowaniaTableProp,setHistoryPolowaniaTableProp]=useState([])
     const {userToken,president,setPresident,cashier,setCashier,huntsman,setHuntsman,secretary,setSecretary,setUserToken}=useStateContext()
 
     useEffect(()=>{
@@ -22,7 +23,9 @@ export default function HuntMain(){
             userToken
         })
         .then(({data})=>{
+            console.log(data)
             setPolowaniaTableProp(data[0])
+            setHistoryPolowaniaTableProp(data[1])
         },[userToken])
     },[userToken,reloadRequest])
     return(
@@ -42,7 +45,7 @@ export default function HuntMain(){
                     )}
                 </div>
                 <div className="col-12  col-md-5 ">
-                    <HuntTable showFirst={false} title={historyHuntsTitle} historyMode={true} headers={polowaniaTableHeaders} content={polowaniaTableProp}/>
+                    <HuntTable showFirst={false} title={historyHuntsTitle} historyMode={true} headers={polowaniaTableHeaders} content={historyPolowaniaTableProp}/>
                 </div>
             </div>
         </div>

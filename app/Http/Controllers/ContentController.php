@@ -695,7 +695,9 @@ class ContentController extends Controller
         $miejsce=$request['rallyPoint'];
         $sup=$request['supervisor'];
         $kont=$request['contact'];
+        $nazwa=$request['huntName'];
         polowania::create([
+            'nazwa'=>$nazwa,
             'lokalizacja'=>$lok,
             'miejsce_zb'=>$miejsce,
             'supervisor'=>$sup,
@@ -742,7 +744,7 @@ class ContentController extends Controller
             $ads=
                 [
                     "Id"=>$perm->polowanie_id,
-                    "Nazwa"=>"Polowanie na Czerwony Październik",
+                    "Nazwa"=>$perm->nazwa,
                     "Data rozpoczęcia"=>$perm->data_pocz,
                     "Data zakończenia"=>$perm->data_koncowa,
                     "Status"=>$stat,
@@ -750,7 +752,6 @@ class ContentController extends Controller
             if($perm->koniec==0)
             {
                  array_push($data,$ads);
-                 array_push($data1,$ads);
             }
             if($perm->koniec==1)
             {
