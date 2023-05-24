@@ -12,7 +12,7 @@ class polowania extends Model
     protected $primaryKey = 'polowanie_id';
 
     protected $fillable = [
-        
+        'nazwa',
         'polowanie_id',
         'lokalizacja',
         'miejsce_zb',
