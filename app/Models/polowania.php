@@ -21,7 +21,8 @@ class polowania extends Model
         'data_pocz',
         'data_koncowa',
         'typ',
-        'klub_id'
+        'klub_id',
+        'koniec'
 
     ];
 }

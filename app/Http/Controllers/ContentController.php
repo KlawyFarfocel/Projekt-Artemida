@@ -719,6 +719,7 @@ class ContentController extends Controller
         //userToken
         date_default_timezone_set('Europe/Warsaw');
         $data=[];
+        $data1=[];
         $legi=$request['userToken'];
         $ser=User::where('id','=',$legi)->first();
         $idik=$ser->klub_id;
@@ -746,7 +747,15 @@ class ContentController extends Controller
                     "Data zakończenia"=>$perm->data_koncowa,
                     "Status"=>$stat,
                 ];
-            array_push($data,$ads);
+            if($perm->koniec==0)
+            {
+                 array_push($data,$ads);
+                 array_push($data1,$ads);
+            }
+            if($perm->koniec==1)
+            {
+                 array_push($data1,$ads);
+            }
             
         }   
         
@@ -767,7 +776,7 @@ class ContentController extends Controller
             ],
         ];*/
         return response([
-            $data
+            $data,$data1
         ]);
     }
     public function GetCurrentHunt(Request $request){
@@ -911,6 +920,10 @@ class ContentController extends Controller
         //trzeba będzie tabele zrobić na te polowania - w sensie te konkretne
     }
     public function EndShootingEarly(Request $request){
+        
+        $legi=$request['huntId'];
+        polowania::where('polowanie_id','=',$legi)->first()->update(['koniec'=>1]);
+        
         //huntId
         //ustaw end date na datę teraz i status się powinien przestawić sam
     }
