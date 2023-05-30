@@ -16,7 +16,8 @@ class odstrz extends Model
         'user_id',
         'data',
         'zwierze_id',
-        'potwierdzenie'
+        'potwierdzenie',
+        'polowanie_id'
     ];
 
 }

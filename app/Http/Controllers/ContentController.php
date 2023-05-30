@@ -707,7 +707,27 @@ class ContentController extends Controller
             'typ'=>$type,
             'klub_id'=>$klub->klub_id
             ]);
-           
+        $liczi=0;
+        $pol=polowania::where('data_koncowa','=',$dat2)->first();
+        $ajdi=$pol->polowanie_id;
+        foreach($request->newAnimalList as $perm)
+        {
+            $liczi=$perm;
+            
+            $licznik=intval($perm['ilosc']);
+            for($i=0;$i<$licznik;$i++)
+            {
+            odstrz::create([
+            'user_id'=>0,
+            'polowanie_id'=>$ajdi,
+            'data'=>'2000-01-01',
+            'zwierze_id'=>$perm['zwierzeId']
+
+
+            ]);
+            }
+        }
+        
     }
     public function DeleteHunt(Request $request){
         //huntId - usuniesz polowanie o tym id i fajrant
@@ -921,10 +941,13 @@ class ContentController extends Controller
         //trzeba będzie tabele zrobić na te polowania - w sensie te konkretne
     }
     public function EndShootingEarly(Request $request){
-        
+        date_default_timezone_set('Europe/Warsaw');
+
         $legi=$request['huntId'];
+        $dat=date('Y-m-d H:i:s');
         polowania::where('polowanie_id','=',$legi)->first()->update(['koniec'=>1]);
-        
+        polowania::where('polowanie_id','=',$legi)->first()->update(['data_koncowa'=>$dat]);
+        odstrz::all()->where('polowanie_id','=',$legi)->update();
         //huntId
         //ustaw end date na datę teraz i status się powinien przestawić sam
     }
