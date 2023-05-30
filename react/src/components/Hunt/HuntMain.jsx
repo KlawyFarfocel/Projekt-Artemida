@@ -23,7 +23,6 @@ export default function HuntMain(){
             userToken
         })
         .then(({data})=>{
-            console.log(data)
             setPolowaniaTableProp(data[0])
             setHistoryPolowaniaTableProp(data[1])
         },[userToken])

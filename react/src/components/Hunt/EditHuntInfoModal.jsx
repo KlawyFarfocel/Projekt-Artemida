@@ -6,9 +6,11 @@ import moment from 'moment/moment';
 import Select from 'react-select';
 import { useStateContext } from '../../contexts/ContextProvider';
 import axiosClient from '../../axios';
+import AddAnimalsToHuntModal from './AddAnimalsToHuntModal';
 export default function EditHuntInfoModal(props){
       const {userToken}=useStateContext() 
       const [show, setShow] = useState();
+      const [animalShow,setAnimalShow]=useState();
       const [startDate, setStartDate] = useState(new Date());
 
       const [dateFirst,setDateFirst]=useState(new Date());//data rozpoczęcia
@@ -22,6 +24,7 @@ export default function EditHuntInfoModal(props){
       const [action,setAction]=useState("")
       const [huntId,setHuntId]=useState()
       const [huntName,setHuntName]=useState("");
+      const [animalList,setAnimalList]=useState([]);
       const huntTypes=[
         {value:"Indywidualne",label:"Indywidualne"},
         {value:"Zbiorowe",label:"Zbiorowe"},
@@ -78,13 +81,20 @@ export default function EditHuntInfoModal(props){
         e.preventDefault();
         const formattedDateFirst=formatDate(dateFirst)//data rozpoczęcia w stringu do timestampa
         const formattedDateEnd=formatDate(dateEnd)
+        const newAnimalList = animalList.map((obj) => ({
+            zwierzeId: obj.zwierze.value,
+            ilosc: obj.ilosc,
+          }));
         axiosClient.post(action,{//edytuj polowanie
-            userToken,formattedDateFirst,formattedDateEnd,huntType,localisation,rallyPoint,supervisor,contact,huntId,huntName
+            userToken,formattedDateFirst,formattedDateEnd,huntType,localisation,rallyPoint,supervisor,contact,huntId,huntName,newAnimalList
         })
         props.setReloadRequest(!props.reloadRequest)
         props.setModalShow(false)
       }
-      
+      useEffect(()=>{
+        console.log("Lista")
+       console.log(animalList) 
+      })
     return (
         <>
     <Modal bsPrefix="modal" show={show} size="lg" onHide={()=>props.setModalShow(false)}>
@@ -153,12 +163,14 @@ export default function EditHuntInfoModal(props){
                         <label className="form-label">Kontakt</label>
                         <input onChange={(e)=>setContact(e.target.value)} defaultValue={contact} type="text"  className="form-control" />
                     </div>
+                    <a className='btn btn-success' onClick={()=>setAnimalShow(true)}>XD</a>
                     <button type='submit' className="btn btn-primary">Submit</button>
                 </form>
         </Modal.Body>
         <Modal.Footer>
         </Modal.Footer>
         </Modal>
+        <AddAnimalsToHuntModal setAnimalList={setAnimalList} show={animalShow} setAnimalShow={setAnimalShow}/>
     </>
     );
 }

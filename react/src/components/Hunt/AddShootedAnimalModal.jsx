@@ -15,16 +15,18 @@ export default function AddShootedAnimalModal(props){
 
     const [animalSelect,setAnimalSelect]=useState(props.animals)
     const [usersList,setUsersList]=useState(props.usersList)
-    const [selectedOption,setSelectedOption]=useState()
     const [zwierzeValue, setZwierzeValue] = useState(null);
     const [podgrupa,_setPodgrupa]=useState([
-        {"value":"łosie","label":"Łosie"},
-        {"value":"jelenie","label":"Jelenie"},
         {"value":"daniele","label":"Daniele"},
-        {"value":"sarny","label":"Sarny"},
-        {"value":"muflony","label":"Muflony"},
         {"value":"dziki","label":"Dziki"},
-        {"value":"jenoty","label":"Jenoty"}
+        {"value":"gęsi","label":"Gęsi"},
+        {"value":"jelenie","label":"Jelenie"},
+        {"value":"kaczki","label":"Kaczki"},
+        {"value":"kuny","label":"Kuny"},
+        {"value":"muflony","label":"Muflony"},
+        {"value":"sarny","label":"Sarny"},
+        {"value":"łosie","label":"Łosie"},
+        {"value":"pozostałe","label":"Pozostałe"},
     ])
     const [zwierze,setZwierze]=useState()
 

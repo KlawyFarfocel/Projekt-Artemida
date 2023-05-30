@@ -7,7 +7,6 @@ function NavbarReact(){
         {"name":"polowania","href":"/Hunt"},
         {"name":"moje uprawnienia","href":"/permissions"},
         {"name":"mapa okręgów","href":"/mapa"},
-        {"name":"mój okręg łowiecki","href":"/HunterDistrict"},
         {"name":"moje koło łowieckie","href":"/HunterClub"},
         {"name":"roczny plan łowiecki","href":"#"},
         {"name":"ogłoszenia","href":"/Anno"},
