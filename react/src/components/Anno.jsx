@@ -4,9 +4,14 @@ import axiosClient from "../axios";
 import { useStateContext } from "../contexts/ContextProvider";
 import "./css/Anno.css";
 import ReloadModal from "./ReloadModal";
+import AddAnimalsToHuntModal from "./Hunt/AddAnimalsToHuntModal";
+import AddAnnouncementModal from "./AddAnnouncementModal";
 
 export default function Foo(){
-    const userToken=useStateContext()['userToken'];
+    const {userToken,president,cashier,huntsman,secretary}=useStateContext()
+    const [show,setShow]=useState(false)
+
+
     const [annoProp,setAnnoProp]=useState([])
     const [refresh,setRefresh]=useState(false);
     useEffect(()=>{
@@ -29,19 +34,6 @@ export default function Foo(){
         setModalShow(true);
     }
 
-    const  refreshAnnouncements=(e)=>{
-            setRefresh(true);
-            axiosClient
-            .post("/ogloszenie",{
-                userToken
-            })
-            .then(({ data }) => {
-                setRefresh(false);
-                setAnnoProp(data[0]);           
-              })
-            .catch(err => {
-            });
-    }
     const [modalShow, setModalShow] = useState(false);
     const [messageKey, setMessageKey]=useState(0);
     return(
@@ -49,7 +41,13 @@ export default function Foo(){
                 <h1 className="mb-2 shadow-md p-1 mt-3 text-center rounded fs-1 text-uppercase fw-bold text-white">Ogłoszenia</h1>
                 <div className="d-flex flex-column justify-content-start">
                 <div className="w-75 mx-auto d-flex">
-                    <a className="btn btn-success w-10 mx-auto mb-1" onClick={refreshAnnouncements}>Odśwież</a> 
+                    {
+                        (president | secretary | huntsman | cashier 
+                            ?
+                                <a className="btn btn-success ms-auto mb-1" onClick={()=>{setShow(true)}}>Dodaj ogłoszenie</a> 
+                            : false
+                        )
+                    }   
                 </div>
                 <table className="table table-hover mx-auto w-75 table-responsive">
                     <thead className="table-dark">     
@@ -85,6 +83,7 @@ export default function Foo(){
                 
                 <MessageModal show={modalShow} content={annoProp[messageKey]} messageKey={messageKey}setModalShow={setModalShow}/>
                 <ReloadModal show={refresh}/>
+                <AddAnnouncementModal show={show} setShow={setShow}/>
         </>
     )
 }

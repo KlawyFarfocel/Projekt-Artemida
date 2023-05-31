@@ -6,6 +6,7 @@ import axiosClient from "../axios"
 import { useStateContext } from "../contexts/ContextProvider";
 import ChangeDonateDataModal from "./changeDonateDataModal"
 import AddDonateModal from "./AddDonateModal"
+import FilterDonateModal from "./FilterDonateModal"
 export default function Donate(){
     const userToken=useStateContext()['userToken'];
     const [headers,setHeaders]=useState([]);
@@ -19,6 +20,10 @@ const [donateChangeId, setDonateChangeId]=useState(0);
 
 const [modalShow,setModalShow]=useState(false);
 const [showDonateModal,setShowDonateModal]=useState(false);
+const [filterModalShow,setFilterModalShow]=useState(false);
+
+const [startDate,setStartDate]=useState(new Date(new Date().getFullYear(), 0, 1));
+const [endDate,setEndDate]=useState(new Date(new Date().getFullYear(), 11, 31));
 
 const [skarbnikMode, setSkarbnikMode]=useState(false);
 const [adminViewHandler,setAdminViewHandler]=useState(true);
@@ -62,13 +67,13 @@ const [adminViewHandler,setAdminViewHandler]=useState(true);
         console.log(err);
         });
     },[refreshUserDonate])
-    console.log(propContent)
     return((
         <>       
-            <TableContent hideFirst={true} setShowDonateModal={setShowDonateModal} setModalShow={setModalShow} setDonateChangeId={setDonateChangeId} skarbnikMode={skarbnikMode} setSkarbnikMode={setSkarbnikMode} setAdminViewHandler={setAdminViewHandler} title={title} content={propContent} headers={headers} useButton={'no'} topButton={"yes"}/>
+            <TableContent hideFirst={true} setFilterModalShow={setFilterModalShow} setShowDonateModal={setShowDonateModal} setModalShow={setModalShow} setDonateChangeId={setDonateChangeId} skarbnikMode={skarbnikMode} setSkarbnikMode={setSkarbnikMode} setAdminViewHandler={setAdminViewHandler} title={title} content={propContent} headers={headers} useButton={'no'} topButton={"yes"}/>
             <ReloadModal show={refresh}/>
             <ChangeDonateDataModal setAdminViewHandler={setAdminViewHandler} adminViewHandler={adminViewHandler} userToken={userToken} id={donateChangeId} content={propContent[donateChangeId]} show={modalShow} setModalShow={setModalShow}/>
             <AddDonateModal show={showDonateModal} setShowDonateModal={setShowDonateModal}/>
+            <FilterDonateModal setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} show={filterModalShow} setShowDonateModal={setFilterModalShow}/>
         </>
     ))
     }

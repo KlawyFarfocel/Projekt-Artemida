@@ -47,7 +47,6 @@ export default function AddAnimalsToHuntModal(props){
             zwierze: zwierzeValue,
             ilosc: ilosc
           };
-          console.log(newObject)
           setTableContent(prevTableContent => [...prevTableContent, newObject]);
           props.setAnimalList(prevTableContent => [...prevTableContent, newObject]);
       }
@@ -76,9 +75,6 @@ export default function AddAnimalsToHuntModal(props){
         setTableContent(shiftedArray);
         props.setAnimalList(shiftedArray);
     }
-    useState(()=>{
-        console.log(animals)
-    })
     return(
         <>
         <Modal bsPrefix="modal" show={show} onHide={()=>props.setAnimalShow(false)}>
@@ -130,7 +126,7 @@ export default function AddAnimalsToHuntModal(props){
                                 <tr>
                                     {
                                         tableHeadings.map((value,key)=>(
-                                                <td>{value}</td>
+                                                <td key={key}>{value}</td>
                                         ))
                                     }
                                 </tr>
@@ -138,7 +134,7 @@ export default function AddAnimalsToHuntModal(props){
                             <tbody>
                                 {
                                     Object.values(tableContent).map((outerValue,outerKey)=>(
-                                        <tr>
+                                        <tr key={outerKey}>
                                         {
                                             Object.values(outerValue).map((innerValue, innerKey) => (  
                                                 (typeof innerValue==='object' & innerValue !==null
@@ -149,7 +145,7 @@ export default function AddAnimalsToHuntModal(props){
                                                 )
                                             ))
                                         }
-                                        <td><a onClick={()=>deleteAnimalFromList(outerKey)} className="btn btn-danger mx-auto">Usuń</a></td>
+                                        <td key={outerKey+1}><a onClick={()=>deleteAnimalFromList(outerKey)} className="btn btn-danger mx-auto">Usuń</a></td>
                                           </tr>
                                     ))
                                 }

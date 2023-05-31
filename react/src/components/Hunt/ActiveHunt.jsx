@@ -13,6 +13,7 @@ export default function ActiveHunt(){
     let location = useLocation();
     const navigate=useNavigate()
     const huntId=location.state['huntId'];
+    const supervisorId=location.state['IdSupervisor'];
     const tableProp=[
         {
             "Kto strzelał":"Alberto Kozak",
@@ -122,11 +123,20 @@ export default function ActiveHunt(){
                 ))}
                 </tbody>
             </table>
-            <h5 className="fs-3 text-white text-uppercase text-center py-3">Dostępne akcje</h5>
-            <div className="w-25 mx-auto text-center">
-                <a className="btn btn-success mx-2" onClick={()=>setShow(true)}>Dodaj odstrzał</a>
-                <a className="btn btn-danger" onClick={EndShootingEarly}>Zakończ polowanie wcześniej</a>
-            </div>
+            {
+                (supervisorId==userToken
+                ?
+                    <>
+                    <h5 className="fs-3 text-white text-uppercase text-center py-3">Dostępne akcje</h5>
+                    <div className="w-25 mx-auto text-center">
+                        <a className="btn btn-success mx-2" onClick={()=>setShow(true)}>Dodaj odstrzał</a>
+                        <a className="btn btn-danger" onClick={EndShootingEarly}>Zakończ polowanie wcześniej</a>
+                    </div>
+                    </>
+                :
+                    false
+                )
+            }
             <AddShootedAnimalModal huntId={huntId} usersList={usersList} animals={animals} show={show} setShow={setShow}/>
         </div>
         

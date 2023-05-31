@@ -33,6 +33,7 @@ export default function TableContent(props){
                                         <>
                                             <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setSkarbnikMode(false) & props.setAdminViewHandler(true)}>Przejdź do Twoich składek</button>
                                             <button type="button" className="btn btn-success mb-1 mx-1" onClick={()=>props.setShowDonateModal(true)}>Dodaj składke</button>
+                                            <button type="button" className="btn btn-success mb-1 mx-1" onClick={()=>props.setFilterModalShow(true)}>Filtruj składki</button>
                                         </>
                                     :
                                         <button type="button" className="btn btn-success ms-auto mb-1" onClick={()=>props.setSkarbnikMode(true) & props.setAdminViewHandler(true)}>Przejdź do panelu Skarbnika</button>

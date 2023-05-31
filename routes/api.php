@@ -50,4 +50,7 @@ Route::post("/GetUserDataInClub",[ContentController::class,'GetUserDataInClub'])
 Route::post("/AddDonate",[ContentController::class,'AddDonate']);
 Route::post("/GetAllHuntersFromClub",[ContentController::class,'GetAllHuntersFromClub']);
 Route::post("/EndShootingEarly",[ContentController::class,'EndShootingEarly']);
-Route::post("/AddShooting",[ContentController::class,'AddShooting']);
+Route::post("/AddShooting",[ContentController::class,'AddShooting']); 
+Route::post("/GetOnlyMainSquadFromClub",[ContentController::class,'GetOnlyMainSquadFromClub']);
+Route::post("/FilterDonate",[ContentController::class,'FilterDonate']);
+Route::post("/SendAnno",[ContentController::class,'SendAnno']);

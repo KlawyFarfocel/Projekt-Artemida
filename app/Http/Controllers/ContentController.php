@@ -411,20 +411,6 @@ class ContentController extends Controller
             array_push($usersWithoutClub,$ads);
                 
         }
-      /*  $usersWithoutClub=[
-            [
-                "value"=>12,//Jego id
-                "label"=>"Marek Bezklubny",
-            ],
-            [
-                "value"=>14,//Jego id
-                "label"=>"Jarek Bezkarny",
-            ],
-            [
-                "value"=>3,//Jego id
-                "label"=>"CiebieBoga Wysławiamy",
-            ],
-        ];*/
         foreach (User::all()->where('klub_id',$idik) as $perm )
         {
             $zez=dane::where('user_id','=',$perm->id)->first();
@@ -437,22 +423,6 @@ class ContentController extends Controller
             array_push($allHuntersFromClub,$ads);
                 
         }
-        /*
-        $allHuntersFromClub=[
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Golara"],
-                ["Łowczy"=>"Endrju Dupa"],
-        ];
-        */
         $najblizszePolowania=[
             [
                 "id"=>1,
@@ -480,6 +450,33 @@ class ContentController extends Controller
             ];
         return response([
             $usersWithoutClub,$mainSquad,$allHuntersFromClub,$najblizszePolowania,$nextMeeting
+        ]);
+    }
+    public function GetOnlyMainSquadFromClub(Request $request){
+        $legi=$request['userToken'];
+        $ser=User::where('id','=',$legi)->first();
+        $idik=$ser->klub_id;
+        $klub=klub::where('klub_id','=',$idik)->first();
+        $pr=$klub->prezes;
+        $se=$klub->sekretarz;
+        $sk=$klub->skarbnik;
+        $lg=$klub->lowczy_glowny;
+        $prezes=dane::where('user_id','=',$pr)->first();
+        $sekretarz=dane::where('user_id','=',$se)->first();
+        $skarbnik=dane::where('user_id','=',$sk)->first();
+        $lowczy=dane::where('user_id','=',$lg)->first();
+        $end1=$prezes->imie." ".$prezes->nazwisko;
+        $end2=$sekretarz->imie." ".$sekretarz->nazwisko;
+        $end3=$skarbnik->imie." ".$skarbnik->nazwisko;
+        $end4=$lowczy->imie." ".$lowczy->nazwisko;
+        $mainSquad=[
+            ["value"=>$prezes->user_id,"label"=>$end1],
+            ["value"=>$sekretarz->user_id,"label"=>$end2],
+            ["value"=>$skarbnik->user_id,"label"=>$end3],
+            ["value"=>$lowczy->user_id,"label"=>$end4]
+        ];
+        return response([
+            $mainSquad
         ]);
     }
     public function AddExistingUserToClub(Request $request ){
@@ -673,6 +670,9 @@ class ContentController extends Controller
         if($request->contact!=$marko->kontakt)
         $user=polowania::where('polowanie_id','=',$legi)->first()->update(['kontakt'=>$request->contact]);
 
+        if($request->supervisor!=$marko->supervisor)
+        $user=polowania::where('polowanie_id','=',$legi)->first()->update(['supervisor'=>$request->supervisor]);
+
         return $request;
 
 
@@ -855,6 +855,7 @@ class ContentController extends Controller
                 "Osoba odpowiedzialna"=>$fullname,
                 "Kontakt"=>$polowanie->kontakt,
                 "Status"=>$stat,
+                "IdSupervisor"=>$polowanie->supervisor
             ]
         ];
         return response(
@@ -988,5 +989,18 @@ class ContentController extends Controller
         //huntId
         return $legi;
         //ustaw end date na datę teraz i status się powinien przestawić sam
+    }
+    public function FilterDoate(Request $request){
+        //userToken,newUsersList,newStartDate,newEndDate
+        //newUsersList -> tu masz tablice wszystkich id ludzi, których składki chcesz znaleźć - jest opcja ze będzie pusta, ale to wtedy tak zakrynć zeby wszystkich wybrało
+
+        //newStartDate - od tego filtrować
+        //newEndDate - do tego filtrować
+        //userToken zeby klub znaleźć
+    }
+    public function SendAnno(Request $request){
+        //userToken,sendDate,odbiorca,tresc,temat,priorytet
+        //sendDate to po prostu dzisiejsza data - w sensie z momentu wysłania
+        //odbiorca masz tak -> 0 - zarząd, 1 - wszyscy w Klubie
     }
 }

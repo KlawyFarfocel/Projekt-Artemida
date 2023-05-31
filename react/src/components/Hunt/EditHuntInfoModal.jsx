@@ -19,12 +19,16 @@ export default function EditHuntInfoModal(props){
       const [localisation,setLocalisation]=useState("")
       const [rallyPoint,setRallyPoint]=useState("")
       const [supervisor,setSupervisor]=useState("")
+      const [supervisorProp,setSupervisorProp]=useState("")
       const [contact,setContact]=useState("")
       const [status,setStatus]=useState("")
       const [action,setAction]=useState("")
       const [huntId,setHuntId]=useState()
       const [huntName,setHuntName]=useState("");
       const [animalList,setAnimalList]=useState([]);
+
+      const [buttonName,setButtonName]=useState("Dodaj polowanie")
+
       const huntTypes=[
         {value:"Indywidualne",label:"Indywidualne"},
         {value:"Zbiorowe",label:"Zbiorowe"},
@@ -43,6 +47,7 @@ export default function EditHuntInfoModal(props){
         let dateString;
         let formattedDate;
         if(props.content){
+            console.log(props.content)
                 //data rozpoczęcia
                 dateString=props.content["Data rozpoczęcia"]
                 formattedDate = moment(dateString, "YYYY.MM.DD HH:mm:ss").toDate();
@@ -58,13 +63,15 @@ export default function EditHuntInfoModal(props){
                 //Miejsce zbiórki
                 setRallyPoint(props.content["Miejsce zbiórki"])
                 //Osoba odpowiedzialna
-                setSupervisor(props.content["Osoba odpowiedzialna"])
+                setSupervisor({label:props.content["Osoba odpowiedzialna"],value:props.content["IdSupervisor"]})
                 //Kontakt
                 setContact(props.content["Kontakt"])
                 //Status
                 setStatus(props.content["Status"])
+                setHuntName(props.content["Nazwa"])
                 //Gdzie wysyłamy
                 setAction("/EditHunt")
+                setButtonName("Edytuj polowanie")
         }
         else{
             setAction("/AddHunt")
@@ -74,7 +81,13 @@ export default function EditHuntInfoModal(props){
             setHuntId(props.huntId)
             :
             ""
-        )  
+        )
+        axiosClient.post("/GetOnlyMainSquadFromClub",{
+            userToken
+        })
+        .then(({data})=>{
+            setSupervisorProp(data[0])
+        })  
       },[props])
 
       const handleSubmit=(e)=>{//submit formularza
@@ -91,10 +104,15 @@ export default function EditHuntInfoModal(props){
         props.setReloadRequest(!props.reloadRequest)
         props.setModalShow(false)
       }
-      useEffect(()=>{
-        console.log("Lista")
-       console.log(animalList) 
-      })
+      const editHuntType=(choice)=>{
+        (typeof huntType === "object"
+            ?
+                setHuntType("") &
+                setHuntType(choice.value)
+            :
+            setHuntType(choice.value)
+        )
+      }
     return (
         <>
     <Modal bsPrefix="modal" show={show} size="lg" onHide={()=>props.setModalShow(false)}>
@@ -102,7 +120,7 @@ export default function EditHuntInfoModal(props){
             <Modal.Title bsPrefix="modal-title w-100">Edytuj dane polowania</Modal.Title>
         </Modal.Header>
         <Modal.Body bsPrefix='modal-body mb-0 pb-0'>
-                <form className='m-5 vh-50' onSubmit={handleSubmit}>
+                <form className=' vh-50' onSubmit={handleSubmit}>
                     <div className="form-outline mb-3">
                         <label className="form-label">Nazwa polowania</label>
                         <input onChange={(e)=>setHuntName(e.target.value)} defaultValue={huntName} type="text"  className="form-control" />
@@ -145,7 +163,7 @@ export default function EditHuntInfoModal(props){
                     </div>
                     <div className="form-outline mb-3">
                         <label className="form-label">Typ polowania</label>
-                        <Select onChange={(choice)=>setHuntType(choice.value)} required="required" className='form-control' options={huntTypes} placeholder={"Wybierz status z listy"}defaultValue={huntType}/>
+                        <Select onChange={(choice)=>editHuntType(choice)} required="required" className='form-control' options={huntTypes} placeholder={"Wybierz status z listy"}defaultValue={huntType}/>
                     </div>
                     <div className="form-outline mb-3">
                         <label className="form-label">Lokalizacja</label>
@@ -157,14 +175,21 @@ export default function EditHuntInfoModal(props){
                     </div>
                     <div className="form-outline mb-3">
                         <label className="form-label">Osoba odpowiedzialna</label>
-                        <input onChange={(e)=>setSupervisor(e.target.value)} defaultValue={supervisor} type="text"  className="form-control" />
+                        <Select
+                            required
+                            className=''
+                            defaultValue={supervisor}
+                            closeMenuOnSelect={true}
+                            options={supervisorProp}
+                            onChange={(choice)=>setSupervisor(choice.value)}
+                        />
                     </div>
                     <div className="form-outline mb-3">
                         <label className="form-label">Kontakt</label>
                         <input onChange={(e)=>setContact(e.target.value)} defaultValue={contact} type="text"  className="form-control" />
                     </div>
-                    <a className='btn btn-success' onClick={()=>setAnimalShow(true)}>XD</a>
-                    <button type='submit' className="btn btn-primary">Submit</button>
+                    <a className='btn btn-success' onClick={()=>setAnimalShow(true)}>Dodaj zwierzęta do odstrzału</a>
+                    <button type='submit' className="btn btn-primary">{buttonName}</button>
                 </form>
         </Modal.Body>
         <Modal.Footer>

@@ -16,17 +16,21 @@ export default function HuntInfo(){
     const [huntTitle,setHuntTitle]=useState(`Polowanie id ${huntId} - wstaw nazwę polowania`)
     const {userToken,president,setPresident,cashier,setCashier,huntsman,setHuntsman,secretary,setSecretary}=useStateContext()
     const [userJoin,setUserJoin]=useState(false);
+    const [IdSupervisor,setIdSupervisor]=useState()
     const changeParticipationInHunt=()=>{//Odchodzenie i dołączanie - dodać back
         setUserJoin(!userJoin)
-        axiosClient.post("/ChangeHuntParticipation",{
-            huntId,userToken
-        })
-    }
 
+    }
+    useEffect(()=>{
+        axiosClient.post("/ChangeHuntParticipation",{
+            huntId,userToken,userJoin
+        })
+    },[userJoin])
     const goToActiveHunt=()=>{
         navigate("/ActiveHunt",{
             state:{
-                huntId
+                huntId,
+                IdSupervisor
             }
         })
     }
@@ -49,7 +53,10 @@ export default function HuntInfo(){
             setHuntProp(data[0])
         })
     },[userToken,reloadRequest])
-
+    useEffect(()=>{
+        setIdSupervisor(huntProp["IdSupervisor"])
+        setHuntTitle(huntProp["Nazwa"])
+    },[huntProp])
     return(
         <div className="container-fluid">
             <div className="row">
@@ -59,15 +66,28 @@ export default function HuntInfo(){
                         <tbody>
                         {Object.entries(huntProp).map(([key, value]) => (
                             <tr key={key}>
+                                {(key=="IdSupervisor" || key=="Id")
+                                ?
+                                    ""
+                                :
                                 <td>{key}</td>
-                                <td>
-                                    {key=="Status"
+                                }
+                                {
+                                    (key=="IdSupervisor"|| key=="Id"
                                     ?
-                                    (value?"Aktywne":"Nieaktywne")
+                                        ""
                                     :
-                                    value
-                                    }
-                                </td>
+                                        <td>
+                                            {key=="Status"
+                                            ?
+                                            (value?"Aktywne":"Nieaktywne")
+                                            :
+                                            value
+                                            }
+                                        </td>
+                                    )
+                                }
+
                             </tr>
                         ))}
                         </tbody>
