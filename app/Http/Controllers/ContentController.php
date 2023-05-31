@@ -12,6 +12,7 @@ use \App\Models\zwierze;
 use \App\Models\User;
 use \App\Models\klub;
 use \App\Models\polowania;
+use \App\Models\temp;
 class ContentController extends Controller
 {
     public function getCookie(Request $request){
@@ -94,7 +95,7 @@ class ContentController extends Controller
         //$skladka=skladka::where('user_id','=',$legi)->first();
         foreach (skladka::all()->where('czlonek_id',$legi) as $skladka )
         {
-            if ($skladka->data_zapl=='0001-01-01 00:00:00'){
+            if ($skladka->data_zapl=='0000-01-01 00:00:00'){
                 $zmienna='Brak wpłaty';
             }else
             {
@@ -733,8 +734,31 @@ class ContentController extends Controller
         //huntId - usuniesz polowanie o tym id i fajrant
         $legi=$request['huntId'];
        polowania::where('polowanie_id','=',$legi)->first()->delete();
+       temp::where('polowanie_id','=',$legi)->delete();
     }
     public function ChangeHuntParticipation(Request $request){//to na razie nie jest podpięte
+        $legi=$request['userToken'];
+        $huntid=$request['huntId'];
+        temp::create(
+        [
+            'user_id'=>$legi,
+            'polowanie_id'=>$huntid
+        ]
+        );
+        /*
+       skladka::create([
+               'termin'=>$data,
+               'kwota'=>$kwota,
+               'czlonek_id'=>$perm->id,
+               'opis'=>$opis,
+               'data_zapl'=>$data1,
+               'status'=>$status
+                ]);
+      */
+      
+      
+      
+      
         //huntId, userToken - po prostu zmienisz na przeciwny czy dołączył - na to trzeba będzie tabele zrobić
     }
     public function GetActiveHunts(Request $request){
@@ -938,6 +962,19 @@ class ContentController extends Controller
     }
     public function AddShooting(Request $request){
         //newUser,ilosc,newZwierze,huntId 
+        $legi=intval($request['newUser']);
+        $ilosc=intval($request['ilosc']);
+        $zwierze=intval($request['newZwierze']);
+        $huntid=intval($request['huntId']);
+
+        for($i=0;$i<$ilosc;$i++)
+        {
+           odstrz::where('potwierdzenie','nie')->where('zwierze_id',$zwierze)->where('polowanie_id',$huntid)->first()->update(['potwierdzenie'=>'tak','user_id'=>$legi]); //date(['skarbnik'=>$request->newCashier]);
+           //odstrz::where('polowanie_id',$huntid)->whereIn('zwierze_id',$zwierze)->whereIn('potwierdzenie','nie')->first()->update(['user_id'=>$legi]);
+        }
+
+
+
         //trzeba będzie tabele zrobić na te polowania - w sensie te konkretne
     }
     public function EndShootingEarly(Request $request){
@@ -947,8 +984,9 @@ class ContentController extends Controller
         $dat=date('Y-m-d H:i:s');
         polowania::where('polowanie_id','=',$legi)->first()->update(['koniec'=>1]);
         polowania::where('polowanie_id','=',$legi)->first()->update(['data_koncowa'=>$dat]);
-        odstrz::all()->where('polowanie_id','=',$legi)->update();
+        temp::where('polowanie_id','=',$legi)->delete();
         //huntId
+        return $legi;
         //ustaw end date na datę teraz i status się powinien przestawić sam
     }
 }
