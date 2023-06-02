@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios";
 export default function Login(){
@@ -21,13 +21,15 @@ export default function Login(){
         setUserToken(data.token);
       })
       .catch((error) => {
-        console.log(error.response.data.error=="Wrong data")
-        if (error.response.data.error=="Wrong Data") {
+        if (error.response.data.error=="Wrong data") {
           setError({ __html: "Podano błędne dane. Sprawdź poprawność danych"});
         }
+        //
       });
   }
-  console.log(error)
+  useEffect(()=>{
+    console.log(error)
+  },[error])
     return(
 <section className="gradient-custom w-100">
   <div className="container py-5 h-100">
@@ -42,8 +44,8 @@ export default function Login(){
               <p className="text-white-50">Zaloguj się przy użyciu numeru legitymacji i hasła</p>
               {error.__html && (
                 <div
-                  className="bg-danger rounded py-2 px-3 text-white mb-5 mt-3"
-                  dangerouslySetInnerHTML={error}
+                  className="alert alert-danger"
+                  dangerouslySetInnerHTML={{ __html: error.__html }}
                 ></div>
               )}
               <form onSubmit={onSubmit}>
