@@ -73,7 +73,7 @@ const [adminViewHandler,setAdminViewHandler]=useState(true);
             <ReloadModal show={refresh}/>
             <ChangeDonateDataModal setAdminViewHandler={setAdminViewHandler} adminViewHandler={adminViewHandler} userToken={userToken} id={donateChangeId} content={propContent[donateChangeId]} show={modalShow} setModalShow={setModalShow}/>
             <AddDonateModal show={showDonateModal} setShowDonateModal={setShowDonateModal}/>
-            <FilterDonateModal setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} show={filterModalShow} setShowDonateModal={setFilterModalShow}/>
+            <FilterDonateModal setPropContent={setPropContent} setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} show={filterModalShow} setFilterModalShow={setFilterModalShow}/>
         </>
     ))
     }

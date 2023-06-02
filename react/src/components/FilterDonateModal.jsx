@@ -44,6 +44,10 @@ export default function FilterDonateModal(props) {
     axiosClient.post("/FilterDonate",{
         userToken,newUsersList,newStartDate,newEndDate
     })
+    .then(({data})=>{
+      setPropContent(data[0])
+      props.setFilterModalShow(false)
+    })
   }
   useEffect(()=>{
   axiosClient
@@ -104,16 +108,6 @@ return (
                             dropdownMode="select"
                             todayButton="Dzisiaj"
                         />
-            </div>
-            <div className="mb-3">
-            <label className="form-label">Imie i nazwisko</label>
-                    <Select
-                      className=''
-                      closeMenuOnSelect={true}
-                      options={usersList}
-                      onChange={setSelectedUser}
-                      isMulti
-                    />
             </div>
             <div className="mb-3">
             <label className="form-label">Imie i nazwisko</label>
