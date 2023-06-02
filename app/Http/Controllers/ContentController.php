@@ -990,13 +990,56 @@ class ContentController extends Controller
         return $legi;
         //ustaw end date na datę teraz i status się powinien przestawić sam
     }
-    public function FilterDoate(Request $request){
+    public function FilterDonate(Request $request){
         //userToken,newUsersList,newStartDate,newEndDate
         //newUsersList -> tu masz tablice wszystkich id ludzi, których składki chcesz znaleźć - jest opcja ze będzie pusta, ale to wtedy tak zakrynć zeby wszystkich wybrało
-
+        
         //newStartDate - od tego filtrować
         //newEndDate - do tego filtrować
         //userToken zeby klub znaleźć
+/**/
+        $data=[];
+        $legi=$request['userToken'];
+        // $xde = explode(',',$request->selectedOptionPayload);
+        $od=$request['newStartDate'];
+        $do=$request['newEndDate'];
+       
+       // $match=['user_id'=>$legi,'zwierze_id'=>$option[0]];
+        foreach ($request->newUsersList as $perm )
+        {
+            //odstrz::all()->where('user_id',$legi)->whereIn('zwierze_id',$xde)->whereBetween('data',[$od,$do])
+           $marko=dane::where('user_id',$perm)->first();
+            $jeden=$marko->imie;
+            $dwa=$marko->nazwisko;
+            $fullname=$dwa." ".$jeden;
+            foreach(skladka::all()->where('czlonek_id',$perm)->whereBetween('termin',[$od,$do]) as $zezol)
+           { // "Typ zezwolenia","Organ wydający","Numer zezwolenia","Data uzyskania","Wygasa"
+           
+            if ($zezol->data_zapl=='0000-01-01 00:00:00'){
+                $zmienna='Brak wpłaty';
+            }else
+            {
+                $zmienna=$zezol->data_zapl;
+            }
+            $ads=
+            [
+                "Id"=>$zezol->skladka_id,
+                "Imię i nazwisko"=>$fullname,
+                "Opis"=>$zezol->opis,
+                "Termin"=>$zezol->termin,
+                "Kwota"=>$zezol->kwota,
+                "Data zapłaty"=>$zmienna,
+                "Status"=>$zezol->status,
+                "Edytuj"=>false
+            ];
+            array_push($data,$ads);
+               
+        }
+        
+    }
+        return response(
+           $data
+        );
     }
     public function SendAnno(Request $request){
         //userToken,sendDate,odbiorca,tresc,temat,priorytet
