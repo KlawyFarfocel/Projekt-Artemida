@@ -38,7 +38,7 @@ class AuthController extends Controller
         else
         {
             return response([
-                'error'=>$user
+                'error'=>"Wrong data"
             ],422);
         }
     }
