@@ -45,7 +45,7 @@ export default function FilterDonateModal(props) {
         userToken,newUsersList,newStartDate,newEndDate
     })
     .then(({data})=>{
-      setPropContent(data[0])
+      props.setPropContent(data)
       props.setFilterModalShow(false)
     })
   }

@@ -848,7 +848,7 @@ class ContentController extends Controller
         $data=[
             [
                 "Id"=>$polowanie->polowanie_id,
-                "Nazwa"=>"Polowanie na Czerwony Październik",
+                "Nazwa"=>$polowanie->nazwa,
                 "Data rozpoczęcia"=>$polowanie->data_pocz,
                 "Data zakończenia"=>$polowanie->data_koncowa,
                 "Typ polowania"=>$polowanie->typ,

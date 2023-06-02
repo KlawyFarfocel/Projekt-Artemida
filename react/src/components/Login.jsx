@@ -21,16 +21,13 @@ export default function Login(){
         setUserToken(data.token);
       })
       .catch((error) => {
-        if (error.response) {
-          const finalErrors = Object.values(error.response.data.errors || {}).reduce(
-            (accum, next) => [...accum, ...next],
-            []
-          );
-          setError({ __html: finalErrors.join("<br>") });
+        console.log(error.response.data.error=="Wrong data")
+        if (error.response.data.error=="Wrong Data") {
+          setError({ __html: "Podano błędne dane. Sprawdź poprawność danych"});
         }
-        console.error(error);
       });
   }
+  console.log(error)
     return(
 <section className="gradient-custom w-100">
   <div className="container py-5 h-100">
@@ -49,17 +46,20 @@ export default function Login(){
                   dangerouslySetInnerHTML={error}
                 ></div>
               )}
+              <form onSubmit={onSubmit}>
               <div className="form-outline form-white mb-4">
 
-                <label className="form-label" htmlFor="typeEmailX">Numer legitymacji</label>
-                <input type="text" id="typeEmailX" value={legitymacja} onChange={(ev) => setLegitymacja(ev.target.value)} className="form-control form-control-lg" /> 
+              <label className="form-label" htmlFor="typeEmailX">Numer legitymacji</label>
+              <input type="text" id="typeEmailX" value={legitymacja} onChange={(ev) => setLegitymacja(ev.target.value)} className="form-control form-control-lg" /> 
               </div>
 
               <div className="form-outline form-white mb-4">
-                <label className="form-label" htmlFor="typePasswordX">Hasło</label>
-                <input type="password" id="typePasswordX" value={password} onChange={(ev) => setPassword(ev.target.value)} className="form-control form-control-lg" />
+              <label className="form-label" htmlFor="typePasswordX">Hasło</label>
+              <input type="password" id="typePasswordX" value={password} onChange={(ev) => setPassword(ev.target.value)} className="form-control form-control-lg" />
               </div>
-              <button onClick={onSubmit} className="btn btn-outline-light btn-lg px-5" type="submit">Zaloguj się</button>
+              <button className="btn btn-outline-light btn-lg px-5" type="submit">Zaloguj się</button>
+
+              </form>
             </div>
           </div>
         </div>
