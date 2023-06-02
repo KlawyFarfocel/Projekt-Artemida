@@ -10,6 +10,10 @@ const statusColors=[
 ]
 
 export default function TableContent(props){
+    const [content,setContent]=useState([])
+    useEffect(()=>{
+        setContent(props.content)
+    },[props])
     const {userToken,president,setPresident,cashier,setCashier,huntsman,setHuntsman,secretary,setSecretary}=useStateContext()
     const handleRequestModal=()=>{
         props.setShowRequestModal(!props.showRequestModal)
@@ -73,7 +77,7 @@ export default function TableContent(props){
                     </tr>
                 </thead>
                 <tbody>
-        {props.content.map((item, outerIndex) => (
+        {content.map((item, outerIndex) => (
           <tr key={outerIndex}>
                 {Object.values(item).map((value, index) => (
                     (!value?<td key={index}><button type="button" className="btn btn-success" onClick={()=>handleClick(outerIndex)} >Zmień status/Usuń</button></td>
@@ -95,8 +99,8 @@ export default function TableContent(props){
                         ? 
                             <td key={index}>
                                 <div className="w-100 d-flex justify-content-center">
-                                    <button type="button" onClick={()=>props.setRequestState(true) & props.setRequestId(props.content[0].id) & props.setRequest(true)} className="btn btn-success btn-sm me-1">Zaakceptuj</button>
-                                    <button type="button" onClick={()=>props.setRequestState(true) & props.setRequestId(props.content[0].id) & props.setRequest(true)} className="btn btn-danger btn-sm"> Odrzuć</button>
+                                    <button type="button" onClick={()=>props.setRequestState(true) & props.setRequestId(content[0].id) & props.setRequest(true)} className="btn btn-success btn-sm me-1">Zaakceptuj</button>
+                                    <button type="button" onClick={()=>props.setRequestState(true) & props.setRequestId(content[0].id) & props.setRequest(true)} className="btn btn-danger btn-sm"> Odrzuć</button>
                                 </div>
                             </td>
                         :
