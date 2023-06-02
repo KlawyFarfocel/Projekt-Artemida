@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Http\Request;
 use \App\Models\ogloszenia;
 use \App\Models\dane;
@@ -876,9 +878,15 @@ class ContentController extends Controller
         ]);
     }
     public function KickUserOutOfClub(Request $request){
-        //kickUserId
+       
         $legi=$request['kickUserId'];
-        User::where('id','=',$legi)->first()->update(['klub_id'=>0]);
+
+        $query = "UPDATE users SET klub_id = 0 WHERE  id = :legi LIMIT 1";
+        
+        $result = DB::update($query,['legi' => $legi]);
+        /*    //kickUserId
+        $legi=$request['kickUserId'];
+        User::where('id','=',$legi)->first()->update(['klub_id'=>0]);*/
         return response($legi);
     }
     public function AssignRanks(Request $request){
@@ -1042,6 +1050,36 @@ class ContentController extends Controller
         );
     }
     public function SendAnno(Request $request){
+        $legi=$request['userToken'];
+        $data=$request['sendDate'];
+        $bool=$request['odbiorca'];
+        $tresc=$request['tresc'];
+        $topic=$request['temat'];
+        $risk=$request['priorytet'];
+        $query = "SELECT * FROM users WHERE id = ? LIMIT 1";
+        $result = DB::select($query, [$legi]);
+        if($bool==1)
+        {
+            $leg=$result[0]->klub_id;
+            $query = "SELECT * FROM users WHERE klub_id = ?";
+            $reee = DB::select($query, [$leg]);
+            $xde =json_decode(json_encode($reee),true);
+        
+            foreach($xde as $res)
+            {
+                ogloszenia::create([
+                    
+                    'nadawca'=>$legi,
+                     'priorytet'=>$risk,
+                      'temat'=>$topic,
+                    'tresc'=>$tresc,
+                    'czlonek_id'=>$res['id'],
+                    'data'=>$data
+                     ]);
+            }
+        }
+
+        return $xde;
         //userToken,sendDate,odbiorca,tresc,temat,priorytet
         //sendDate to po prostu dzisiejsza data - w sensie z momentu wysłania
         //odbiorca masz tak -> 0 - zarząd, 1 - wszyscy w Klubie
