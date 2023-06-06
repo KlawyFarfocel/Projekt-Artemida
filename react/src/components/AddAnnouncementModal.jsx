@@ -47,7 +47,7 @@ export default function AddAnnouncementModal(props){
         <form className='w-50 mx-auto' onSubmit={handleSubmit}>
             <div className="mb-3">
                 <label className="form-label">Odbiorca</label>
-                <Select options={recipient}  onChange={(choice)=>setOdbiorca(choice.value)}></Select>  
+                <Select required options={recipient}  onChange={(choice)=>setOdbiorca(choice.value)}></Select>  
             </div>
             <div className="mb-3">
                 <label className="form-label">Temat</label>
@@ -59,7 +59,7 @@ export default function AddAnnouncementModal(props){
             </div>
             <div className="mb-3">
                 <label className="form-label">Priorytet</label>
-                <Select options={priority}  onChange={(choice)=>setPriorytet(choice.value)}></Select>  
+                <Select required options={priority}  onChange={(choice)=>setPriorytet(choice.value)}></Select>  
             </div>
             <div className="mb-3 text-center">
                 <button type='submit' className='btn btn-success'>Wyślij ogłoszenie</button>

@@ -80,7 +80,6 @@ export default function HunterClub(){
         .then(({data})=>{
             setUsersWithoutClub(data[0]);
             setTeamMainProp(data[1]);
-            console.log(data[1])
             // setTeamMainSelectProp(data[1].map(item=>({
             //     Object.entries(item).map(innerItem=>({
 

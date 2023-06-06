@@ -31,7 +31,8 @@ export default function UserData(props){
   const [sendFlag, setSendFlag] = useState(false);
   const [refresh,setRefresh]=useState(false);
 
-  const [validateFormFlag,setValidateFormFlag]=useState(true);
+  let validateFormFlag=true;
+
 
     if(sendFlag){
       axiosClient
@@ -67,29 +68,101 @@ export default function UserData(props){
     },[userDataProp])
 
   const handleSubmit=(e)=>{
-      console.log(action)
+      console.log(e)
       e.preventDefault();
-      (!props.toReload?setAction("/changeUserData"):"")
-      setRefresh(true);
-      setSendFlag(true);
-      (props.toReload
-      ?
-      (props.reloadRequest
+      
+      const tar=e;
+      validateBeforeSend(tar);
+      
+      if(validateFormFlag){
+        (!props.toReload?setAction("/changeUserData"):"")
+        setRefresh(true);
+        setSendFlag(true);
+        (props.toReload
         ?
-          props.setReloadRequest(false)
-        :
-          props.setReloadRequest(true)
-      )
-      :""
-      )
+        (props.reloadRequest
+          ?
+            props.setReloadRequest(false)
+          :
+            props.setReloadRequest(true)
+        )
+        :""
+        )
+      }
   }
-  const startValidationProcess=(regexp,value,e,invalidText)=>{
-    console.log(e.target.value)
-    if(validateInput(regexp,e.target.value)){
-      changeInputAttributes("valid",e.target)
+  const validateBeforeSend=(e)=>{
+    validateFormFlag=true;
+    //imie
+    let invalidText="Imię nie powinno zawierać znaków specjalnych oraz powinno mieć maksymalną długość 50 znaków";
+    let regexp=/^(?:\p{Lu}){1}(?:\p{Ll}){1,49}$/u
+    validateInputOnSubmit(invalidText,regexp,e,0);
+    //nazwisko
+    invalidText='Nazwisko powinno mieć maksymalną długość 50 znaków oraz rozpoczynać się wielką literą. W przypadku podwójnych nazwisko, po znaku "-" powinna zostać powtórzona wielka litera. Dopuszczone znaki specjalne to "-" oraz \'';
+    regexp=/^(?:\p{Lu}){1}(?:\p{Ll}){1,49}$/u;
+    validateInputOnSubmit(invalidText,regexp,e,1);
+    //miasto lub haslo
+    if(password==true){
+    //haslo
+    invalidText="Hasło musi zawierać co najmniej 8 znaków, jedną wielką literę, jedną małą literę, jedną cyfrę oraz jeden znak specjalny";
+    regexp=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    validateInputOnSubmit(invalidText,regexp,e,4);
+    //miasto
+    invalidText='Pole miasto powinno się rozpoczynać z wielkiej litery. Jeśli nazwa miasta zawiera znak "-", to każdy człon również powinien rozpoczynać się z wielkiej litery. Sytuacja wygląda tak samo w przypadku członów miast oddzielonych spacją. Błędem jest też pozostawienie znaku spacji na końcu';
+    regexp=/^(?:[A-ZĄĆĘŁŃÓŚŹŻ][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]*)(?:-[A-ZĄĆĘŁŃÓŚŹŻ][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+)*(?: [A-ZĄĆĘŁŃÓŚŹŻ][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+(?:-[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+)*)*$/;
+    validateInputOnSubmit(invalidText,regexp,e,5);
+    //mieszkanie
+    invalidText="Numer mieszkania może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
+    regexp=/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
+    validateInputOnSubmit(invalidText,regexp,e,8);
+    //budynek
+    regexp=/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
+    invalidText="Numer budynku może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
+    validateInputOnSubmit(invalidText,regexp,e,9);
+    //mail
+    regexp=/(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+    invalidText="Sprawdź poprawność adresu e-mail"
+    validateInputOnSubmit(invalidText,regexp,e,10);
+    //ulica
+    invalidText="Pole ulica powinno się rozpoczynać od wielkiej litery bądź cyfry. Upewnij się, że w nazwie ulicy nie występuje więcej niż jedna spacja. Dopuszczalne znaki specjalne to '.' oraz '-'"
+    regexp=/^[\p{Lu}d][\p{L}0-9.\-]*(?:\s[[\p{L}\d][\p{L}0-9.\-]*)*$/u
+    validateInputOnSubmit(invalidText,regexp,e,7);
+    changeInputAttributes("valid",e.target[6])//kod
+    changeInputAttributes("valid",e.target[11])//nr tel
+    }else{
+      invalidText='Pole miasto powinno się rozpoczynać z wielkiej litery. Jeśli nazwa miasta zawiera znak "-", to każdy człon również powinien rozpoczynać się z wielkiej litery. Sytuacja wygląda tak samo w przypadku członów miast oddzielonych spacją. Błędem jest też pozostawienie znaku spacji na końcu';
+      regexp=/^(?:[A-ZĄĆĘŁŃÓŚŹŻ][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]*)(?:-[A-ZĄĆĘŁŃÓŚŹŻ][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+)*(?: [A-ZĄĆĘŁŃÓŚŹŻ][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+(?:-[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+)*)*$/;
+      validateInputOnSubmit(invalidText,regexp,e,4);
+          //mieszkanie
+    invalidText="Numer mieszkania może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
+    regexp=/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
+    validateInputOnSubmit(invalidText,regexp,e,7);
+    //budynek
+    regexp=/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
+    invalidText="Numer budynku może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
+    validateInputOnSubmit(invalidText,regexp,e,8);
+    //mail
+    regexp=/(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+    invalidText="Sprawdź poprawność adresu e-mail"
+    validateInputOnSubmit(invalidText,regexp,e,9);
+    //ulica
+    invalidText="Pole ulica powinno się rozpoczynać od wielkiej litery bądź cyfry. Upewnij się, że w nazwie ulicy nie występuje więcej niż jedna spacja. Dopuszczalne znaki specjalne to '.' oraz '-'"
+    regexp=/^[\p{Lu}d][\p{L}0-9.\-]*(?:\s[[\p{L}\d][\p{L}0-9.\-]*)*$/u
+    validateInputOnSubmit(invalidText,regexp,e,6);
+    changeInputAttributes("valid",e.target[5])//kod
+    changeInputAttributes("valid",e.target[10])//nr tel
+    }
+    changeInputAttributes("valid",e.target[2])//pesel
+    changeInputAttributes("valid",e.target[3])//legi
+
+
+    alert(validateFormFlag)
+  }
+  const validateInputOnSubmit=(invalidText,regexp,e,number)=>{
+    if(validateInput(regexp,e.target[number].value)){
+      changeInputAttributes("valid",e.target[number])
     }
     else{
-      changeInputAttributes("invalid",e.target,invalidText)
+      changeInputAttributes("invalid",e.target[number],invalidText)
     }
   }
   const validateInput=(regexp,value)=>{
@@ -98,9 +171,17 @@ export default function UserData(props){
     }
     else return false;
   }
+
+  const startValidationProcess=(regexp,value,e,invalidText)=>{
+    if(validateInput(regexp,e.target.value)){
+      changeInputAttributes("valid",e.target)
+    }
+    else{
+      changeInputAttributes("invalid",e.target,invalidText)
+    }
+  }
   const changeInputAttributes=(state,target,title="")=>{
     if(state=="valid"){
-      setValidateFormFlag(true);
 
         const tooltipTriggerList = document.querySelectorAll('.tooltip-inner,.tooltip-arrow');
         tooltipTriggerList.forEach(tooltipTriggerEl => {
@@ -118,7 +199,7 @@ export default function UserData(props){
         }
     }
     else{//invalid
-      setValidateFormFlag(false);
+      validateFormFlag=false;
         target.setAttribute("data-bs-toggle","tooltip")
         target.setAttribute("title",title)
         if(target.classList.contains("is-valid")){
@@ -148,24 +229,33 @@ export default function UserData(props){
     startValidationProcess(/^(?:[A-ZĄĆĘŁŃÓŚŹŻ][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]*)(?:-[A-ZĄĆĘŁŃÓŚŹŻ][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+)*(?: [A-ZĄĆĘŁŃÓŚŹŻ][a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+(?:-[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]+)*)*$/,e.target.value,e,invalidText)
   }
   const handleKod=e=>{setKod(e.target.value);}
-  const handleUlica=e=>{setUlica(e.target.value);}
+  const handleUlica=e=>{
+    setUlica(e.target.value);
+    const invalidText="Pole ulica powinno się rozpoczynać od wielkiej litery bądź cyfry. Upewnij się, że w nazwie ulicy nie występuje więcej niż jedna spacja. Dopuszczalne znaki specjalne to '.' oraz '-'"
+    setUlica(e.target.value);
+    startValidationProcess(/^[\p{Lu}d][\p{L}0-9.\-]*(?:\s[[\p{L}\d][\p{L}0-9.\-]*)*$/u,e.target.value,e,invalidText)
+  }
   const handleMieszkanie=e=>{
     setMieszkanie(e.target.value);
-    const invalidText="Numer mieszkania musi zawierać się w przedziale 1-999"
-    startValidationProcess(/^[0-9]{1,3}$/,e.target.value,e,invalidText)
+    const invalidText="Numer mieszkania może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
+    startValidationProcess(/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm,e.target.value,e,invalidText)
   }
   const handlBudynek=e=>{
     setBudynek(e.target.value);
-    const invalidText="Numer budynku musi zawierać się w przedziale 1-99999999999"
-    startValidationProcess(/^[0-9a-z_.-]+@[0-9a-z.-]+\.[a-z]{2,3}$/,e.target.value,e,invalidText)
+    const invalidText="Numer budynku może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
+    startValidationProcess(/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm,e.target.value,e,invalidText)
   }
   const handleMail=e=>{
     setMail(e.target.value);
     const invalidText="Sprawdź poprawność adresu e-mail"
-    startValidationProcess(/^[0-9]{1,11}$/,e.target.value,e,invalidText)
+    startValidationProcess(/(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,e.target.value,e,invalidText)
   }
   const handleTelefon=e=>{setTelefon(e.target.value);}
-  const handleHaslo=e=>{setHaslo(e.target.value);}
+  const handleHaslo=e=>{
+    setHaslo(e.target.value);
+    const invalidText="Hasło musi zawierać co najmniej 8 znaków, jedną wielką literę, jedną małą literę, jedną cyfrę oraz jeden znak specjalny";
+    startValidationProcess(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,e.target.value,e,invalidText)
+  }
   const [dupa,setDupa]=useState("form-control")
 
   if(userInfo==true){
@@ -264,13 +354,13 @@ export default function UserData(props){
           <div className="row mb-2">
             <div className="col">
               <div className="form-outline">
-                <input defaultValue={mieszkanie} type="text" id="form3Example1" maxLength={3} onChange={handleMieszkanie} className="form-control" />
+                <input defaultValue={mieszkanie} type="text" id="form3Example1" maxLength={10} onChange={handleMieszkanie} className="form-control" />
                 <label className="form-label" htmlFor="form3Example1">Nr. mieszkania</label>
               </div>
             </div>
             <div className="col">
               <div className="form-outline">
-                <input maxLength={11} required defaultValue={budynek} type="text" id="form3Example2" onChange={handlBudynek} className="form-control" />
+                <input maxLength={10} required defaultValue={budynek} type="text" id="form3Example2" onChange={handlBudynek} className="form-control" />
                 <label className="form-label" htmlFor="form3Example2">Nr. budynku</label>
               </div>
             </div>
@@ -281,7 +371,7 @@ export default function UserData(props){
             <label className="form-label" htmlFor="form3Example3">E-mail</label>
           </div>
           <div className="form-outline mb-2">
-            <InputMask value={telefon} onChange={handleTelefon} placeholder="789887888" className="form-control" />
+            <InputMask required mask={"+99999999999"} value={telefon} onChange={handleTelefon} placeholder="+48212121212" className="form-control" />
 
             <label className="form-label" htmlFor="form3Example3">Nr.telefonu</label>
           </div>

@@ -43,7 +43,7 @@ export default function AddDonateModal(props){
             </div>
             <div className="mb-3">
                 <label className="form-label">Termin</label>
-                <DatePicker 
+                <DatePicker  required
                             className='form-control'                  
                             dateFormat="dd.MM.yyyy HH:mm"
                             selected={startDate}
