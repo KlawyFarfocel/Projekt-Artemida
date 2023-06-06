@@ -455,16 +455,58 @@ class ContentController extends Controller
         $sekretarz=dane::where('user_id','=',$se)->first();
         $skarbnik=dane::where('user_id','=',$sk)->first();
         $lowczy=dane::where('user_id','=',$lg)->first();
-        $end1=$prezes->imie." ".$prezes->nazwisko;
+        $end1=0;
+        $end2=0;
+        $end3=0;
+        $end4=0;
+        $id1=0;
+        $id2=0;
+        $id3=0;
+        $id4=0;
+        if(isset($prezes))
+        {
+            $end1=$prezes->imie." ".$prezes->nazwisko;
+            $id1=$prezes->user_id;
+        }else
+        {
+            $end1="brak";
+            $id1=0;
+        }
+        if(isset($sekretarz))
+        {
         $end2=$sekretarz->imie." ".$sekretarz->nazwisko;
+        $id1=$prezes->user_id;
+        }else
+        {
+            $end2="brak";
+            $id2=0;
+        }
+        if(isset($skarbnik))
+        {
         $end3=$skarbnik->imie." ".$skarbnik->nazwisko;
+        $id1=$prezes->user_id;
+        }else
+        {
+            $end3="brak";
+            $id3=0;
+        }
+        if(isset($lowczy))
+        {
         $end4=$lowczy->imie." ".$lowczy->nazwisko;
+        $id1=$prezes->user_id;
+        }else
+        {
+            $end4="brak";
+            $id4=0;
+        }
+        
+        
         // nextMeeting - data najbliższego spotkania - można na to osobną tabelę zrobić, nie zaszkodzi 
         $mainSquad=[
-            ["id"=>$prezes->user_id,"Prezes"=>$end1],
-            ["id"=>$sekretarz->user_id,"Sekretarz"=>$end2],
-            ["id"=>$skarbnik->user_id,"Skarbnik"=>$end3],
-            ["id"=>$lowczy->user_id,"Łowczy"=>$end4]
+            ["id"=>$id1,"Prezes"=>$end1],
+            ["id"=>$id2,"Sekretarz"=>$end2],
+            ["id"=>$id3,"Skarbnik"=>$end3],
+            ["id"=>$id4,"Łowczy"=>$end4]
         ];
         
         foreach (User::all()->where('klub_id','0') as $perm )
@@ -518,7 +560,7 @@ class ContentController extends Controller
             ];
             $nazwa=$klub->nazwa;
         return response([
-            $usersWithoutClub,$mainSquad,$allHuntersFromClub,$najblizszePolowania,$nextMeeting,$nazwa
+            $usersWithoutClub,$mainSquad,$allHuntersFromClub,$najblizszePolowania,$nextMeeting,$nazwa,$pr,$idik
         ]);
     }
     public function GetOnlyMainSquadFromClub(Request $request){
@@ -947,10 +989,33 @@ class ContentController extends Controller
     public function KickUserOutOfClub(Request $request){
        
         $legi=$request['kickUserId'];
-
+        $ser=User::where('id','=',$legi)->first();
+       $klub=klub::where('klub_id','=',$ser->klub_id)->first();
+       $leg=$ser->klub_id;
         $query = "UPDATE users SET klub_id = 0 WHERE  id = :legi LIMIT 1";
         
         $result = DB::update($query,['legi' => $legi]);
+        
+        if($klub->prezes==$legi)
+        {
+        $query1 = "UPDATE klub SET prezes = 0 WHERE  klub_id = :legi LIMIT 1";   
+        $result = DB::update($query1,['legi' => $leg]);
+        }
+        if($klub->sekretarz==$legi)
+        {
+            $query2 = "UPDATE klub SET sekretarz = 0 WHERE  klub_id = :legi LIMIT 1";   
+            $result = DB::update($query2,['legi' => $leg]);
+        }
+        if($klub->skarbnik==$legi)
+        {
+            $query3 = "UPDATE klub SET skarbnik = 0 WHERE  klub_id = :legi LIMIT 1";   
+            $result = DB::update($query3,['legi' => $leg]);
+        }
+        if($klub->lowczy_glowny==$legi)
+        {
+            $query4 = "UPDATE klub SET lowczy_glowny = 0 WHERE  klub_id = :legi LIMIT 1";   
+            $result = DB::update($query4,['legi' => $leg]);
+        }
         /*    //kickUserId
         $legi=$request['kickUserId'];
         User::where('id','=',$legi)->first()->update(['klub_id'=>0]);*/
