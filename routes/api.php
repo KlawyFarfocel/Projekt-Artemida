@@ -54,3 +54,4 @@ Route::post("/AddShooting",[ContentController::class,'AddShooting']);
 Route::post("/GetOnlyMainSquadFromClub",[ContentController::class,'GetOnlyMainSquadFromClub']);
 Route::post("/FilterDonate",[ContentController::class,'FilterDonate']);
 Route::post("/SendAnno",[ContentController::class,'SendAnno']);
+Route::post("/GetActiveHuntInfo",[ContentController::class,'GetActiveHuntInfo']);

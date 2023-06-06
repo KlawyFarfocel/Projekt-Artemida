@@ -14,36 +14,38 @@ export default function ActiveHunt(){
     const navigate=useNavigate()
     const huntId=location.state['huntId'];
     const supervisorId=location.state['IdSupervisor'];
-    const tableProp=[
-        {
-            "Kto strzelał":"Alberto Kozak",
-            "Kiedy":"23.05.2023 23:05",
-            "Podgrupa":"Dziki",
-            "Zwierzyna":"pozostały",
-            "ilość":7
-        },
-        {
-            "Kto strzelał":"Alberto Kozak",
-            "Kiedy":"23.05.2023 23:05",
-            "Podgrupa":"Dziki",
-            "Zwierzyna":" lochy",
-            "ilość":1
-        },
-    ]
-    const huntAnimalsProp=[
-        {
-            "Podgrupa":"Dziki",
-            "Zwierze":"Lochy",
-            "Założono do odstrzału":7,
-            "Odstrzelono":1
-        },
-        {
-            "Podgrupa":"Dziki",
-            "Zwierze":"pozostałe",
-            "Założono do odstrzału":5,
-            "Odstrzelono":4
-        }
-    ]
+    const [tableProp,setTableProp]=useState([{}]);
+    const [huntAnimalsProp,setHuntAnimalsProp]=useState([{}])
+    // const tableProp=[
+    //     {
+    //         "Kto strzelał":"Alberto Kozak",
+    //         "Kiedy":"23.05.2023 23:05",
+    //         "Podgrupa":"Dziki",
+    //         "Zwierzyna":"pozostały",
+    //         "ilość":7
+    //     },
+    //     {
+    //         "Kto strzelał":"Alberto Kozak",
+    //         "Kiedy":"23.05.2023 23:05",
+    //         "Podgrupa":"Dziki",
+    //         "Zwierzyna":" lochy",
+    //         "ilość":1
+    //     },
+    // ]
+    // const huntAnimalsProp=[
+    //     {
+    //         "Podgrupa":"Dziki",
+    //         "Zwierze":"Lochy",
+    //         "Założono do odstrzału":7,
+    //         "Odstrzelono":1
+    //     },
+    //     {
+    //         "Podgrupa":"Dziki",
+    //         "Zwierze":"pozostałe",
+    //         "Założono do odstrzału":5,
+    //         "Odstrzelono":4
+    //     }
+    // ]
     const EndShootingEarly=()=>{
         axiosClient.post("/EndShootingEarly",{
             huntId
@@ -53,6 +55,13 @@ export default function ActiveHunt(){
         })
     }
     useEffect(()=>{
+        axiosClient.post("/GetActiveHuntInfo",{
+            huntId
+        })
+        .then((({data})=>{
+            setTableProp(data[0])
+            setHuntAnimalsProp(data[1])
+        }))
         axiosClient
       .post("/getStatsSelect",{
           userToken
@@ -81,6 +90,8 @@ export default function ActiveHunt(){
       console.log(err);
       });
     },[userToken])
+    console.log(tableProp)
+    console.log(huntAnimalsProp)
     return(
         <div className="container-fluid">
             <h1 className="fs-1 text-white text-uppercase text-center py-3">Zwierzęta do odstrzału podczas tego polowania</h1>

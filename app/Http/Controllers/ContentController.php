@@ -1200,4 +1200,39 @@ class ContentController extends Controller
         //sendDate to po prostu dzisiejsza data - w sensie z momentu wysłania
         //odbiorca masz tak -> 0 - zarząd, 1 - wszyscy w Klubie
     }
+    public function GetActiveHuntInfo(Request $request){
+        $tableProp=[
+            [
+                "Kto strzelał"=>"Alberto Kozak",
+                "Kiedy"=>"23.05.2023 23:05",
+                "Podgrupa"=>"Dziki",
+                "Zwierzyna"=>"pozostały",
+                "ilość"=>7
+            ],
+            [
+                "Kto strzelał"=>"Alberto Kozak",
+                "Kiedy"=>"23.05.2023 23:05",
+                "Podgrupa"=>"Dziki",
+                "Zwierzyna"=>" lochy",
+                "ilość"=>1
+            ],
+        ];
+        $huntAnimalsProp=[
+                [
+                    "Podgrupa"=>"Dziki",
+                    "Zwierze"=>"Lochy",
+                    "Założono do odstrzału"=>7,//masz huntId to weź zlicz wszystkie
+                    "Odstrzelono"=>1//zlicz potwierdzone dla tego huntId
+                ],
+                [
+                    "Podgrupa"=>"Dziki",
+                    "Zwierze"=>"pozostałe",
+                    "Założono do odstrzału"=>5,
+                    "Odstrzelono"=>4
+                ]
+        ];
+        return response([
+            $tableProp,$huntAnimalsProp
+        ]);
+    }
 }
