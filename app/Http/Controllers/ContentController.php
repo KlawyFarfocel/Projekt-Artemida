@@ -1078,6 +1078,55 @@ class ContentController extends Controller
                      ]);
             }
         }
+        else
+        {
+            $leg=$result[0]->klub_id;
+            $query = "SELECT * FROM klub WHERE klub_id = ?";
+            $reee = DB::select($query, [$leg]);
+            $xde =json_decode(json_encode($reee),true);
+   
+               ogloszenia::create([
+                    
+                    'nadawca'=>$legi,
+                     'priorytet'=>$risk,
+                      'temat'=>$topic,
+                    'tresc'=>$tresc,
+                    'czlonek_id'=>$xde[0]['prezes'],
+                    'data'=>$data
+                     ]);
+
+                     ogloszenia::create([
+                    
+                        'nadawca'=>$legi,
+                         'priorytet'=>$risk,
+                          'temat'=>$topic,
+                        'tresc'=>$tresc,
+                        'czlonek_id'=>$xde[0]['sekretarz'],
+                        'data'=>$data
+                         ]);
+
+
+                         ogloszenia::create([
+                    
+                            'nadawca'=>$legi,
+                             'priorytet'=>$risk,
+                              'temat'=>$topic,
+                            'tresc'=>$tresc,
+                            'czlonek_id'=>$xde[0]['skarbnik'],
+                            'data'=>$data
+                             ]);
+                             
+                             ogloszenia::create([
+                    
+                                'nadawca'=>$legi,
+                                 'priorytet'=>$risk,
+                                  'temat'=>$topic,
+                                'tresc'=>$tresc,
+                                'czlonek_id'=>$xde[0]['lowczy_glowny'],
+                                'data'=>$data
+                                 ]);     
+            }
+        
 
         return $xde;
         //userToken,sendDate,odbiorca,tresc,temat,priorytet
