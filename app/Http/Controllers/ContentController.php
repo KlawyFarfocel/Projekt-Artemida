@@ -359,11 +359,14 @@ class ContentController extends Controller
             ];
             array_push($data,$ads);
         }
+        $marko=dane::where('user_id',$legi)->first();
+        $jeden=$marko->imie;
+        $dwa=$marko->nazwisko;
+        $fullname=$jeden." ".$dwa;
         
-        
-        return response(
-            $data
-        );
+        return response([
+            $data,$fullname
+        ]);
     }
     public function AddNewUser(Request $request){
         $budynek=$request['budynek'];
@@ -502,8 +505,9 @@ class ContentController extends Controller
 
             ]
             ];
+            $nazwa=$klub->nazwa;
         return response([
-            $usersWithoutClub,$mainSquad,$allHuntersFromClub,$najblizszePolowania,$nextMeeting
+            $usersWithoutClub,$mainSquad,$allHuntersFromClub,$najblizszePolowania,$nextMeeting,$nazwa
         ]);
     }
     public function GetOnlyMainSquadFromClub(Request $request){

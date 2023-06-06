@@ -15,6 +15,7 @@ export default function StatsView(){
     const [endDate,setEndDate]=useState(new Date(new Date().getFullYear(), 11, 31));//start date z bazy
     const [selectedOption, setSelectedOption] = useState(null);//Wybrane opcje
     const [request,setRequest]=useState(false);
+    const [fullname,setFullname]=useState("")
     const initialValue = "";
     var valuel;
     if(request==true){
@@ -70,15 +71,16 @@ export default function StatsView(){
       })
       .then(({data})=>{
         setStats([]);
-        Object.entries(data).map(([key,value])=>{
-          const newStats = Object.entries(data).map(([key,value])=>({
+        Object.entries(data[0]).map(([key,value])=>{
+          const newStats = Object.entries(data[0]).map(([key,value])=>({
             id:value.id,
             title:value.title,
             date:new Date(value.date)
           }));
           setStats(newStats);
         })
-        stats.length=(Object.keys(data).length); 
+        stats.length=(Object.keys(data[0]).length); 
+        setFullname(data[1])
       })
       
     },[])
@@ -86,7 +88,7 @@ export default function StatsView(){
         <div className="container w-100 ww mx-auto d-flex flex-column align-items-center justify-content-center  mt-5">
             <h1 className="mb-2 shadow-md p-1  rounded fs-1 text-uppercase fw-bold text-white">Statystyki odstrzałów</h1>
             <h1 className="mb-2 shadow-md p-1  rounded fs-3 text-uppercase fw-bold text-white">{startDate.toLocaleDateString('pl-PL',{day:"2-digit",month:"2-digit",year:"numeric"})} - {endDate.toLocaleDateString('pl-PL',{day:"2-digit",month:"2-digit",year:"numeric"})}</h1>
-            <h1 className="mb-2 shadow-md p-1  rounded fs-5 text-uppercase fw-bold text-white">Marek Pieczarek</h1>
+            <h1 className="mb-2 shadow-md p-1  rounded fs-5 text-uppercase fw-bold text-white">{fullname}</h1>
             <div className="d-flex w-100">       
                 <div className="stats w-100">
                 {

@@ -18,7 +18,7 @@ const [importantTitle,setImportantTitle]=useState("")
 const [toggler,setToggler]=useState("");
 const handlePresident=(e)=>{
     setPresident(e)
-    document.getElementById('presidentWrapper').removeAttribute("data-bs-original-title")
+    document.getElementById('prezesWrapper').removeAttribute("data-bs-original-title")
     document.getElementById('sekretarzWrapper').removeAttribute("data-bs-original-title")
     setImportantClass("form-control")
     setImportantTitle("")
@@ -26,6 +26,10 @@ const handlePresident=(e)=>{
 }
 const handleSecretary=(e)=>{
     setSecretary(e)
+    const tooltipTriggerList = document.querySelectorAll('.tooltip-inner,.tooltip-arrow');
+    tooltipTriggerList.forEach(tooltipTriggerEl => {
+      tooltipTriggerEl.classList.add("d-none")
+    });
     document.getElementById('prezesWrapper').removeAttribute("data-bs-original-title")
     document.getElementById('sekretarzWrapper').removeAttribute("data-bs-original-title")
     setImportantClass("form-control")
@@ -36,13 +40,38 @@ const handleSubmit=(e)=>{
     e.preventDefault();
     validationFlag=true;
     let newPresident,newSecretary,newCashier,newHuntsman;
-    if(president==secretary){
+    if(typeof(president)=="object"){
+        newPresident=president.value
+    }else{
+        newPresident=president
+    }
+    if(typeof(secretary)=="object"){
+        newSecretary=secretary.value
+    }else{
+        newSecretary=secretary
+    }
+    if(typeof(cashier)=="object"){
+        newCashier=cashier.value
+    }else{
+        newCashier=cashier
+    }
+    if(typeof(huntsman)=="object"){
+        newHuntsman=huntsman.value
+    }else{
+        newHuntsman=huntsman
+    }
+    console.log(president)
+    if(newPresident==newSecretary){
         setImportantClass("form-control is-invalid")
         setImportantTitle("Jedna osoba nie może jednocześnie pełnić funkcji Sekretarza i Prezesa")
         setToggler("tooltip")
         validationFlag=false
     }
     else{
+        const tooltipTriggerList = document.querySelectorAll('.tooltip-inner,.tooltip-arrow');
+        tooltipTriggerList.forEach(tooltipTriggerEl => {
+          tooltipTriggerEl.classList.add("d-none")
+        });
         setImportantClass("form-control")
         setImportantTitle("")
         setToggler("")
@@ -50,26 +79,7 @@ const handleSubmit=(e)=>{
         document.getElementById('sekretarzWrapper').removeAttribute("data-bs-original-title")
     }
     if(validationFlag){
-        if(typeof(president)=="object"){
-            newPresident=president.value
-        }else{
-            newPresident=president
-        }
-        if(typeof(secretary)=="object"){
-            newSecretary=secretary.value
-        }else{
-            newSecretary=secretary
-        }
-        if(typeof(cashier)=="object"){
-            newCashier=cashier.value
-        }else{
-            newCashier=cashier
-        }
-        if(typeof(huntsman)=="object"){
-            newHuntsman=huntsman.value
-        }else{
-            newHuntsman=huntsman
-        }
+
         axiosClient.post("/AssignRanks",{
             newPresident,newSecretary,newCashier,newHuntsman,userToken
         })

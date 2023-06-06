@@ -19,7 +19,7 @@ export default function HunterClub(){
     const [teamAllSelectProp,setTeamAllSelectProp]=useState([]);
     const [teamMainSelectProp,setTeamMainSelectProp]=useState([]);
     const [userDataProp,setUserDataProp]=useState();
-
+    const [clubName,setClubName]=useState("")
 
     const [huntsProp,setHuntsProp]=useState([]);
     const [nextMeeting,setNextMeeting]=useState([]);
@@ -112,6 +112,7 @@ export default function HunterClub(){
                 Data: new Date(item.Data)
             }))
             setNextMeeting(newData);
+            setClubName(data[5])
             setReloadRequest(false)
         })
         .catch(err => {
@@ -131,7 +132,7 @@ export default function HunterClub(){
     },[userToken])
     return(
         <div className="container-fluid">
-            <h1 className="text-uppercase fs-1 text-white text-center my-3">Koło Łowieckie "Bubr"</h1>
+            <h1 className="text-uppercase fs-1 text-white text-center my-3">Koło Łowieckie "{clubName}"</h1>
             <div className="row pb-5">
                 <div className="col-12 col-md-5 pb-5">
                     <h1 className="text-uppercase text-white fs-1 text-center">Zarząd</h1>
