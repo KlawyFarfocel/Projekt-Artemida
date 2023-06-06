@@ -90,8 +90,6 @@ export default function ActiveHunt(){
       console.log(err);
       });
     },[userToken])
-    console.log(tableProp)
-    console.log(huntAnimalsProp)
     return(
         <div className="container-fluid">
             <h1 className="fs-1 text-white text-uppercase text-center py-3">Zwierzęta do odstrzału podczas tego polowania</h1>
@@ -99,7 +97,7 @@ export default function ActiveHunt(){
             <thead>
                     <tr>
                         {Object.keys(huntAnimalsProp[0]).map((header, index) => (
-                            <th key={index}>{header}</th>
+                            <th key={index}>{String(header)}</th>
                         ))}
                         <th>Do odstrzału</th>
                     </tr>
@@ -108,9 +106,9 @@ export default function ActiveHunt(){
                 {huntAnimalsProp.map((row, rowIndex) => (
                     <tr key={rowIndex}>
                         {Object.values(row).map((value, columnIndex) => (
-                            <td key={columnIndex}>{value}</td>
+                            <td key={columnIndex}>{String(value)}</td>
                         ))}
-                        <td>{huntAnimalsProp[rowIndex]["Założono do odstrzału"]-huntAnimalsProp[rowIndex]["Odstrzelono"]}</td>
+                        <td>{String(huntAnimalsProp[rowIndex]["Założono do odstrzału"]-huntAnimalsProp[rowIndex]["Odstrzelono"])}</td>
                     </tr>
                 ))}
                 </tbody>
@@ -128,7 +126,7 @@ export default function ActiveHunt(){
                 {tableProp.map((row, rowIndex) => (
                     <tr key={rowIndex}>
                         {Object.values(row).map((value, columnIndex) => (
-                            <td key={columnIndex}>{value}</td>
+                            <td key={columnIndex}>{value.toString()}</td>
                         ))}
                     </tr>
                 ))}
