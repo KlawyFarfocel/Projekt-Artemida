@@ -9,6 +9,7 @@ import AssignRanksClubModal from "./AssignRanksInClubModal"
 import { id } from "date-fns/locale"
 import UserInfoModal from "./userInfoModal"
 import SetNextMeetingModal from "./SetNextMeetingModal"
+import RemoveUserModal from "./RemoveUserModal"
 
 export default function HunterClub(){
     
@@ -16,6 +17,8 @@ export default function HunterClub(){
     const [usersWithoutClub,setUsersWithoutClub]=useState([]);
     const [teamMainProp,setTeamMainProp]=useState([]);
     const [teamAllProp,setTeamAllProp]=useState([]);
+
+    const [userKey,setUserKey]=useState(0);
 
     const [teamAllSelectProp,setTeamAllSelectProp]=useState([]);
     const [teamMainSelectProp,setTeamMainSelectProp]=useState([]);
@@ -30,6 +33,7 @@ export default function HunterClub(){
     const [modalRanksShow, setModalRanksShow]=useState(false);
     const [modalUserInfoShow, setModalUserInfoShow]=useState(false);
     const [modalNextMeeting, setModalNextMeeting]=useState(false);
+    const [modalDeleteUser,setModalDeleteUser]=useState(false);
 
     const [request,setRequest]=useState(false);
     const [reloadRequest,setReloadRequest]=useState(false);
@@ -202,7 +206,7 @@ export default function HunterClub(){
                                                 <button onClick={()=>GetUserDataInClub(key)} className="btn btn-success w-45">Wyświetl dane</button>
                                                 {(president
                                                     ?
-                                                        <button onClick={()=>kickUserOutOfClub(key)} className="btn btn-danger ms-1 w-45">Wyrzuć z koła</button>
+                                                        <button onClick={()=>setModalDeleteUser(true) & setUserKey(key)} className="btn btn-danger ms-1 w-45">Wyrzuć z koła</button>
                                                     :
                                                         ""
                                                 )}
@@ -262,6 +266,7 @@ export default function HunterClub(){
             <AddUserToClubModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} show={modalUserShow} setSelectedOption={setSelectedOption} options={usersWithoutClub} setRequest={setRequest} setModalUserShow={setModalUserShow}/>
             <AssignRanksClubModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} content={teamAllSelectProp} currentSquad={teamMainSelectProp} show={modalRanksShow} setModalRanksShow={setModalRanksShow}></AssignRanksClubModal>
             <SetNextMeetingModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} setModalNextMeeting={setModalNextMeeting} show={modalNextMeeting}/>
+            <RemoveUserModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} allUsers={teamAllProp} id={userKey} show={modalDeleteUser} setModalDeleteUser={setModalDeleteUser} />
         </div>
     )
 }

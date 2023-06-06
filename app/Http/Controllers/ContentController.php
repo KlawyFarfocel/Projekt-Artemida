@@ -987,7 +987,9 @@ class ContentController extends Controller
         ]);
     }
     public function KickUserOutOfClub(Request $request){
-       
+       //teraz masz jeszcze deleteUser
+       //jak jest na true znaczy wypierdol z bazy
+       //jak jest na false znaczy tylko z kola wypierdol
         $legi=$request['kickUserId'];
         $ser=User::where('id','=',$legi)->first();
        $klub=klub::where('klub_id','=',$ser->klub_id)->first();
