@@ -31,7 +31,8 @@ export default function UserData(props){
   const [sendFlag, setSendFlag] = useState(false);
   const [refresh,setRefresh]=useState(false);
 
-  const [validateFormFlag,setValidateFormFlag]=useState(true);
+  let validateFormFlag=true;
+
 
     if(sendFlag){
       axiosClient
@@ -73,21 +74,24 @@ export default function UserData(props){
       const tar=e;
       validateBeforeSend(tar);
       
-      // (!props.toReload?setAction("/changeUserData"):"")
-      // setRefresh(true);
-      // setSendFlag(true);
-      // (props.toReload
-      // ?
-      // (props.reloadRequest
-      //   ?
-      //     props.setReloadRequest(false)
-      //   :
-      //     props.setReloadRequest(true)
-      // )
-      // :""
-      // )
+      if(validateFormFlag){
+        (!props.toReload?setAction("/changeUserData"):"")
+        setRefresh(true);
+        setSendFlag(true);
+        (props.toReload
+        ?
+        (props.reloadRequest
+          ?
+            props.setReloadRequest(false)
+          :
+            props.setReloadRequest(true)
+        )
+        :""
+        )
+      }
   }
   const validateBeforeSend=(e)=>{
+    validateFormFlag=true;
     //imie
     let invalidText="Imię nie powinno zawierać znaków specjalnych oraz powinno mieć maksymalną długość 50 znaków";
     let regexp=/^(?:\p{Lu}){1}(?:\p{Ll}){1,49}$/u
@@ -178,7 +182,6 @@ export default function UserData(props){
   }
   const changeInputAttributes=(state,target,title="")=>{
     if(state=="valid"){
-      setValidateFormFlag(true);
 
         const tooltipTriggerList = document.querySelectorAll('.tooltip-inner,.tooltip-arrow');
         tooltipTriggerList.forEach(tooltipTriggerEl => {
@@ -196,7 +199,7 @@ export default function UserData(props){
         }
     }
     else{//invalid
-      setValidateFormFlag(false);
+      validateFormFlag=false;
         target.setAttribute("data-bs-toggle","tooltip")
         target.setAttribute("title",title)
         if(target.classList.contains("is-valid")){
@@ -368,7 +371,7 @@ export default function UserData(props){
             <label className="form-label" htmlFor="form3Example3">E-mail</label>
           </div>
           <div className="form-outline mb-2">
-            <InputMask required mask={"+9999999999"} value={telefon} onChange={handleTelefon} placeholder="789887888" className="form-control" />
+            <InputMask required mask={"+99999999999"} value={telefon} onChange={handleTelefon} placeholder="+48212121212" className="form-control" />
 
             <label className="form-label" htmlFor="form3Example3">Nr.telefonu</label>
           </div>

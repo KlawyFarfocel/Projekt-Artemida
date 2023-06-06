@@ -89,7 +89,7 @@ export default function AddShootedAnimalModal(props){
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Ilość</label>
-                    <input required="required" type="number" min={0} defaultValue="" onChange={(e)=>{setIlosc(e.target.value)}} className="form-control" id="Zezwolenie"/>
+                    <input required="required" type="number" min={1} defaultValue="" onChange={(e)=>{setIlosc(e.target.value)}} className="form-control" id="Zezwolenie"/>
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Podgrupa</label>
