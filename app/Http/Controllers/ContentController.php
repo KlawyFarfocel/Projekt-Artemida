@@ -1235,4 +1235,11 @@ class ContentController extends Controller
             $tableProp,$huntAnimalsProp
         ]);
     }
+    public function SetNextMeeting(Request $request){
+        //userToken,meetingPlace,meetingDate
+        //weż dołóż w klubie meetingPlace i meetingDate kolumny
+        //meetingDate to będzie timestamp
+        //place to varchar
+        return response(true);
+    }
 }

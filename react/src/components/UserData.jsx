@@ -112,7 +112,7 @@ export default function UserData(props){
     validateInputOnSubmit(invalidText,regexp,e,5);
     //mieszkanie
     invalidText="Numer mieszkania może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
-    regexp=/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
+    regexp=/^([0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*|)$/gm;
     validateInputOnSubmit(invalidText,regexp,e,8);
     //budynek
     regexp=/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
@@ -134,7 +134,7 @@ export default function UserData(props){
       validateInputOnSubmit(invalidText,regexp,e,4);
           //mieszkanie
     invalidText="Numer mieszkania może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
-    regexp=/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
+    regexp=/^([0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*|)$/gm;
     validateInputOnSubmit(invalidText,regexp,e,7);
     //budynek
     regexp=/^[1-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
@@ -238,7 +238,8 @@ export default function UserData(props){
   const handleMieszkanie=e=>{
     setMieszkanie(e.target.value);
     const invalidText="Numer mieszkania może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
-    startValidationProcess(/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm,e.target.value,e,invalidText)
+    startValidationProcess(/^([0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*|)$/gm
+    ,e.target.value,e,invalidText)
   }
   const handlBudynek=e=>{
     setBudynek(e.target.value);

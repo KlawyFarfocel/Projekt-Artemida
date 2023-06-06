@@ -8,6 +8,7 @@ import AddUserToClubModal from "./AddUserToClubModal"
 import AssignRanksClubModal from "./AssignRanksInClubModal"
 import { id } from "date-fns/locale"
 import UserInfoModal from "./userInfoModal"
+import SetNextMeetingModal from "./SetNextMeetingModal"
 
 export default function HunterClub(){
     
@@ -28,6 +29,7 @@ export default function HunterClub(){
     const [modalUserShow, setModalUserShow]=useState(false);
     const [modalRanksShow, setModalRanksShow]=useState(false);
     const [modalUserInfoShow, setModalUserInfoShow]=useState(false);
+    const [modalNextMeeting, setModalNextMeeting]=useState(false);
 
     const [request,setRequest]=useState(false);
     const [reloadRequest,setReloadRequest]=useState(false);
@@ -132,8 +134,20 @@ export default function HunterClub(){
     },[userToken])
     return(
         <div className="container-fluid">
-            <h1 className="text-uppercase fs-1 text-white text-center my-3">Koło Łowieckie "{clubName}"</h1>
-            <div className="row pb-5">
+            {
+                (clubName==""
+                ?
+                <h1 className="text-uppercase fs-1 text-white text-center my-3">Nie jesteś przypisany do żadnego koła łowieckiego</h1>
+                :
+                <h1 className="text-uppercase fs-1 text-white text-center my-3">Koło Łowieckie "{clubName}"</h1>
+                )
+            }
+            {
+                (clubName==""
+                ?
+                <h5 className="text-center text-uppercase text-white">Skontaktuj się z najbliższym Kołem Łowieckim</h5>
+                :
+                <div className="row pb-5">
                 <div className="col-12 col-md-5 pb-5">
                     <h1 className="text-uppercase text-white fs-1 text-center">Zarząd</h1>
                     <table className="table pb-5 mx-auto">
@@ -216,6 +230,9 @@ export default function HunterClub(){
                     }
                 </div>
             </div>
+            )
+            }
+
             {
                 (president | secretary
                     ?
@@ -225,7 +242,7 @@ export default function HunterClub(){
                         <div className="d-flex mx-auto w-100 justify-content-center">
                             <a className="btn btn-success mx-3"onClick={()=>setModalShow(true)}>Dodaj nowego członka</a>
                             <a className="btn btn-success mx-3"onClick={()=>setModalUserShow(true)}>Zapisz istniejącego członka do tego Koła</a>
-                            <a className="btn btn-success mx-3">Ustal następne spotkanie</a>
+                            <a className="btn btn-success mx-3" onClick={()=>setModalNextMeeting(true)}>Ustal następne spotkanie</a>
                             {
                             (president
                                 ?
@@ -244,6 +261,7 @@ export default function HunterClub(){
             <UserInfoModal content={userDataProp} show={modalUserInfoShow} setModalUserInfoShow={setModalUserInfoShow}/>
             <AddUserToClubModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} show={modalUserShow} setSelectedOption={setSelectedOption} options={usersWithoutClub} setRequest={setRequest} setModalUserShow={setModalUserShow}/>
             <AssignRanksClubModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} content={teamAllSelectProp} currentSquad={teamMainSelectProp} show={modalRanksShow} setModalRanksShow={setModalRanksShow}></AssignRanksClubModal>
+            <SetNextMeetingModal setReloadRequest={setReloadRequest} reloadRequest={reloadRequest} setModalNextMeeting={setModalNextMeeting} show={modalNextMeeting}/>
         </div>
     )
 }
