@@ -139,8 +139,19 @@ class ContentController extends Controller
             $query = "UPDATE dane SET telefon = :telefon WHERE user_id = :legi LIMIT 1";
             DB::update($query, ['telefon' => $request->telefon, 'legi' => $legi]);
              }
-
-
+             if(isset($request->budynek))
+             {
+                 // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+                 $query = "UPDATE dane SET budynek = :budynek WHERE user_id = :legi LIMIT 1";
+                 DB::update($query, ['budynek' => $request->budynek, 'legi' => $legi]);
+                  }         
+                  if(isset($request->pesel))
+                  {
+                      // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+                      $query = "UPDATE dane SET pesel = :pesel WHERE user_id = :legi LIMIT 1";
+                      DB::update($query, ['pesel' => $request->pesel, 'legi' => $legi]);
+                       }         
+                     
         return $request;
     }
     public function showDonate (Request $request){
