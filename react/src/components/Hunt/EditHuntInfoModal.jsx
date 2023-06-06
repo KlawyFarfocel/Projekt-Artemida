@@ -54,7 +54,6 @@ export default function EditHuntInfoModal(props){
         let dateString;
         let formattedDate;
         if(props.content){
-            console.log(props.content)
                 //data rozpoczęcia
                 dateString=props.content["Data rozpoczęcia"]
                 formattedDate = moment(dateString, "YYYY.MM.DD HH:mm:ss").toDate();
