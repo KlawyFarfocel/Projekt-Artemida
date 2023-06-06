@@ -34,8 +34,14 @@ class ContentController extends Controller
     
         foreach (ogloszenia::all()->where('czlonek_id',$legi) as $oglo )
         {
+
+            $marko=dane::where('user_id',$legi)->first();
+            $jeden=$marko->imie;
+            $dwa=$marko->nazwisko;
+            $fullname=$dwa." ".$jeden;
+
             $asd=[
-                    "Nadawca"=>$oglo->nadawca,
+                    "Nadawca"=>$fullname,
                     "Temat"=>$oglo->temat,
                     "Data wysłania"=>$oglo->data,
                     "Treść"=>$oglo->tresc,
@@ -51,19 +57,22 @@ class ContentController extends Controller
 
 
         $legi=$request['userToken'];
-        $user=dane::where('user_id','=',$legi)->first();
+        $query = "SELECT * FROM dane WHERE user_id = ? LIMIT 1";
+        $reee = DB::select($query, [$legi]);
+        $user =json_decode(json_encode($reee),true);
+      //  $user=dane::where('user_id','=',$legi)->first();
         $data=[
-            'imie'=>$user->imie,
-            'nazwisko'=>$user->nazwisko,
-            'pesel'=>$user->pesel,
-            'legitymacja'=>$user->legitymacja,
-            'miasto'=>$user->miasto,
-            'kod'=>$user->kod,
-            'ulica'=>$user->ulica,
-            'mieszkanie'=>$user->mieszkanie,
-            'budynek'=>$user->budynek,
-            'mail'=>$user->e_mail,
-            'telefon'=>$user->telefon,
+            'imie'=>$user[0]['imie'],
+            'nazwisko'=>$user[0]['nazwisko'],
+            'pesel'=>$user[0]['pesel'],
+            'legitymacja'=>$user[0]['legitymacja'],
+            'miasto'=>$user[0]['miasto'],
+            'kod'=>$user[0]['kod'],
+            'ulica'=>$user[0]['ulica'],
+            'mieszkanie'=>$user[0]['mieszkanie'],
+            'budynek'=>$user[0]['budynek'],
+            'mail'=>$user[0]['e_mail'],
+            'telefon'=>$user[0]['telefon'],
         ];
         return response([
             $data
@@ -71,24 +80,67 @@ class ContentController extends Controller
     }
     public function changeUserData(Request $request){
         $legi=$request['userToken'];
+        $query = "UPDATE users SET klub_id = 0 WHERE  id = :legi LIMIT 1";
+        
+        $result = DB::update($query,['legi' => $legi]);
+
+    
         if(isset($request->imie))
-        $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+        {
+       // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+       $query = "UPDATE dane SET imie = :imie WHERE user_id = :legi LIMIT 1";
+       DB::update($query, ['imie' => $request->imie, 'legi' => $legi]);
+        }
         if(isset($request->nazwisko))
-        $user=dane::where('user_id','=',$legi)->first()->update(['nazwisko'=>$request->nazwisko]);
+        {
+            // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+            $query = "UPDATE dane SET nazwisko = :nazwisko WHERE user_id = :legi LIMIT 1";
+            DB::update($query, ['nazwisko' =>$request->nazwisko, 'legi' => $legi]);
+             }
         if(isset($request->legitymacja))
-        $user=dane::where('user_id','=',$legi)->first()->update(['legitymacja'=>$request->legitymacja]);
+        {
+            // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+            $query = "UPDATE dane SET legitymacja = :legitymacja WHERE user_id = :legi LIMIT 1";
+            DB::update($query, ['legitymacja' => $request->legitymacja, 'legi' => $legi]);
+             }
         if(isset($request->miasto))
-        $user=dane::where('user_id','=',$legi)->first()->update(['miasto'=>$request->miasto]);
+        {
+            // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+            $query = "UPDATE dane SET miasto = :miasto WHERE user_id = :legi LIMIT 1";
+            DB::update($query, ['miasto' => $request->miasto, 'legi' => $legi]);
+             }
         if(isset($request->mieszkanie))
-        $user=dane::where('user_id','=',$legi)->first()->update(['mieszkanie'=>$request->mieszkanie]);
+        {
+            // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+            $query = "UPDATE dane SET mieszkanie = :mieszkanie WHERE user_id = :legi LIMIT 1";
+            DB::update($query, ['mieszkanie' => $request->mieszkanie, 'legi' => $legi]);
+             }
         if(isset($request->kod))
-        $user=dane::where('user_id','=',$legi)->first()->update(['kod'=>$request->kod]);
+        {
+            // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+            $query = "UPDATE dane SET kod = :kod WHERE user_id = :legi LIMIT 1";
+            DB::update($query, ['kod' => $request->kod, 'legi' => $legi]);
+             }
         if(isset($request->ulica))
-        $user=dane::where('user_id','=',$legi)->first()->update(['ulica'=>$request->ulica]);
+        {
+            // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+            $query = "UPDATE dane SET ulica = :ulica WHERE user_id = :legi LIMIT 1";
+            DB::update($query, ['ulica' => $request->imie, 'legi' => $legi]);
+             }
         if(isset($request->mail))
-        $user=dane::where('user_id','=',$legi)->first()->update(['e_mail'=>$request->mail]);
+        {
+            // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+            $query = "UPDATE dane SET e_mail = :mail WHERE user_id = :legi LIMIT 1";
+            DB::update($query, ['mail' => $request->mail, 'legi' => $legi]);
+             }
         if(isset($request->telefon))
-        $user=dane::where('user_id','=',$legi)->first()->update(['telefon'=>$request->telefon]);
+        {
+            // $user=dane::where('user_id','=',$legi)->first()->update(['imie'=>$request->imie]);
+            $query = "UPDATE dane SET telefon = :telefon WHERE user_id = :legi LIMIT 1";
+            DB::update($query, ['telefon' => $request->telefon, 'legi' => $legi]);
+             }
+
+
         return $request;
     }
     public function showDonate (Request $request){
