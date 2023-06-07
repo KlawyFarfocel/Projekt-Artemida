@@ -34,7 +34,6 @@ const [adminViewHandler,setAdminViewHandler]=useState(true);
             setHeaders(["Imię i nazwisko","Opis","Termin","Kwota","Data zapłaty","Status","Akcja"])
             setTitle("Wszystkie składki Twojego klubu")
             setRefresh(true);
-            alert(userToken)  
             axiosClient.post("/showSkarbnikDonate",{
                 userToken
             })
