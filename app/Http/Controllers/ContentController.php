@@ -443,6 +443,7 @@ class ContentController extends Controller
         // najbliższePolowanie - najbliższe polowanie dla tego koła - nie ma polowań, zostaw tak jak jest, bo to trzeba będzie przemyśleć
         $usersWithoutClub=[];
         $allHuntersFromClub=[];
+        $najblizszePolowania=[];
         $legi=$request['userToken'];
         $ser=User::where('id','=',$legi)->first();
         $idik=$ser->klub_id;
@@ -533,34 +534,35 @@ class ContentController extends Controller
             array_push($allHuntersFromClub,$ads);
                 
         }
-        $najblizszePolowania=[
-            [
-                "id"=>1,
-                "Nazwa"=>"Polowanie na Czerwony Październik",
-                "Data"=>"2023-05-06"
-            ],
-            [
-                "id"=>2,
-                "Nazwa"=>"Polowanie na Śledzie",
-                "Data"=>"2023-12-06"
-            ],
-            [
-                "id"=>3,
-                "Nazwa"=>"Polowanie na Boba Marleya",
-                "Data"=>"2023-04-26"
-            ],
-        ];
+        date_default_timezone_set('Europe/Warsaw');
+        $od=date('Y-m-d H:i:s');
+        $asd=0;
+        $do='2200-12-12 12:00:00';
+        $ork=polowania::where('klub_id',$idik)->whereBetween('data_koncowa',[$od,$do])->orderBy('data_koncowa','asc')->get();
+        for($k=0;$k<=2;$k++)
+        {
+        if(isset($ork[$k]))
+        {
+           $asd=[
+            "id"=>$k,
+            "Nazwa"=>$ork[$k]->nazwa,
+            "Data"=>$ork[$k]->data_koncowa
+           ]; 
+           array_push($najblizszePolowania,$asd);
+        }
+        }
+       
         $nextMeeting=[
             [
                 "id"=>3,
-                "Nazwa"=>"Siedziba koła Bóbr",
-                "Data"=>$klub->data_nast_spotkania
+                "Nazwa"=>$klub->meetingplace,
+                "Data"=>$klub->meetingdate
 
             ]
             ];
             $nazwa=$klub->nazwa;
         return response([
-            $usersWithoutClub,$mainSquad,$allHuntersFromClub,$najblizszePolowania,$nextMeeting,$nazwa,$pr,$idik
+            $usersWithoutClub,$mainSquad,$allHuntersFromClub,$najblizszePolowania,$nextMeeting,$nazwa,$pr,$idik,$ork,$asd
         ]);
     }
     public function GetOnlyMainSquadFromClub(Request $request){
@@ -576,15 +578,58 @@ class ContentController extends Controller
         $sekretarz=dane::where('user_id','=',$se)->first();
         $skarbnik=dane::where('user_id','=',$sk)->first();
         $lowczy=dane::where('user_id','=',$lg)->first();
-        $end1=$prezes->imie." ".$prezes->nazwisko;
+        $end1=0;
+        $end2=0;
+        $end3=0;
+        $end4=0;
+        $id1=0;
+        $id2=0;
+        $id3=0;
+        $id4=0;
+        if(isset($prezes))
+        {
+            $end1=$prezes->imie." ".$prezes->nazwisko;
+            $id1=$prezes->user_id;
+        }else
+        {
+            $end1="brak";
+            $id1=0;
+        }
+        if(isset($sekretarz))
+        {
         $end2=$sekretarz->imie." ".$sekretarz->nazwisko;
+        $id1=$prezes->user_id;
+        }else
+        {
+            $end2="brak";
+            $id2=0;
+        }
+        if(isset($skarbnik))
+        {
         $end3=$skarbnik->imie." ".$skarbnik->nazwisko;
+        $id1=$prezes->user_id;
+        }else
+        {
+            $end3="brak";
+            $id3=0;
+        }
+        if(isset($lowczy))
+        {
         $end4=$lowczy->imie." ".$lowczy->nazwisko;
+        $id1=$prezes->user_id;
+        }else
+        {
+            $end4="brak";
+            $id4=0;
+        }
+        
+        
+        // nextMeeting - data najbliższego spotkania - można na to osobną tabelę zrobić, nie zaszkodzi 
         $mainSquad=[
-            ["value"=>$prezes->user_id,"label"=>$end1],
-            ["value"=>$sekretarz->user_id,"label"=>$end2],
-            ["value"=>$skarbnik->user_id,"label"=>$end3],
-            ["value"=>$lowczy->user_id,"label"=>$end4]
+            ["value"=>$id1,"label"=>$end1],
+            ["value"=>$id2,"label"=>$end2],
+            ["value"=>$id3,"label"=>$end3],
+            ["value"=>$id4,"label"=>$end4]
         ];
         return response([
             $mainSquad
@@ -990,6 +1035,7 @@ class ContentController extends Controller
        //teraz masz jeszcze deleteUser
        //jak jest na true znaczy wypierdol z bazy
        //jak jest na false znaczy tylko z kola wypierdol
+       
         $legi=$request['kickUserId'];
         $ser=User::where('id','=',$legi)->first();
        $klub=klub::where('klub_id','=',$ser->klub_id)->first();
@@ -1018,6 +1064,13 @@ class ContentController extends Controller
             $query4 = "UPDATE klub SET lowczy_glowny = 0 WHERE  klub_id = :legi LIMIT 1";   
             $result = DB::update($query4,['legi' => $leg]);
         }
+       
+       if($request->deleteUser==true)
+       {
+        permisje::where('czlonek_id','=',$legi)->first()->delete();
+        User::where('id','=',$legi)->first()->delete();
+        dane::where('user_id','=',$legi)->first()->delete();
+       }
         /*    //kickUserId
         $legi=$request['kickUserId'];
         User::where('id','=',$legi)->first()->update(['klub_id'=>0]);*/
@@ -1268,6 +1321,7 @@ class ContentController extends Controller
         //odbiorca masz tak -> 0 - zarząd, 1 - wszyscy w Klubie
     }
     public function GetActiveHuntInfo(Request $request){
+        $huntAnimalsProp=[];
         $tableProp=[
             [
                 "Kto strzelał"=>"Alberto Kozak",
@@ -1284,7 +1338,30 @@ class ContentController extends Controller
                 "ilość"=>1
             ],
         ];
-        $huntAnimalsProp=[
+        $legi=$request['huntId'];
+        $ss1=odstrz::all()->where('polowanie_id','=',$legi)->where('potwierdzenie','=','tak');
+        $ss2=odstrz::all()->where('polowanie_id','=',$legi);
+        $ss3 = odstrz::where('polowanie_id', '=', $legi)
+        ->pluck('zwierze_id')
+        ->unique()
+        ->values()
+        ->all();
+        
+        foreach($ss3 as $perm)
+        {
+        $aaa=zwierze::where('zwierze_id','=',$perm)->first();
+        $ss1=odstrz::all()->where('polowanie_id','=',$legi)->where('potwierdzenie','=','tak')->where('zwierze_id','=',$perm); 
+        $ss2=odstrz::all()->where('polowanie_id','=',$legi)->where('zwierze_id','=',$perm);   
+        $asd=
+            [
+                "Podgrupa"=>$aaa->podgrupa,//$aaa->podgrupa,
+                "Zwierze"=>$aaa->nazwa,
+                "Założono do odstrzału"=>count($ss2),//masz huntId to weź zlicz wszystkie
+                "Odstrzelono"=>count($ss1)//zlicz potwierdzone dla tego huntId
+            ];
+        array_push($huntAnimalsProp,$asd);
+        }
+       /* $huntAnimalsProp=[
                 [
                     "Podgrupa"=>"Dziki",
                     "Zwierze"=>"Lochy",
@@ -1297,9 +1374,9 @@ class ContentController extends Controller
                     "Założono do odstrzału"=>5,
                     "Odstrzelono"=>4
                 ]
-        ];
+        ];*/
         return response([
-            $tableProp,$huntAnimalsProp
+            $tableProp,$huntAnimalsProp,$ss3,$aaa
         ]);
     }
     public function SetNextMeeting(Request $request){
@@ -1307,6 +1384,12 @@ class ContentController extends Controller
         //weż dołóż w klubie meetingPlace i meetingDate kolumny
         //meetingDate to będzie timestamp
         //place to varchar
+        $legi=$request['userToken'];
+        $mp=$request['meetingPlace'];
+        $md=$request['meetingDate'];
+        $ser=User::where('id','=',$legi)->first();
+        $idik=$ser->klub_id;
+        klub::where('klub_id','=',$idik)->first()->update(['meetingdate'=>$md,'meetingplace'=>$mp]);
         return response(true);
     }
 }

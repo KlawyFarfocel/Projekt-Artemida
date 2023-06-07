@@ -15,7 +15,8 @@ class klub extends Model
    protected $fillable = [
       'klub_id',
       'nazwa',
-      'data_nast_spotkania',
+      'meetingplace',
+      'meetingdate',
       'prezes',
       'sekretarz',
       'skarbnik',
