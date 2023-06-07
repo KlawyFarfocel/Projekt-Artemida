@@ -15,7 +15,7 @@ export default function SetNextMeetingModal(props) {
   useEffect(()=>{
     setShow(props.show);
   })
-  const handleSubmit=(e)=>{
+  const handleSubmito=(e)=>{
     e.preventDefault();
     console.log(meetingPlace)
     const meetingDate=moment(startDate).format('YYYY-MM-DD HH:mm:ss')
@@ -34,7 +34,7 @@ return (
           <Modal.Title bsPrefix="modal-title w-100">Ustal następne spotkanie</Modal.Title>
         </Modal.Header>
         <Modal.Body bsPrefix='modal-body mb-3 pb-0'>
-        <form className='w-50 mx-auto' onSubmit={handleSubmit}>
+        <form className='w-50 mx-auto' onSubmit={handleSubmito}>
             {wrongData
             ?
               <div className="alert alert-danger" role="alert">

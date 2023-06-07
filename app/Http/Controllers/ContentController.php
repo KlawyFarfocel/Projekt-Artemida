@@ -80,10 +80,6 @@ class ContentController extends Controller
     }
     public function changeUserData(Request $request){
         $legi=$request['userToken'];
-        $query = "UPDATE users SET klub_id = 0 WHERE  id = :legi LIMIT 1";
-        
-        $result = DB::update($query,['legi' => $legi]);
-
     
         if(isset($request->imie))
         {
@@ -221,7 +217,7 @@ class ContentController extends Controller
            
         ];
         $daniele=[//łanie i cielęta
-            [ "value"=>'9,10,11', "label"=>'byk' ],
+            [ "value"=>'9', "label"=>'byk' ],
             [ "value"=>'12', "label"=>'łanie' ],
             [ "value"=>'13', "label"=>'cielęta' ],
         ];
@@ -238,7 +234,7 @@ class ContentController extends Controller
             [ "value"=>'40', "label"=>'białoczelne' ]
         ];
         $jelenie=[//łanie i cieleta
-            [ "value"=>'4,5,6', "label"=>'byk' ],
+            [ "value"=>'4', "label"=>'byk' ],
             [ "value"=>'7', "label"=>'łanie' ],
             [ "value"=>'8', "label"=>'cielęta' ]
         ];
@@ -265,7 +261,7 @@ class ContentController extends Controller
             [ "value"=>'20', "label"=>'jagnięta' ]
         ];
         $sarny=[//kozy,kozleta
-            [ "value"=>'14,15', "label"=>'kozły' ],
+            [ "value"=>'14', "label"=>'kozły' ],
             [ "value"=>'16', "label"=>'kozy' ],
             [ "value"=>'17', "label"=>'koźlęta' ]
         ];
@@ -598,7 +594,7 @@ class ContentController extends Controller
         if(isset($sekretarz))
         {
         $end2=$sekretarz->imie." ".$sekretarz->nazwisko;
-        $id1=$prezes->user_id;
+        $id2=$sekretarz->user_id;
         }else
         {
             $end2="brak";
@@ -607,7 +603,7 @@ class ContentController extends Controller
         if(isset($skarbnik))
         {
         $end3=$skarbnik->imie." ".$skarbnik->nazwisko;
-        $id1=$prezes->user_id;
+        $id3=$skarbnik->user_id;
         }else
         {
             $end3="brak";
@@ -615,8 +611,8 @@ class ContentController extends Controller
         }
         if(isset($lowczy))
         {
-        $end4=$lowczy->imie." ".$lowczy->nazwisko;
-        $id1=$prezes->user_id;
+            $end4=$lowczy->imie." ".$lowczy->nazwisko;
+            $id4=$lowczy->user_id;
         }else
         {
             $end4="brak";
@@ -826,8 +822,8 @@ class ContentController extends Controller
         if($request->contact!=$marko->kontakt)
         $user=polowania::where('polowanie_id','=',$legi)->first()->update(['kontakt'=>$request->contact]);
 
-        if($request->supervisor!=$marko->supervisor)
-        $user=polowania::where('polowanie_id','=',$legi)->first()->update(['supervisor'=>$request->supervisor]);
+        if($request->newSupervisor!=$marko->supervisor)
+        $user=polowania::where('polowanie_id','=',$legi)->first()->update(['supervisor'=>$request->newSupervisor]);
 
         return $request;
 
@@ -850,7 +846,7 @@ class ContentController extends Controller
         $type=strtolower($request['huntType']);
         $lok=$request['localisation'];
         $miejsce=$request['rallyPoint'];
-        $sup=$request['supervisor'];
+        $sup=$request['newSupervisor'];
         $kont=$request['contact'];
         $nazwa=$request['huntName'];
         polowania::create([
@@ -879,8 +875,6 @@ class ContentController extends Controller
             'polowanie_id'=>$ajdi,
             'data'=>'2000-01-01',
             'zwierze_id'=>$perm['zwierzeId']
-
-
             ]);
             }
         }
@@ -1020,10 +1014,21 @@ class ContentController extends Controller
     }
     public function CheckPrivileges(Request $request){
         //userToken
+        $legi=$request['userToken'];
+        $ser=User::where('id','=',$legi)->first();
+       $klub=klub::where('klub_id','=',$ser->klub_id)->first();
+       $huntsman=false;
+       $cashier=false;
+       $secretary=false;
+       $president=false;
+       if($klub->prezes==$legi)
         $president=true;
-        $secretary=false;
-        $cashier=false;
-        $huntsman=false;
+       if($klub->sekretarz==$legi)
+        $secretary=true;
+        if($klub->skarbnik==$legi)
+        $cashier=true;
+        if($klub->lowczy_glowny==$legi)
+        $huntsman=true;
         return response([
             "President"=>$president,
             "Secretary"=>$secretary,

@@ -50,6 +50,7 @@ export default function AddShootedAnimalModal(props){
         })
         .then(()=>{
             props.setShow(false)
+            props.setReload(!props.reload)
         })
     }
     useEffect(()=>{

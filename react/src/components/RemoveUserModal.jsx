@@ -19,6 +19,7 @@ export default function RemoveUserModal(props){
             kickUserId,deleteUser
         })
         .then(()=>{
+            props.setModalDeleteUser(false)
             props.setReloadRequest(!props.reloadRequest)
             props.setModalDeleteUser(false)
         })

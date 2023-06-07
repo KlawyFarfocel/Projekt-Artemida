@@ -35,6 +35,7 @@ export default function AddAnnouncementModal(props){
             userToken,sendDate,odbiorca,tresc,temat,priorytet
         })
         .then(
+            props.setReload(!props.reload) &
             props.setShow(false)
         )
     }

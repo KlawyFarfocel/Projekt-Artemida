@@ -14,7 +14,7 @@ return (
           <Modal.Title bsPrefix="modal-title w-100">Dodaj nowego Łowczego</Modal.Title>
         </Modal.Header>
         <Modal.Body bsPrefix='modal-body mb-3 pb-0'>
-                <UserData toReload={true} reloadRequest={props.reloadRequest} setReloadRequest={props.setReloadRequest} userInfo={false} action="addNewUser" setPassword={true} modifyLegi={true}/>
+                <UserData show={props.show} setShow={props.setModalShow} toReload={true} reloadRequest={props.reloadRequest} setReloadRequest={props.setReloadRequest} userInfo={false} action="addNewUser" setPassword={true} modifyLegi={true}/>
         </Modal.Body>
       </Modal>
     </>

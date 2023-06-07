@@ -14,6 +14,7 @@ export default function Foo(){
 
     const [annoProp,setAnnoProp]=useState([])
     const [refresh,setRefresh]=useState(false);
+    const [reload,setReload]=useState(false);
     useEffect(()=>{
         setRefresh(true);
         axiosClient
@@ -28,7 +29,7 @@ export default function Foo(){
         .catch(err => {
         console.log(err);
         });
-    },[])
+    },[userToken,reload])
     function handleModalText(key){
         setMessageKey(key);
         setModalShow(true);
@@ -83,7 +84,7 @@ export default function Foo(){
                 
                 <MessageModal show={modalShow} content={annoProp[messageKey]} messageKey={messageKey}setModalShow={setModalShow}/>
                 <ReloadModal show={refresh}/>
-                <AddAnnouncementModal show={show} setShow={setShow}/>
+                <AddAnnouncementModal reload={reload} setReload={setReload} show={show} setShow={setShow}/>
         </>
     )
 }

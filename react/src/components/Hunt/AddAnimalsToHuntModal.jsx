@@ -14,6 +14,7 @@ export default function AddAnimalsToHuntModal(props){
     const tableHeadings=["Podgrupa","Zwierze","Ilość","Akcja"];
     const [tableContent,setTableContent]=useState([])
     const [zwierze,setZwierze]=useState()
+    const [alert,setAlert]=useState(false);
     const [ilosc,setIlosc]=useState(0)
     const [zwierzeValue, setZwierzeValue] = useState(null);
     const [animals,setAnimals]=useState([])
@@ -47,8 +48,14 @@ export default function AddAnimalsToHuntModal(props){
             zwierze: zwierzeValue,
             ilosc: ilosc
           };
+          setAlert(false);
           setTableContent(prevTableContent => [...prevTableContent, newObject]);
           props.setAnimalList(prevTableContent => [...prevTableContent, newObject]);
+          (props.onSubmit
+            ?
+            props.handleSubmit()
+            :""
+            )
       }
       useEffect(()=>{
         axiosClient
@@ -75,13 +82,30 @@ export default function AddAnimalsToHuntModal(props){
         setTableContent(shiftedArray);
         props.setAnimalList(shiftedArray);
     }
+    const handleHide=()=>{
+        if(props.animalList.length==0){
+            setAlert(true)
+        }
+        else{
+            props.setAnimalShow(false)
+            setAlert(false)
+        }
+    }
     return(
         <>
-        <Modal bsPrefix="modal" show={show} onHide={()=>props.setAnimalShow(false)}>
+        <Modal bsPrefix="modal" show={show} onHide={handleHide}>
                 <Modal.Header bsPrefix="modal-header text-center" closeButton>
                   <Modal.Title bsPrefix="modal-title w-100">Dodaj zwierzęta</Modal.Title>
                 </Modal.Header>
                 <Modal.Body bsPrefix='modal-body mb-3 pb-0'>
+                    {
+                        (alert?
+                            <div className="alert alert-danger" role="alert">
+                            A simple danger alert—check it out!
+                          </div>
+                        :
+                        "")
+                    }
                 <form onSubmit={handleSubmit}>
                     <div className="row text-center">
                         <div className="col-md-4">

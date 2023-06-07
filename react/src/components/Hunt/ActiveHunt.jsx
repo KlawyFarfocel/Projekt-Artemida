@@ -15,6 +15,7 @@ export default function ActiveHunt(){
     const huntId=location.state['huntId'];
     const supervisorId=location.state['IdSupervisor'];
     const [tableProp,setTableProp]=useState([{}]);
+    const [reload,setReload]=useState(false)
     const [huntAnimalsProp,setHuntAnimalsProp]=useState([{}])
     // const tableProp=[
     //     {
@@ -54,6 +55,15 @@ export default function ActiveHunt(){
             navigate("/Hunt")
         })
     }
+    useEffect(()=>{
+        axiosClient.post("/GetActiveHuntInfo",{
+            huntId
+        })
+        .then((({data})=>{
+            setTableProp(data[0])
+            setHuntAnimalsProp(data[1])
+        }))
+    },[reload])
     useEffect(()=>{
         axiosClient.post("/GetActiveHuntInfo",{
             huntId
@@ -127,7 +137,7 @@ export default function ActiveHunt(){
                     false
                 )
             }
-            <AddShootedAnimalModal huntId={huntId} usersList={usersList} animals={animals} show={show} setShow={setShow}/>
+            <AddShootedAnimalModal reload={reload} setReload={setReload} huntId={huntId} usersList={usersList} animals={animals} show={show} setShow={setShow}/>
         </div>
         
     )

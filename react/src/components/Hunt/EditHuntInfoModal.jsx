@@ -9,6 +9,7 @@ import axiosClient from '../../axios';
 import AddAnimalsToHuntModal from './AddAnimalsToHuntModal';
 import InputMask from 'react-input-mask';
 export default function EditHuntInfoModal(props){
+      const [mustAddAnimals, setMustAddAnimals]=useState(true);
       const {userToken}=useStateContext() 
       const [show, setShow] = useState();
       const [animalShow,setAnimalShow]=useState();
@@ -20,7 +21,7 @@ export default function EditHuntInfoModal(props){
       const [dateFirst,setDateFirst]=useState(new Date());//data rozpoczęcia
       const [dateEnd,setDateEnd]=useState(new Date());//data zakończenia
       const [dateEndClassName,setDateEndClassName]=useState("form-control")
-
+      const [isEdit,setIsEdit]=useState(false)
 
       const [huntType,setHuntType]=useState("")
       const [localisation,setLocalisation]=useState("")
@@ -34,14 +35,22 @@ export default function EditHuntInfoModal(props){
       const [huntName,setHuntName]=useState("");
       const [animalList,setAnimalList]=useState([]);
 
-      const [buttonName,setButtonName]=useState("Dodaj polowanie")
+      const [buttonName,setButtonName]=useState("Dodaj zwierzę do polowania")
 
       const huntTypes=[
         {value:"Indywidualne",label:"Indywidualne"},
         {value:"Zbiorowe",label:"Zbiorowe"},
         {value:"Sokolnicze",label:"Sokolnicze"}
     ]
-
+    const handleAnimalAdd=()=>{
+      if(mustAddAnimals){
+        setAnimalShow(true)
+        setMustAddAnimals(false)
+      }
+      else{
+        setMustAddAnimals(true)
+      }
+    }
     
       const formatDate=(date)=>{//data na string taki do timestampa
         const formattedString = moment(date).format("YYYY.MM.DD HH:mm:ss");
@@ -77,7 +86,6 @@ export default function EditHuntInfoModal(props){
                 setHuntName(props.content["Nazwa"])
                 //Gdzie wysyłamy
                 setAction("/EditHunt")
-                setButtonName("Edytuj polowanie")
         }
         else{
             setAction("/AddHunt")
@@ -227,7 +235,10 @@ export default function EditHuntInfoModal(props){
         }
       }
       const handleSubmit=(e)=>{//submit formularza
+        alert(supervisor)
         e.preventDefault();
+        let newSupervisor;
+        (typeof(supervisor)==="object"?newSupervisor=supervisor.value:newSupervisor=supervisor)
         validateAtSubmit(e)
         if(validateFormFlag){
         const formattedDateFirst=formatDate(dateFirst)//data rozpoczęcia w stringu do timestampa
@@ -237,7 +248,7 @@ export default function EditHuntInfoModal(props){
             ilosc: obj.ilosc,
           }));
         axiosClient.post(action,{//edytuj polowanie
-            userToken,formattedDateFirst,formattedDateEnd,huntType,localisation,rallyPoint,supervisor,contact,huntId,huntName,newAnimalList
+            userToken,formattedDateFirst,formattedDateEnd,huntType,localisation,rallyPoint,newSupervisor,contact,huntId,huntName,newAnimalList
         })
         props.setReloadRequest(!props.reloadRequest)
         props.setModalShow(false)
@@ -346,14 +357,30 @@ export default function EditHuntInfoModal(props){
                         <i data-bs-toggle="tooltip" title="Numer telefonu używany w razie potrzeby kontaktu" className="bi bi-question-circle-fill ms-2 fs-5"></i>
                         <InputMask required mask={"+99999999999"} onChange={(e)=>setContact(e.target.value)} value={contact} placeholder="+48212121212" className="form-control" />
                     </div>
-                    <a className='btn btn-success' onClick={()=>setAnimalShow(true)}>Dodaj zwierzęta do odstrzału</a>
-                    <button type='submit' className="btn btn-primary">{buttonName}</button>
+                    {
+                      (isEdit
+                        ?
+                        <>
+                        {
+                          (mustAddAnimals
+                            ?
+                                <a className='btn btn-success me-3' onClick={handleAnimalAdd}>Przejdź dalej</a>
+                            :
+                              <button type='submit' className='btn btn-success me-3'>Prześlij formularz</button>
+                          )
+                        }
+                        <a className='btn btn-success' onClick={()=>setAnimalShow(true)}>Dodaj zwierzęta do odstrzału</a>
+                        </>
+                        :
+                        <button type='submit' className='btn btn-success me-3'>Prześlij formularz</button>
+                      )
+                    }
                 </form>
         </Modal.Body>
         <Modal.Footer>
         </Modal.Footer>
         </Modal>
-        <AddAnimalsToHuntModal setAnimalList={setAnimalList} show={animalShow} setAnimalShow={setAnimalShow}/>
+        <AddAnimalsToHuntModal animalList={animalList} setAnimalList={setAnimalList} show={animalShow} setAnimalShow={setAnimalShow}/>
     </>
     );
 }

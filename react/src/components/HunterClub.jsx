@@ -112,6 +112,7 @@ export default function HunterClub(){
                 Data: new Date(Date.parse(item.Data))
             }));
             setHuntsProp(formattedData);
+            console.log(data[4])
             const newData=data[4].map(item=>({
                 id: item.id,
                 Nazwa: item.Nazwa,

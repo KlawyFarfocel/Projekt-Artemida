@@ -88,6 +88,10 @@ export default function UserData(props){
         )
         :""
         )
+        (props.show
+          ?
+          props.setShow(false)
+          :"")
       }
   }
   const validateBeforeSend=(e)=>{
@@ -155,7 +159,6 @@ export default function UserData(props){
     changeInputAttributes("valid",e.target[3])//legi
 
 
-    alert(validateFormFlag)
   }
   const validateInputOnSubmit=(invalidText,regexp,e,number)=>{
     if(validateInput(regexp,e.target[number].value)){
