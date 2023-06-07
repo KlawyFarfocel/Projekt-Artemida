@@ -235,7 +235,6 @@ export default function EditHuntInfoModal(props){
         }
       }
       const handleSubmit=(e)=>{//submit formularza
-        alert(supervisor)
         e.preventDefault();
         let newSupervisor;
         (typeof(supervisor)==="object"?newSupervisor=supervisor.value:newSupervisor=supervisor)

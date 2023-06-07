@@ -17,7 +17,6 @@ export default function SetNextMeetingModal(props) {
   })
   const handleSubmito=(e)=>{
     e.preventDefault();
-    console.log(meetingPlace)
     const meetingDate=moment(startDate).format('YYYY-MM-DD HH:mm:ss')
     axiosClient.post("/SetNextMeeting",{
         userToken,meetingPlace,meetingDate

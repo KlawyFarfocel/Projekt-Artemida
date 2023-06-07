@@ -86,7 +86,6 @@ useEffect(()=>{
     }
 },[usersList])
 const handleDateEnd=(e)=>{
-  console.log(e)
   props.setEndDate(e)
   if(e<props.startDate){
       setDateEndTitle("Data zakończenia nie może być wcześniej niż data rozpoczęcia")

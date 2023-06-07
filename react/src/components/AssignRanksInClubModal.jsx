@@ -60,7 +60,6 @@ const handleSubmit=(e)=>{
     }else{
         newHuntsman=huntsman
     }
-    console.log(president)
     if(newPresident==newSecretary){
         setImportantClass("form-control is-invalid")
         setImportantTitle("Jedna osoba nie może jednocześnie pełnić funkcji Sekretarza i Prezesa")

@@ -23,7 +23,6 @@ export default function ChangeDonateDataModal(props){
             props.setModalShow(false)
             props.setAdminViewHandler(!props.adminViewHandler)
         })
-        console.log(e.target)
     }
     const DonateStatus=[
         {value:"Opłacona",label:"Opłacona"},

@@ -7,7 +7,6 @@ function OffcanvasInfo({side="left",toggleName="",handlerState=false, ...props }
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const getInfo=(e)=>{
-        alert(e.target.id)
         handleShow()
     }
     return (

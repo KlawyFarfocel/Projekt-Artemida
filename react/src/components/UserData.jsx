@@ -42,7 +42,6 @@ export default function UserData(props){
       .then(({ data }) => {
         setRefresh(false);
         setSendFlag(false);
-        console.log(data)
       })
       .catch((error) => {
         if (error.response) {
@@ -68,7 +67,6 @@ export default function UserData(props){
     },[userDataProp])
 
   const handleSubmit=(e)=>{
-      console.log(e)
       e.preventDefault();
       
       const tar=e;

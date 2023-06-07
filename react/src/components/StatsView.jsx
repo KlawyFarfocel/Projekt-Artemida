@@ -27,7 +27,6 @@ export default function StatsView(){
         selectedOptionPayload=selectedOptionPayload.substring(1);
       }
       else  selectedOptionPayload="";
-      console.log(selectedOptionPayload);
       axiosClient.post("/changeStatsView",{
         userToken,selectedOptionPayload,startDate,endDate
       })
@@ -41,7 +40,6 @@ export default function StatsView(){
           }));
           setStats(newStats);
         })
-        console.log(data)
       })
       setRequest(false);
     }

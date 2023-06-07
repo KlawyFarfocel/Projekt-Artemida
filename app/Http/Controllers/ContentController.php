@@ -472,7 +472,7 @@ class ContentController extends Controller
         if(isset($sekretarz))
         {
         $end2=$sekretarz->imie." ".$sekretarz->nazwisko;
-        $id1=$prezes->user_id;
+        $id2=$sekretarz->user_id;
         }else
         {
             $end2="brak";
@@ -481,7 +481,7 @@ class ContentController extends Controller
         if(isset($skarbnik))
         {
         $end3=$skarbnik->imie." ".$skarbnik->nazwisko;
-        $id1=$prezes->user_id;
+        $id3=$skarbnik->user_id;
         }else
         {
             $end3="brak";
@@ -490,7 +490,7 @@ class ContentController extends Controller
         if(isset($lowczy))
         {
         $end4=$lowczy->imie." ".$lowczy->nazwisko;
-        $id1=$prezes->user_id;
+        $id4=$lowczy->user_id;
         }else
         {
             $end4="brak";
@@ -1088,13 +1088,21 @@ class ContentController extends Controller
         $idik=$ser->klub_id;
         $klub=klub::where('klub_id','=',$idik)->first();
         if($request->newSecretary!=$klub->sekretarz)
-             klub::where('klub_id','=',$idik)->first()->update(['sekretarz'=>$request->newSecretary]);
-        if($request->newPresident!=$klub->prezes)
-             klub::where('klub_id','=',$idik)->first()->update(['prezes'=>$request->newPresident]);
-        if($request->newCashier!=$klub->skarbnik)
-             klub::where('klub_id','=',$idik)->first()->update(['skarbnik'=>$request->newCashier]);
-        if($request->newHuntsman!=$klub->lowczy_glowny)
-             klub::where('klub_id','=',$idik)->first()->update(['lowczy_glowny'=>$request->newHuntsman]);     
+        {
+            klub::where('klub_id','=',$idik)->first()->update(['sekretarz'=>$request->newSecretary]);
+        }
+             
+        if($request->newPresident!=$klub->prezes){
+            klub::where('klub_id','=',$idik)->first()->update(['prezes'=>$request->newPresident]);
+        }
+        if($request->newCashier!=$klub->skarbnik){
+            klub::where('klub_id','=',$idik)->first()->update(['skarbnik'=>$request->newCashier]);
+        }
+             
+        if($request->newHuntsman!=$klub->lowczy_glowny){
+            klub::where('klub_id','=',$idik)->first()->update(['lowczy_glowny'=>$request->newHuntsman]);    
+        }
+              
         //w tym klubie co jest userToken przestaw te 4 rzeczy i fajrant - nawet nic nie musisz zwracać - w sensie idk czy musisz, zostaw to true
         return response(true);
     }

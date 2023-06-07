@@ -87,7 +87,7 @@ export default function TableContent(props){
                         (index!=0
                             ?
                             
-                            <td onClick={()=>console.log(value)}  key={index} className={
+                            <td key={index} className={
                                 statusTypes.includes(Object.values(value).reduce((accumulator, currentValue) => accumulator + currentValue, initialValue)) ? statusColors[statusTypes.indexOf(Object.values(value).reduce((accumulator, currentValue) => accumulator + currentValue, initialValue))]:""}>
                                     {typeof value === 'object' ? Object.values(value)[0] : value}
                             </td>

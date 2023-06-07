@@ -16,7 +16,6 @@ export default function Login(){
         password,
       })
       .then(({ data }) => {
-        console.log(data);
         setCurrentUser(data.user);
         setUserToken(data.token);
       })
@@ -27,9 +26,6 @@ export default function Login(){
         //
       });
   }
-  useEffect(()=>{
-    console.log(error)
-  },[error])
     return(
 <section className="gradient-custom w-100">
   <div className="container py-5 h-100">

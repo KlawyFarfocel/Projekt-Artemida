@@ -101,7 +101,7 @@ export default function AddAnimalsToHuntModal(props){
                     {
                         (alert?
                             <div className="alert alert-danger" role="alert">
-                            A simple danger alert—check it out!
+                            Musisz dodać zwierzęta do odstrzału
                           </div>
                         :
                         "")
