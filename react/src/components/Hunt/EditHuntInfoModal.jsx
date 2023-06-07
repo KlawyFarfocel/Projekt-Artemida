@@ -103,6 +103,13 @@ export default function EditHuntInfoModal(props){
             setSupervisorProp(data[0])
         })  
       },[props])
+      useEffect(()=>{
+        (props.edit
+          ?
+          setIsEdit(props.edit)
+          :"")
+      },[props]
+      )
       const handleDateEnd=(e)=>{
         setDateEnd(e)
         if(e<dateFirst){

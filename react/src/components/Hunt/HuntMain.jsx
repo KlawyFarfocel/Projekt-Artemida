@@ -37,7 +37,7 @@ export default function HuntMain(){
                     ?
                     <div className="w-100 text-center">
                         <a className="btn btn-success w-50 " onClick={()=>setModalShow(true)}>Dodaj nowe polowanie</a>
-                        <EditHuntInfoModal reloadRequest={reloadRequest} setReloadRequest={setReloadRequest} show={modalShow} setModalShow={setModalShow}/>
+                        <EditHuntInfoModal edit={true} reloadRequest={reloadRequest} setReloadRequest={setReloadRequest} show={modalShow} setModalShow={setModalShow}/>
                     </div>
                     :
                         ""

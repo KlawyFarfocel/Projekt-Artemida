@@ -123,7 +123,7 @@ export default function HuntInfo(){
                     </div>
                 </div>
             </div>
-            { <EditHuntInfoModal reloadRequest={reloadRequest} setReloadRequest={setReloadRequest} huntId={huntId} content={huntProp} show={modalShow} setModalShow={setModalShow}/> }
+            { <EditHuntInfoModal edit={false} reloadRequest={reloadRequest} setReloadRequest={setReloadRequest} huntId={huntId} content={huntProp} show={modalShow} setModalShow={setModalShow}/> }
         </div>
     )
 }
