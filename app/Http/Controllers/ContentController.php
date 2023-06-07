@@ -1376,7 +1376,7 @@ class ContentController extends Controller
                 ]
         ];*/
         return response([
-            $tableProp,$huntAnimalsProp,$ss3,$aaa
+            $tableProp,$huntAnimalsProp,$ss3
         ]);
     }
     public function SetNextMeeting(Request $request){

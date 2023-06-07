@@ -102,7 +102,6 @@ export default function EditHuntInfoModal(props){
             setDateEndToggler("tooltip")
             setDateEndClassName(dateEndClassName+" is-invalid")
             validateFormFlag=false;
-            alert("zmieniam date end")
         }else{
             const tooltipTriggerList = document.querySelectorAll('.tooltip-inner,.tooltip-arrow');
             tooltipTriggerList.forEach(tooltipTriggerEl => {
@@ -167,7 +166,6 @@ export default function EditHuntInfoModal(props){
         }
         else{//invalid
             validateFormFlag=false;
-          alert("zmieniam tooltip")
             target.setAttribute("data-bs-toggle","tooltip")
             target.setAttribute("title",title)
             if(target.classList.contains("is-valid")){
@@ -192,7 +190,6 @@ export default function EditHuntInfoModal(props){
             setDateEndToggler("tooltip")
             setDateEndClassName(dateEndClassName+" is-invalid")
             setValidateFormFlag(false);
-            alert("zmieniam submit")
         }else{
             const tooltipTriggerList = document.querySelectorAll('.tooltip-inner,.tooltip-arrow');
             tooltipTriggerList.forEach(tooltipTriggerEl => {
@@ -232,7 +229,6 @@ export default function EditHuntInfoModal(props){
       const handleSubmit=(e)=>{//submit formularza
         e.preventDefault();
         validateAtSubmit(e)
-        alert(validateFormFlag)
         if(validateFormFlag){
         const formattedDateFirst=formatDate(dateFirst)//data rozpoczęcia w stringu do timestampa
         const formattedDateEnd=formatDate(dateEnd)

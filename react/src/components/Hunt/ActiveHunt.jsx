@@ -91,9 +91,9 @@ export default function ActiveHunt(){
       });
     },[userToken])
     return(
-        <div className="container-fluid">
-            <h1 className="fs-1 text-white text-uppercase text-center py-3">Zwierzęta do odstrzału podczas tego polowania</h1>
-            <table className="w-75 text-center mx-auto table align-middle table-bordered table-dark table-striped table-hover">
+        <div className="container-fluid my-auto h-75">
+            <h1 className="fs-1 my-auto text-white text-uppercase text-center py-3">Zwierzęta do odstrzału podczas tego polowania</h1>
+            <table className="w-75 my-auto text-center mx-auto table align-middle table-bordered table-dark table-striped table-hover">
             <thead>
                     <tr>
                         {Object.keys(huntAnimalsProp[0]).map((header, index) => (
@@ -109,25 +109,6 @@ export default function ActiveHunt(){
                             <td key={columnIndex}>{String(value)}</td>
                         ))}
                         <td>{String(huntAnimalsProp[rowIndex]["Założono do odstrzału"]-huntAnimalsProp[rowIndex]["Odstrzelono"])}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <h1 className="fs-1 text-white text-uppercase text-center py-3">Dotychczasowe odstrzały</h1>
-            <table className="w-75 text-center mx-auto table align-middle table-bordered table-dark table-striped table-hover">
-                <thead>
-                    <tr>
-                        {Object.keys(tableProp[0]).map((header, index) => (
-                            <th key={index}>{header}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                {tableProp.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                        {Object.values(row).map((value, columnIndex) => (
-                            <td key={columnIndex}>{value.toString()}</td>
-                        ))}
                     </tr>
                 ))}
                 </tbody>
