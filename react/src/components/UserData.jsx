@@ -117,7 +117,7 @@ export default function UserData(props){
     regexp=/^([0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*|)$/gm;
     validateInputOnSubmit(invalidText,regexp,e,8);
     //budynek
-    regexp=/^[0-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
+    regexp=/^[1-9]+[A-Za-z]?(\.[0-9A-Za-z]+)*(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)?)*$/gm;
     invalidText="Numer budynku może zawierać maksymalnie 10 znaków. Dopuszczalne znaki specjalne to '-' oraz '.'";
     validateInputOnSubmit(invalidText,regexp,e,9);
     //mail
