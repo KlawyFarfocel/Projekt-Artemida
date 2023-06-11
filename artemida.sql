@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2023 at 03:11 PM
+-- Generation Time: Jun 11, 2023 at 03:45 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -22,6 +22,24 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `artemida` DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci;
 USE `artemida`;
+
+DELIMITER $$
+--
+-- Procedures
+--
+DROP PROCEDURE IF EXISTS `calculate_skladka_totals`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `calculate_skladka_totals` (IN `user_id` INT, OUT `nieoplacona_total` DECIMAL(10,2), OUT `oplacona_total` DECIMAL(10,2))   BEGIN
+  SELECT SUM(kwota) INTO nieoplacona_total
+  FROM skladka
+  WHERE czlonek_id = user_id AND status = 'Nieopłacona';
+
+  SELECT SUM(kwota) INTO oplacona_total
+  FROM skladka
+  WHERE czlonek_id = user_id AND status = "Opłacona";
+
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -118,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `kapital` (
 
 INSERT INTO `kapital` (`klub_id`, `kapital`, `update_at`) VALUES
 (2, 0, '2023-06-11 11:42:34'),
-(1, 7747, '2023-06-11 11:59:57'),
+(1, 8247, '2023-06-11 13:17:55'),
 (0, 0, '2023-06-11 11:45:16');
 
 -- --------------------------------------------------------
@@ -348,14 +366,14 @@ CREATE TABLE IF NOT EXISTS `skladka` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`skladka_id`),
   KEY `czlonek_id` (`czlonek_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
 -- Dumping data for table `skladka`
 --
 
 INSERT INTO `skladka` (`skladka_id`, `termin`, `kwota`, `czlonek_id`, `opis`, `data_zapl`, `status`, `updated_at`, `created_at`) VALUES
-(3, '2023-05-23 19:12:30', 950, 1, 'Okres', '2023-05-23 19:13:38', 'Opłacona', '2023-05-23 17:13:38', '2023-05-23 15:12:43'),
+(3, '2023-05-23 19:12:30', 950, 1, 'Okres', '2023-05-23 19:13:38', 'Nieopłacona', '2023-06-11 13:40:36', '2023-05-23 15:12:43'),
 (4, '2023-05-23 19:12:30', 950, 2, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 15:12:43', '2023-05-23 15:12:43'),
 (6, '2023-05-23 19:12:30', 950, 6, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 15:12:43', '2023-05-23 15:12:43'),
 (10, '2023-05-23 20:20:44', 123, 2, 'asd', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:20:53', '2023-05-23 16:20:53'),
@@ -369,7 +387,9 @@ INSERT INTO `skladka` (`skladka_id`, `termin`, `kwota`, `czlonek_id`, `opis`, `d
 (27, '2023-06-07 13:51:19', 222, 1, 'Okresowa', '2023-06-07 13:52:06', 'Opłacona', '2023-06-07 11:52:06', '2023-06-07 09:51:40'),
 (28, '2023-06-07 13:51:19', 222, 2, 'Okresowa', '2023-06-07 13:52:01', 'Opłacona', '2023-06-07 11:52:01', '2023-06-07 09:51:40'),
 (30, '2023-06-07 13:51:19', 222, 2, 'Okresowa', '2023-06-07 13:52:01', 'Opłacona', '2023-06-07 11:52:01', '2023-06-07 09:51:40'),
-(31, '2023-06-07 13:51:19', 1000, 2, 'Okresowa', '2023-06-07 13:52:01', 'Opłacona', '2023-06-07 11:52:01', '2023-06-07 09:51:40');
+(31, '2023-06-07 13:51:19', 1000, 2, 'Okresowa', '2023-06-07 13:52:01', 'Opłacona', '2023-06-07 11:52:01', '2023-06-07 09:51:40'),
+(32, '2023-06-11 15:17:45', 250, 1, 'Na koks', '0000-01-01 00:00:00', 'Nieopłacona', '2023-06-11 11:17:55', '2023-06-11 11:17:55'),
+(33, '2023-06-11 15:17:45', 250, 2, 'Na koks', '0000-01-01 00:00:00', 'Nieopłacona', '2023-06-11 11:17:55', '2023-06-11 11:17:55');
 
 --
 -- Triggers `skladka`
