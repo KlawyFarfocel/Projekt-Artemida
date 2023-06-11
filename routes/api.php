@@ -56,3 +56,4 @@ Route::post("/FilterDonate",[ContentController::class,'FilterDonate']);
 Route::post("/SendAnno",[ContentController::class,'SendAnno']);
 Route::post("/GetActiveHuntInfo",[ContentController::class,'GetActiveHuntInfo']);
 Route::post("/SetNextMeeting",[ContentController::class,'SetNextMeeting']);
+Route::post("/downloadCsv",[ContentController::class,'downloadCsv']);

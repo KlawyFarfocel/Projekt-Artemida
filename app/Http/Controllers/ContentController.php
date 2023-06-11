@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Http\Request;
@@ -1405,4 +1406,37 @@ class ContentController extends Controller
         klub::where('klub_id','=',$idik)->first()->update(['meetingdate'=>$md,'meetingplace'=>$mp]);
         return response(true);
     }
+    public function downloadCsv()
+{   
+    $data = DB::select("
+    SELECT p.nazwa AS 'Nazwa Polowania', CONCAT(d.imie, ' ', d.nazwisko) AS 'Imię i nazwisko osoby odpowiedzialnej za polowanie', z.podgrupa AS 'Podgrupa zwierzęcia', z.nazwa AS 'Nazwa Zwierzęcia', IF(o.potwierdzenie='tak','Odstrzelono','Nie odstrzelono') AS 'Czy odstrzelono', IF(o.potwierdzenie='tak',CONCAT(d.imie,' ',d.nazwisko),'Brak') AS 'Osoba odpowiedzialna za ostrzał' 
+    FROM polowania p 
+    JOIN dane d ON d.user_id = p.supervisor 
+    LEFT JOIN odstrzal o ON o.polowanie_id = p.polowanie_id 
+    LEFT JOIN zwierze z ON z.zwierze_id = o.zwierze_id
+");
+$columnNames = [
+    'Nazwa Polowania',
+    'Imię i nazwisko osoby odpowiedzialnej za polowanie',
+    'Podgrupa zwierzęcia',
+    'Nazwa Zwierzęcia',
+    'Czy odstrzelono',
+    'Osoba odpowiedzialna za ostrzał'
+];
+$content = implode(';', $columnNames) . "\r\n";
+
+// Generate CSV content
+foreach ($data as $row) {
+    $content .= implode(';', (array) $row) . "\r\n";
+}
+
+// Create a response with the CSV content
+$headers = [
+    'Content-Type' => 'text/csv; charset=UTF-8',
+    'Content-Disposition' => 'attachment; filename=raport.csv"',
+];
+
+$response = response($content, 200, $headers);
+return $response;
+}
 }
