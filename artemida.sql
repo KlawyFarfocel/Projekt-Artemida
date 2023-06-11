@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2023 at 02:46 PM
+-- Generation Time: Jun 11, 2023 at 03:11 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `artemida`
 --
-CREATE DATABASE IF NOT EXISTS `artemida` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS `artemida` DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci;
 USE `artemida`;
 
 -- --------------------------------------------------------
@@ -30,9 +30,9 @@ USE `artemida`;
 --
 
 DROP TABLE IF EXISTS `dane`;
-CREATE TABLE `dane` (
+CREATE TABLE IF NOT EXISTS `dane` (
   `user_id` bigint(20) NOT NULL,
-  `dane_id` int(11) NOT NULL,
+  `dane_id` int(11) NOT NULL AUTO_INCREMENT,
   `imie` varchar(50) NOT NULL,
   `nazwisko` varchar(40) NOT NULL,
   `pesel` varchar(11) NOT NULL,
@@ -45,8 +45,10 @@ CREATE TABLE `dane` (
   `e_mail` varchar(255) NOT NULL,
   `telefon` varchar(12) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`dane_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Dumping data for table `dane`
@@ -54,13 +56,9 @@ CREATE TABLE `dane` (
 
 INSERT INTO `dane` (`user_id`, `dane_id`, `imie`, `nazwisko`, `pesel`, `legitymacja`, `miasto`, `kod`, `ulica`, `mieszkanie`, `budynek`, `e_mail`, `telefon`, `updated_at`, `created_at`) VALUES
 (1, 1, 'Michał', 'Panczo', '12345678111', '12312412', 'Limanowaaa', '34-122', 'Michał', '2', '2', 'samp23le@gmail.com', '+48222333223', '2023-04-19 12:17:43', NULL),
-(4, 2, 'Marian', 'Marianeczko', '12345678912', 'd12d1wDe1e23Q', 'Lima', '34-222', 'Rehmonta', '2', '22', 'kurdekurde@wp.pl', '111 231 441', '2023-05-04 20:05:20', '2023-05-04 20:05:20'),
 (2, 3, 'Witold', 'Tacikiewicz', '12345678912', '1w2re23', 'Limanowa', '34-600', 'Marka', '32', '22', 'giganig@gmail.com', '+48222333221', '2023-04-19 12:17:43', '2023-05-05 12:11:36'),
 (6, 4, 'Marcin', 'Majkut', '12345678911', 'rerekumkum123', 'Limanowa', '34-600', 'Marka', '32', '22', 'frogson@gmail.com', '+48222333226', '2023-04-19 12:17:43', '2023-05-05 12:11:36'),
-(16, 6, 'Abdul', 'Karim', '12345671298', 'WWWA-21312-ANVE', 'Warszawa', '11-222', 'Rejtana', NULL, '22', 'weawcq@wp.pl', '111 222 333', '2023-05-16 10:26:21', '2023-05-16 10:26:21'),
-(17, 7, 'Majkel', 'Dżonak', '12345432198', 'TYMBE-1112-ANVE', 'Tymbark', '34-700', 'Laicka', NULL, '32', 'weasczwsq@wp.pl', '333222111', '2023-05-16 10:49:04', '2023-05-16 10:49:04'),
-(22, 8, 'Abdul', 'Jamal', '12312313222', '123d12d1wqw', 'Nacho', '22-222', 'Maciusia', '23', '2', 'weweasxxzzq@wp.pl', '+23213123122', '2023-06-06 21:51:49', '2023-06-06 21:51:49'),
-(23, 9, 'Kamil', 'Loczek', '12231231111', 'WWWA-21312-ANVEAA', 'Narkos', '33-222', 'Maciusia', '2', '22a', 'weweweq@wp.pl', '+22223333111', '2023-06-07 11:47:39', '2023-06-07 11:47:39');
+(17, 7, 'Majkel', 'Dżonak', '12345432198', 'TYMBE-1112-ANVE', 'Tymbark', '34-700', 'Laicka', NULL, '32', 'weasczwsq@wp.pl', '333222111', '2023-05-16 10:49:04', '2023-05-16 10:49:04');
 
 -- --------------------------------------------------------
 
@@ -69,14 +67,17 @@ INSERT INTO `dane` (`user_id`, `dane_id`, `imie`, `nazwisko`, `pesel`, `legityma
 --
 
 DROP TABLE IF EXISTS `ewidencja`;
-CREATE TABLE `ewidencja` (
-  `ewidencja_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ewidencja` (
+  `ewidencja_id` int(11) NOT NULL AUTO_INCREMENT,
   `zwierze_id` int(11) NOT NULL,
   `do_odst_max` int(11) NOT NULL,
   `do_odst_min` int(11) NOT NULL,
   `do_odst_obecny` int(11) NOT NULL,
   `data_koncowa` date NOT NULL,
-  `obwod_id` int(11) NOT NULL
+  `obwod_id` int(11) NOT NULL,
+  PRIMARY KEY (`ewidencja_id`),
+  KEY `obwod_id` (`obwod_id`),
+  KEY `zwierze_id` (`zwierze_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -86,15 +87,39 @@ CREATE TABLE `ewidencja` (
 --
 
 DROP TABLE IF EXISTS `failed_jobs`;
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `uuid` varchar(255) NOT NULL,
   `connection` text NOT NULL,
   `queue` text NOT NULL,
   `payload` longtext NOT NULL,
   `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kapital`
+--
+
+DROP TABLE IF EXISTS `kapital`;
+CREATE TABLE IF NOT EXISTS `kapital` (
+  `klub_id` int(11) NOT NULL,
+  `kapital` bigint(20) NOT NULL,
+  `update_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+--
+-- Dumping data for table `kapital`
+--
+
+INSERT INTO `kapital` (`klub_id`, `kapital`, `update_at`) VALUES
+(2, 0, '2023-06-11 11:42:34'),
+(1, 7747, '2023-06-11 11:59:57'),
+(0, 0, '2023-06-11 11:45:16');
 
 -- --------------------------------------------------------
 
@@ -103,7 +128,7 @@ CREATE TABLE `failed_jobs` (
 --
 
 DROP TABLE IF EXISTS `klub`;
-CREATE TABLE `klub` (
+CREATE TABLE IF NOT EXISTS `klub` (
   `klub_id` int(11) NOT NULL,
   `nazwa` varchar(255) NOT NULL,
   `meetingdate` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -113,7 +138,9 @@ CREATE TABLE `klub` (
   `skarbnik` int(11) NOT NULL,
   `lowczy_glowny` int(11) NOT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`klub_id`),
+  KEY `klub_id` (`klub_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
@@ -122,7 +149,19 @@ CREATE TABLE `klub` (
 
 INSERT INTO `klub` (`klub_id`, `nazwa`, `meetingdate`, `meetingplace`, `prezes`, `sekretarz`, `skarbnik`, `lowczy_glowny`, `updated_at`, `created_at`) VALUES
 (0, 'brak', '2023-06-06 23:58:34', 'brak', 0, 0, 0, 0, '2023-05-23 14:30:18', NULL),
-(1, 'Dziki ale w jest nieme', '2023-06-07 12:50:00', 'Gruzja', 1, 2, 0, 0, '2023-06-07 09:46:23', NULL);
+(1, 'Dziki ale w jest nieme', '2023-06-07 12:50:00', 'Gruzja', 1, 2, 0, 0, '2023-06-07 09:46:23', NULL),
+(2, 'rzabka', '2023-06-11 11:42:34', 'Remiza', 23, 17, 6, 0, NULL, NULL);
+
+--
+-- Triggers `klub`
+--
+DROP TRIGGER IF EXISTS `klub_add`;
+DELIMITER $$
+CREATE TRIGGER `klub_add` AFTER INSERT ON `klub` FOR EACH ROW BEGIN
+    INSERT INTO `kapital` VALUES(NEW.klub_id, 0, DEFAULT);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -131,11 +170,12 @@ INSERT INTO `klub` (`klub_id`, `nazwa`, `meetingdate`, `meetingplace`, `prezes`,
 --
 
 DROP TABLE IF EXISTS `migrations`;
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -154,16 +194,21 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 DROP TABLE IF EXISTS `odstrzal`;
-CREATE TABLE `odstrzal` (
-  `odstrzal_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `odstrzal` (
+  `odstrzal_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `polowanie_id` int(11) DEFAULT NULL,
   `data` date NOT NULL,
   `zwierze_id` int(11) NOT NULL,
   `potwierdzenie` enum('nie','tak') NOT NULL DEFAULT 'nie',
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`odstrzal_id`),
+  KEY `polowanie_id` (`polowanie_id`),
+  KEY `user_id` (`user_id`),
+  KEY `user_id_2` (`user_id`,`polowanie_id`,`zwierze_id`),
+  KEY `zwierze_id` (`zwierze_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Dumping data for table `odstrzal`
@@ -204,7 +249,9 @@ INSERT INTO `odstrzal` (`odstrzal_id`, `user_id`, `polowanie_id`, `data`, `zwier
 (32, 22, 29, '2000-01-01', 22, 'tak', '2023-06-07 09:57:49', '2023-06-07 09:57:08'),
 (33, 22, 29, '2000-01-01', 22, 'tak', '2023-06-07 09:57:49', '2023-06-07 09:57:08'),
 (34, 0, 29, '2000-01-01', 41, 'nie', '2023-06-07 09:57:08', '2023-06-07 09:57:08'),
-(35, 0, 29, '2000-01-01', 41, 'nie', '2023-06-07 09:57:08', '2023-06-07 09:57:08');
+(35, 0, 29, '2000-01-01', 41, 'nie', '2023-06-07 09:57:08', '2023-06-07 09:57:08'),
+(36, 1, 28, '2023-06-11', 42, 'nie', '2023-06-11 12:58:04', '2023-06-11 12:58:04'),
+(37, 1, 28, '2023-06-11', 40, 'nie', '2023-06-11 12:58:17', '2023-06-11 12:58:17');
 
 -- --------------------------------------------------------
 
@@ -213,8 +260,8 @@ INSERT INTO `odstrzal` (`odstrzal_id`, `user_id`, `polowanie_id`, `data`, `zwier
 --
 
 DROP TABLE IF EXISTS `ogloszenia`;
-CREATE TABLE `ogloszenia` (
-  `ogloszenie_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ogloszenia` (
+  `ogloszenie_id` int(11) NOT NULL AUTO_INCREMENT,
   `czlonek_id` bigint(20) DEFAULT NULL,
   `nadawca` varchar(50) NOT NULL,
   `priorytet` set('niski','wysoki','sredni') NOT NULL,
@@ -222,8 +269,10 @@ CREATE TABLE `ogloszenia` (
   `tresc` text NOT NULL,
   `data` date DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `created_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`ogloszenie_id`),
+  KEY `czlonek_id` (`czlonek_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=53981 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Dumping data for table `ogloszenia`
@@ -232,32 +281,18 @@ CREATE TABLE `ogloszenia` (
 INSERT INTO `ogloszenia` (`ogloszenie_id`, `czlonek_id`, `nadawca`, `priorytet`, `temat`, `tresc`, `data`, `updated_at`, `created_at`) VALUES
 (3, 1, '1', 'sredni', 'Jo', 'Jo zeh nie wiedziol co klikom', '2023-06-02', '2023-06-02 13:49:58', '2023-06-02 13:49:58'),
 (4, 2, '1', 'sredni', 'Jo', 'Jo zeh nie wiedziol co klikom', '2023-06-02', '2023-06-02 13:49:58', '2023-06-02 13:49:58'),
-(5, 4, '1', 'sredni', 'Jo', 'Jo zeh nie wiedziol co klikom', '2023-06-02', '2023-06-02 13:49:58', '2023-06-02 13:49:58'),
 (6, 6, '1', 'sredni', 'Jo', 'Jo zeh nie wiedziol co klikom', '2023-06-02', '2023-06-02 13:49:58', '2023-06-02 13:49:58'),
-(7, 16, '1', 'sredni', 'Jo', 'Jo zeh nie wiedziol co klikom', '2023-06-02', '2023-06-02 13:49:58', '2023-06-02 13:49:58'),
 (8, 1, '1', 'niski', 'da', 'adwa', '2023-06-06', '2023-06-06 11:22:58', '2023-06-06 11:22:58'),
 (9, 2, '1', 'niski', 'da', 'adwa', '2023-06-06', '2023-06-06 11:22:58', '2023-06-06 11:22:58'),
-(10, 4, '1', 'niski', 'da', 'adwa', '2023-06-06', '2023-06-06 11:22:58', '2023-06-06 11:22:58'),
 (11, 6, '1', 'niski', 'da', 'adwa', '2023-06-06', '2023-06-06 11:22:58', '2023-06-06 11:22:58'),
 (13, 6, '1', 'wysoki', 'xdddd', 'adwa', '2023-06-06', '2023-06-06 11:28:53', '2023-06-06 11:28:53'),
 (14, 1, '1', 'wysoki', 'xdddd', 'adwa', '2023-06-06', '2023-06-06 11:28:53', '2023-06-06 11:28:53'),
-(15, 0, '1', 'wysoki', 'xdddd', 'adwa', '2023-06-06', '2023-06-06 11:28:53', '2023-06-06 11:28:53'),
-(16, 0, '1', 'wysoki', 'xdddd', 'adwa', '2023-06-06', '2023-06-06 11:28:53', '2023-06-06 11:28:53'),
-(17, 0, '1', 'wysoki', 'xdddd', 'adwa', '2023-06-06', '2023-06-06 11:28:53', '2023-06-06 11:28:53'),
-(18, 0, '1', 'wysoki', 'xdddd', 'adwa', '2023-06-06', '2023-06-06 11:28:53', '2023-06-06 11:28:53'),
-(19, 0, '1', 'wysoki', 'xdddd', 'adwa', '2023-06-06', '2023-06-06 11:28:53', '2023-06-06 11:28:53'),
-(20, 0, '1', 'wysoki', 'xdddd', 'adwa', '2023-06-06', '2023-06-06 11:28:53', '2023-06-06 11:28:53'),
-(53970, 16, '1', 'wysoki', 'e', 'spisz', '2023-06-06', '2023-06-06 11:59:55', '2023-06-06 11:59:55'),
-(53971, 4, '1', 'wysoki', 'e', 'spisz', '2023-06-06', '2023-06-06 11:59:55', '2023-06-06 11:59:55'),
 (53972, 6, '1', 'wysoki', 'e', 'spisz', '2023-06-06', '2023-06-06 11:59:55', '2023-06-06 11:59:55'),
 (53973, 1, '1', 'wysoki', 'e', 'spisz', '2023-06-06', '2023-06-06 11:59:55', '2023-06-06 11:59:55'),
-(53974, 16, '1', 'niski', '\';\'', 'fe', '2023-06-06', '2023-06-06 12:07:38', '2023-06-06 12:07:38'),
-(53975, 4, '1', 'niski', '\';\'', 'fe', '2023-06-06', '2023-06-06 12:07:38', '2023-06-06 12:07:38'),
 (53976, 6, '1', 'niski', '\';\'', 'fe', '2023-06-06', '2023-06-06 12:07:38', '2023-06-06 12:07:38'),
 (53977, 1, '1', 'niski', '\';\'', 'fe', '2023-06-06', '2023-06-06 12:07:38', '2023-06-06 12:07:38'),
 (53978, 1, '1', 'wysoki', 'Jolka jolka', 'Czy pamiętasz ?', '2023-06-07', '2023-06-07 09:50:44', '2023-06-07 09:50:44'),
-(53979, 2, '1', 'wysoki', 'Jolka jolka', 'Czy pamiętasz ?', '2023-06-07', '2023-06-07 09:50:44', '2023-06-07 09:50:44'),
-(53980, 22, '1', 'wysoki', 'Jolka jolka', 'Czy pamiętasz ?', '2023-06-07', '2023-06-07 09:50:44', '2023-06-07 09:50:44');
+(53979, 2, '1', 'wysoki', 'Jolka jolka', 'Czy pamiętasz ?', '2023-06-07', '2023-06-07 09:50:44', '2023-06-07 09:50:44');
 
 -- --------------------------------------------------------
 
@@ -266,12 +301,12 @@ INSERT INTO `ogloszenia` (`ogloszenie_id`, `czlonek_id`, `nadawca`, `priorytet`,
 --
 
 DROP TABLE IF EXISTS `polowania`;
-CREATE TABLE `polowania` (
-  `polowanie_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `polowania` (
+  `polowanie_id` int(11) NOT NULL AUTO_INCREMENT,
   `nazwa` varchar(255) DEFAULT NULL,
   `lokalizacja` varchar(255) NOT NULL,
   `miejsce_zb` varchar(255) NOT NULL,
-  `supervisor` int(11) NOT NULL,
+  `supervisor` bigint(20) NOT NULL,
   `kontakt` varchar(255) NOT NULL,
   `data_pocz` datetime NOT NULL,
   `data_koncowa` datetime NOT NULL,
@@ -279,8 +314,11 @@ CREATE TABLE `polowania` (
   `klub_id` int(11) NOT NULL,
   `koniec` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`polowanie_id`),
+  KEY `supervisor` (`supervisor`,`klub_id`),
+  KEY `pol_klb` (`klub_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Dumping data for table `polowania`
@@ -298,17 +336,19 @@ INSERT INTO `polowania` (`polowanie_id`, `nazwa`, `lokalizacja`, `miejsce_zb`, `
 --
 
 DROP TABLE IF EXISTS `skladka`;
-CREATE TABLE `skladka` (
-  `skladka_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `skladka` (
+  `skladka_id` int(11) NOT NULL AUTO_INCREMENT,
   `termin` datetime NOT NULL,
   `kwota` float NOT NULL,
-  `czlonek_id` int(11) NOT NULL,
+  `czlonek_id` bigint(20) NOT NULL,
   `opis` varchar(255) NOT NULL,
   `data_zapl` datetime NOT NULL DEFAULT '0000-01-01 00:00:00',
   `status` enum('Opłacona','Nieopłacona') NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `created_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`skladka_id`),
+  KEY `czlonek_id` (`czlonek_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
 -- Dumping data for table `skladka`
@@ -317,31 +357,32 @@ CREATE TABLE `skladka` (
 INSERT INTO `skladka` (`skladka_id`, `termin`, `kwota`, `czlonek_id`, `opis`, `data_zapl`, `status`, `updated_at`, `created_at`) VALUES
 (3, '2023-05-23 19:12:30', 950, 1, 'Okres', '2023-05-23 19:13:38', 'Opłacona', '2023-05-23 17:13:38', '2023-05-23 15:12:43'),
 (4, '2023-05-23 19:12:30', 950, 2, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 15:12:43', '2023-05-23 15:12:43'),
-(5, '2023-05-23 19:12:30', 950, 4, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 15:12:43', '2023-05-23 15:12:43'),
 (6, '2023-05-23 19:12:30', 950, 6, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 15:12:43', '2023-05-23 15:12:43'),
-(7, '2023-05-23 19:12:30', 950, 14, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 15:12:43', '2023-05-23 15:12:43'),
-(8, '2023-05-23 19:12:30', 950, 16, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 15:12:43', '2023-05-23 15:12:43'),
-(9, '2023-05-23 20:20:44', 123, 1, 'asd', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:20:53', '2023-05-23 16:20:53'),
 (10, '2023-05-23 20:20:44', 123, 2, 'asd', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:20:53', '2023-05-23 16:20:53'),
-(11, '2023-05-23 20:20:44', 123, 4, 'asd', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:20:53', '2023-05-23 16:20:53'),
 (12, '2023-05-23 20:20:44', 123, 6, 'asd', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:20:53', '2023-05-23 16:20:53'),
-(13, '2023-05-23 20:20:44', 123, 14, 'asd', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:20:53', '2023-05-23 16:20:53'),
-(14, '2023-05-23 20:20:44', 123, 16, 'asd', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:20:53', '2023-05-23 16:20:53'),
 (15, '2023-05-23 20:27:35', 41, 1, 'Okres1', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:28:25', '2023-05-23 16:28:25'),
 (16, '2023-05-23 20:27:35', 41, 2, 'Okres1', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:28:25', '2023-05-23 16:28:25'),
-(17, '2023-05-23 20:27:35', 41, 4, 'Okres1', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:28:25', '2023-05-23 16:28:25'),
 (18, '2023-05-23 20:27:35', 41, 6, 'Okres1', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:28:25', '2023-05-23 16:28:25'),
-(19, '2023-05-23 20:27:35', 41, 14, 'Okres1', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:28:25', '2023-05-23 16:28:25'),
-(20, '2023-05-23 20:27:35', 41, 16, 'Okres1', '0000-01-01 00:00:00', 'Nieopłacona', '2023-05-23 16:28:25', '2023-05-23 16:28:25'),
 (21, '2023-06-02 09:37:07', 954, 1, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-06-02 05:37:54', '2023-06-02 05:37:54'),
 (22, '2023-06-02 09:37:07', 954, 2, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-06-02 05:37:54', '2023-06-02 05:37:54'),
-(23, '2023-06-02 09:37:07', 954, 4, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-06-02 05:37:54', '2023-06-02 05:37:54'),
 (24, '2023-06-02 09:37:07', 954, 6, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-06-02 05:37:54', '2023-06-02 05:37:54'),
-(25, '2023-06-02 09:37:07', 954, 14, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-06-02 05:37:54', '2023-06-02 05:37:54'),
-(26, '2023-06-02 09:37:07', 954, 16, 'Okres', '0000-01-01 00:00:00', 'Nieopłacona', '2023-06-02 05:37:54', '2023-06-02 05:37:54'),
 (27, '2023-06-07 13:51:19', 222, 1, 'Okresowa', '2023-06-07 13:52:06', 'Opłacona', '2023-06-07 11:52:06', '2023-06-07 09:51:40'),
 (28, '2023-06-07 13:51:19', 222, 2, 'Okresowa', '2023-06-07 13:52:01', 'Opłacona', '2023-06-07 11:52:01', '2023-06-07 09:51:40'),
-(29, '2023-06-07 13:51:19', 222, 22, 'Okresowa', '0000-01-01 00:00:00', 'Nieopłacona', '2023-06-07 09:51:40', '2023-06-07 09:51:40');
+(30, '2023-06-07 13:51:19', 222, 2, 'Okresowa', '2023-06-07 13:52:01', 'Opłacona', '2023-06-07 11:52:01', '2023-06-07 09:51:40'),
+(31, '2023-06-07 13:51:19', 1000, 2, 'Okresowa', '2023-06-07 13:52:01', 'Opłacona', '2023-06-07 11:52:01', '2023-06-07 09:51:40');
+
+--
+-- Triggers `skladka`
+--
+DROP TRIGGER IF EXISTS `ad`;
+DELIMITER $$
+CREATE TRIGGER `ad` AFTER INSERT ON `skladka` FOR EACH ROW BEGIN
+    DECLARE marko_value INT;
+    SELECT klub_id INTO marko_value FROM users WHERE id = NEW.czlonek_id;
+    UPDATE kapital SET kapital = kapital + NEW.kwota WHERE klub_id = marko_value;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -350,13 +391,15 @@ INSERT INTO `skladka` (`skladka_id`, `termin`, `kwota`, `czlonek_id`, `opis`, `d
 --
 
 DROP TABLE IF EXISTS `temp`;
-CREATE TABLE `temp` (
-  `temp_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `temp` (
+  `temp_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `polowanie_id` int(11) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`temp_id`),
+  KEY `user_id` (`user_id`,`polowanie_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Dumping data for table `temp`
@@ -377,16 +420,20 @@ INSERT INTO `temp` (`temp_id`, `user_id`, `polowanie_id`, `updated_at`, `created
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `id` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `legitymacja` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `klub_id` int(11) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`),
+  KEY `id` (`id`),
+  KEY `klub_id` (`klub_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -396,9 +443,7 @@ INSERT INTO `users` (`id`, `legitymacja`, `email`, `email_verified_at`, `passwor
 (1, 'majkel', 'majkel@gmail.com', '2023-04-11 19:51:04', '$2y$12$ygF0eE8aXGWdjDclFBNHI.0uO/PqD.BMTNoqaQhnl.9uvEqcDdmjO', 1, '2023-04-11 19:51:04', '2023-04-11 19:51:04'),
 (2, 'mareczq', 'majkelel@gmail.com', '2023-04-11 19:51:04', 'zaq1@WSX', 1, '2023-04-11 19:51:04', '2023-06-06 21:06:42'),
 (6, '123d12d1wDe1', 'wewewe@we.pl', NULL, 'zaq1@WSX', 0, '2023-05-04 17:47:19', '2023-05-06 19:33:11'),
-(17, 'TYMBE-1112-ANVE', 'weasczwsq@wp.pl', NULL, '$2y$12$bWXODxqKRIi08.7po1ulKeI0F61l4ETK.DBYNhrKv5VLy0rcylyhi', 0, '2023-05-16 08:49:04', '2023-05-16 08:49:04'),
-(22, '123d12d1wqw', 'weweasxxzzq@wp.pl', NULL, '$2y$12$oNJQDdHlEKY2X.XFnPQnl.JaqVMVdkwF6cHxXPW6lnIB4qP5TsF/e', 1, '2023-06-06 19:51:49', '2023-06-07 09:47:02'),
-(23, 'WWWA-21312-ANVEAA', 'weweweq@wp.pl', NULL, '$2y$12$EhILvwxLbUaGRNyc31Q0Y.Adh46v9Ct4xES93kn1RVY7RuCmBMZ4u', 0, '2023-06-07 09:47:39', '2023-06-07 09:47:46');
+(17, 'TYMBE-1112-ANVE', 'weasczwsq@wp.pl', NULL, '$2y$12$bWXODxqKRIi08.7po1ulKeI0F61l4ETK.DBYNhrKv5VLy0rcylyhi', 0, '2023-05-16 08:49:04', '2023-05-16 08:49:04');
 
 -- --------------------------------------------------------
 
@@ -407,15 +452,17 @@ INSERT INTO `users` (`id`, `legitymacja`, `email`, `email_verified_at`, `passwor
 --
 
 DROP TABLE IF EXISTS `zezwolenia`;
-CREATE TABLE `zezwolenia` (
-  `zezwolenie_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `zezwolenia` (
+  `zezwolenie_id` int(11) NOT NULL AUTO_INCREMENT,
   `organ` varchar(30) NOT NULL,
   `data_wydania` date NOT NULL,
   `typ` enum('podstawowe','selekcjonerskie','sokolnicze') NOT NULL,
   `data_wyga` date NOT NULL,
   `numer_zez` varchar(255) NOT NULL,
-  `czlonek_id` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+  `czlonek_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`zezwolenie_id`),
+  KEY `czlonek_id` (`czlonek_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
 -- Dumping data for table `zezwolenia`
@@ -431,13 +478,15 @@ INSERT INTO `zezwolenia` (`zezwolenie_id`, `organ`, `data_wydania`, `typ`, `data
 --
 
 DROP TABLE IF EXISTS `zwierze`;
-CREATE TABLE `zwierze` (
-  `zwierze_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `zwierze` (
+  `zwierze_id` int(11) NOT NULL AUTO_INCREMENT,
   `nazwa` varchar(255) NOT NULL,
   `podgrupa` varchar(255) NOT NULL,
   `wielkosc` varchar(255) NOT NULL,
-  `wiek` enum('brak','I','II','III') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+  `wiek` enum('brak','I','II','III') NOT NULL,
+  PRIMARY KEY (`zwierze_id`),
+  KEY `zwierze_id` (`zwierze_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
 -- Dumping data for table `zwierze`
@@ -493,183 +542,14 @@ INSERT INTO `zwierze` (`zwierze_id`, `nazwa`, `podgrupa`, `wielkosc`, `wiek`) VA
 (47, 'łyski', 'łyski', 'drobna', 'brak');
 
 --
--- Indexes for dumped tables
---
-
---
--- Indexes for table `dane`
---
-ALTER TABLE `dane`
-  ADD PRIMARY KEY (`dane_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `ewidencja`
---
-ALTER TABLE `ewidencja`
-  ADD PRIMARY KEY (`ewidencja_id`),
-  ADD KEY `obwod_id` (`obwod_id`),
-  ADD KEY `zwierze_id` (`zwierze_id`);
-
---
--- Indexes for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
--- Indexes for table `klub`
---
-ALTER TABLE `klub`
-  ADD PRIMARY KEY (`klub_id`),
-  ADD KEY `klub_id` (`klub_id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `odstrzal`
---
-ALTER TABLE `odstrzal`
-  ADD PRIMARY KEY (`odstrzal_id`),
-  ADD KEY `polowanie_id` (`polowanie_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `user_id_2` (`user_id`,`polowanie_id`,`zwierze_id`),
-  ADD KEY `zwierze_id` (`zwierze_id`);
-
---
--- Indexes for table `ogloszenia`
---
-ALTER TABLE `ogloszenia`
-  ADD PRIMARY KEY (`ogloszenie_id`),
-  ADD KEY `czlonek_id` (`czlonek_id`);
-
---
--- Indexes for table `polowania`
---
-ALTER TABLE `polowania`
-  ADD PRIMARY KEY (`polowanie_id`);
-
---
--- Indexes for table `skladka`
---
-ALTER TABLE `skladka`
-  ADD PRIMARY KEY (`skladka_id`),
-  ADD KEY `czlonek_id` (`czlonek_id`);
-
---
--- Indexes for table `temp`
---
-ALTER TABLE `temp`
-  ADD PRIMARY KEY (`temp_id`),
-  ADD KEY `user_id` (`user_id`,`polowanie_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `id` (`id`),
-  ADD KEY `klub_id` (`klub_id`);
-
---
--- Indexes for table `zezwolenia`
---
-ALTER TABLE `zezwolenia`
-  ADD PRIMARY KEY (`zezwolenie_id`),
-  ADD KEY `czlonek_id` (`czlonek_id`);
-
---
--- Indexes for table `zwierze`
---
-ALTER TABLE `zwierze`
-  ADD PRIMARY KEY (`zwierze_id`),
-  ADD KEY `zwierze_id` (`zwierze_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `dane`
---
-ALTER TABLE `dane`
-  MODIFY `dane_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `ewidencja`
---
-ALTER TABLE `ewidencja`
-  MODIFY `ewidencja_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `odstrzal`
---
-ALTER TABLE `odstrzal`
-  MODIFY `odstrzal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
-
---
--- AUTO_INCREMENT for table `ogloszenia`
---
-ALTER TABLE `ogloszenia`
-  MODIFY `ogloszenie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53981;
-
---
--- AUTO_INCREMENT for table `polowania`
---
-ALTER TABLE `polowania`
-  MODIFY `polowanie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
---
--- AUTO_INCREMENT for table `skladka`
---
-ALTER TABLE `skladka`
-  MODIFY `skladka_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
---
--- AUTO_INCREMENT for table `temp`
---
-ALTER TABLE `temp`
-  MODIFY `temp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `zezwolenia`
---
-ALTER TABLE `zezwolenia`
-  MODIFY `zezwolenie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `zwierze`
---
-ALTER TABLE `zwierze`
-  MODIFY `zwierze_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
-
---
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `dane`
+--
+ALTER TABLE `dane`
+  ADD CONSTRAINT `dan_usr` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `ewidencja`
@@ -682,6 +562,25 @@ ALTER TABLE `ewidencja`
 --
 ALTER TABLE `odstrzal`
   ADD CONSTRAINT `odstrzal_ibfk_1` FOREIGN KEY (`zwierze_id`) REFERENCES `zwierze` (`zwierze_id`);
+
+--
+-- Constraints for table `ogloszenia`
+--
+ALTER TABLE `ogloszenia`
+  ADD CONSTRAINT `ogl_usr` FOREIGN KEY (`czlonek_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `polowania`
+--
+ALTER TABLE `polowania`
+  ADD CONSTRAINT `pol_klb` FOREIGN KEY (`klub_id`) REFERENCES `klub` (`klub_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pol_usr` FOREIGN KEY (`supervisor`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `skladka`
+--
+ALTER TABLE `skladka`
+  ADD CONSTRAINT `sk_usr` FOREIGN KEY (`czlonek_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `temp`
