@@ -1,6 +1,10 @@
 # Projekt-Artemida
 Aplikacja do zarządzania Polskim Związkiem Łowieckim dla Małopolski
 
+## Skład Projektu
+ - Maciej Śmierciak -> React.js
+ - Michał Jonak -> Laravel/NySQL
+
 ## Wymagania
 - Zainstalowane następujące elementy
   - PHP
